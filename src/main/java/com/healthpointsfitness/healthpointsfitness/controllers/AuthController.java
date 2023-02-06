@@ -1,8 +1,8 @@
 package com.healthpointsfitness.healthpointsfitness.controllers;
 
-import com.healthpointfitness.app.healthpointsfitness.models.User;
-import com.healthpointfitness.app.healthpointsfitness.models.UserWithRoles;
-import com.healthpointfitness.app.healthpointsfitness.repositories.UserRepository;
+import com.healthpointsfitness.healthpointsfitness.models.User;
+import com.healthpointsfitness.healthpointsfitness.models.UserWithRoles;
+import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;

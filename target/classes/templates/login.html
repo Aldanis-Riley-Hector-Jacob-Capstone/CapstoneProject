@@ -1,47 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <th:block th:replace="~{fragments/header.html :: header}"></th:block>
+
+    <style>
+        .hexBg {
+            background-image: url("/img/lateral.png");
+        }
+    </style>
+
 </head>
-<body>
+
+<body style="background-color: #3c5aa6">
 <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 
 <div class="container mt-5">
     <div class="column" style="border-radius: 10px;">
         <div class="row d-flex justify-content-center" th:text="${param.error != null ? 'There was an error logging in.' : ''}"/>
         <div class="row d-flex justify-content-center" th:text="${param.logout != null ? 'You have logged out.' : ''}"/>
-        <div class="row d-flex justify-content-center" sec:authorize="isAuthenticated()" th:text="${param.logout == null && param.error = null ? 'You are logged in.' : ''}" />
-        <div>
-            <form class="d-flex justify-content-center align-items-center" sec:authorize="!isAuthenticated()" th:action="@{/login}" th:method="post">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Login</h5>
-                        <div class="card-text">
-                            <div class="mb-3">
-                                <label for="username" class="form-label">Username</label>
-                                <input type="text" name="username" class="form-control" id="username" placeholder="Username">
+        <div class="row d-flex justify-content-center" sec:authorize="isAuthenticated()" th:text="${param.logout == null && param.error == null ? 'You are logged in.' : ''}" />
+        <div class="row hexBg">
+            <div class="col-4">
+                <form class="d-flex justify-content-center align-items-center m-0 p-3 hexBg col-6 rounded" sec:authorize="!isAuthenticated()" th:action="@{/login}" th:method="post">
+                    <div class="card shadow" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Login</h5>
+                            <div class="card-text">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" name="username" class="form-control" id="username" placeholder="Username">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" name="password" placeholder="Password" class="form-control" id="password">
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" name="password" placeholder="Password" class="form-control" id="password">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Login</button>
                             </div>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Login</button>
-                        </div>
-                        <br>
-                        <div class="row mt-5">
-                            <div class="col text-center">
-                                <a href="/recover">Register</a>
+                            <br>
+                            <div class="row mt-5">
+                                <div class="col text-center">
+                                    <p>Don't have an account yet?</p>
+                                    <a href="/recover">Register</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
+            <div class="col-8 p-5">
+                <img src="/img/lift.webp" class="rounded" style="width: 100%">
+            </div>
         </div>
     </div>
 </div>

@@ -33,10 +33,10 @@ class SecurityConfig {
             .requestMatchers(
                 "/login",
                     "/register",
-//                    "/static/css/img/**",
                     "/js/**",
-                    "/static/css/**",
-                    "/img/**"
+                    "/img/**",
+                    "/css/**",
+                    "/static/**"
             )
             .permitAll()
 

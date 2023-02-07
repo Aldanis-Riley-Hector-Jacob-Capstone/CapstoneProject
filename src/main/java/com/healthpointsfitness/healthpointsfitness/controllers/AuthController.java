@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Controller
 public class AuthController {
@@ -61,11 +61,13 @@ public class AuthController {
     }
 
     @GetMapping("/")
-    private String rootMapping(Model model) {
+    private String rootMapping() {
         try {
             var principal = (UserWithRoles) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             var user = userDao.findUserByUsername(principal.getUsername());
+//            System.out.println(user.getId());
             var roles = AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRoles());
+//            System.out.println("Contains Admin Authority: " + roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
             principal.getAuthorities().forEach(auth->System.out.println(auth.getAuthority()));
             if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
                 return "/admin/index";

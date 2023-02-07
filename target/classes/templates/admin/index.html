@@ -1,6 +1,18 @@
 <!DOCTYPE html>
-<html>
-    <body>
-        Admin Landing Page
-    </body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
+<div class="container">
+    <form action="/admin/path/create" method="GET">
+        <button type="submit">Add Path</button>
+    </form>
+</div>
+<th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
+</body>
 </html>

@@ -1,4 +1,7 @@
 package com.healthpointsfitness.healthpointsfitness.models;
+
+import com.healthpointsfitness.healthpointsfitness.models.Goal;
+import com.healthpointsfitness.healthpointsfitness.models.Path;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,7 +42,7 @@ public class User {
     private Boolean isAdmin = false;
 
     @Column(nullable = false, unique = false, name = "roles", length = 255)
-    private String roles = "ROLE_CLIENT";
+    private String roles = "ROLE_USER";
 
     public User(String username, String password, List<Role> roles){
         this.username = username;

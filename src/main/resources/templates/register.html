@@ -7,53 +7,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <th:block th:replace="~{fragments/header.html :: header}"></th:block>
-  <style>
-    .hexBg {
-      background-image: url("/img/stripes.png");
-      border-radius: 20px;
-    }
-    .confirmBtn {
-      background-color: #3c5aa6;
-      transition: 0.3s;
-      color: white;
-    }
-    .confirmBtn:hover {
-      background-color: #ffcb05;
-      color: #2a75bb;
-    }
-    .cancelBtn {
-      border-color: #3c5aa6;
-      background-color: white;
-      color: #3c5aa6;
-    }
-    .cancelBtn:hover {
-      border-color: #ffcb05;
-      color: #ffcb05;
-    }
-  </style>
-
 </head>
-<body style="background-color: #3c5aa6">
+<body>
 <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 <div class="container mt-5">
-
-  <div class="row hexBg p-5 d-flex justify-content-center align-items-center my-5">
-    <div class="col">
+  <div class="row">
+    <div class="col s12 m6" style="border-radius: 10px;">
       <form class="d-flex justify-content-center" th:action="@{/register}" th:method="POST" th:object="${user}">
-        <div class="card" style="width: 22rem;">
+        <div class="card" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title">Register</h5>
             <div class="card-text">
               <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" placeholder="Username" name="username" id="username" th:field="*{username}"/>
+                <input type="text" class="form-control" placeholder="Username" name="username" id="username" od="username" th:field="*{username}"/>
               </div>
               <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" placeholder="Password" name="password" id="password" th:field="*{password}"/>
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Confirm Password</label>
                 <input type="password" class="form-control" placeholder="Password" name="password" id="password" th:field="*{password}"/>
               </div>
               <div class="mb-3">
@@ -62,20 +32,12 @@
               </div>
               <input type="hidden" name="roles" id="roles" value="ROLE_USER" th:field="*{roles}"/>
             </div>
-            <div class="d-flex justify-content-evenly">
-              <a href="/login" class="btn cancelBtn">Cancel</a>
-              <button type="submit" class="btn confirmBtn">Register</button>
-            </div>
+            <a href="/login" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Register</button>
           </div>
         </div>
       </form>
     </div>
-    <div class="col">
-      <img src="/img/yoga1.webp" class="rounded" style="width: 100%;">
-    </div>
   </div>
-
-</div>
-
 </body>
 </html>

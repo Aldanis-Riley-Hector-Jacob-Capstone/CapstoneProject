@@ -43,13 +43,13 @@ class SecurityConfig {
             .and()
             .authorizeHttpRequests()
             .requestMatchers(
-            "/clients"
+            "/users/**", "/users"
             ).hasAuthority("ROLE_CLIENT")
 
             .and()
             .authorizeHttpRequests()
             .requestMatchers(
-                    "/admin/path//create",
+                    "/admin/path/create",
                     "/admin/**"
             ).hasAuthority("ROLE_ADMIN")
 

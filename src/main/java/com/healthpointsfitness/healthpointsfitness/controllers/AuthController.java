@@ -66,7 +66,6 @@ public class AuthController {
             var principal = (UserWithRoles) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             var user = userDao.findUserByUsername(principal.getUsername());
             var roles = AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRoles());
-//            System.out.println("Contains Admin Authority: " + roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
             principal.getAuthorities().forEach(auth->System.out.println(auth.getAuthority()));
             if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
                 return "/admin/index";

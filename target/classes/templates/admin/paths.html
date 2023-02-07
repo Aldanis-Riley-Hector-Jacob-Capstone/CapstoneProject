@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <style>
+    .hexBg {
+      background-image: url("/img/hex.png");
+    }
+    .btn {
+      background-color: #3c5aa6;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background-color: #ffcb05;
+      color: #2a75bb;
+    }
+  </style>
+</head>
+
+<body style="background-color: #3c5aa6">
+
+<div class="container">
+  <div class="row m-5 p-5 hexBg"  style="border-radius: 20px;">
+    <div class="col">
+      <div class="card p-3">
+        <div class="card-title">
+          <h3>Create a new path</h3>
+        </div>
+        <form enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="pathTitle" class="form-label">Title</label>
+            <input type="email" class="form-control" id="pathTitle">
+          </div>
+          <div class="mb-3">
+            <label for="pathDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="pathDescription" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Image</label>
+            <input class="form-control" type="file" id="formFile">
+          </div>
+          <div class="mb-3 d-flex">
+            <label for="firstColor" class="form-label mx-2">First Color</label>
+            <input type="color" class="form-control form-control-color" id="firstColor" value="#563d7c" title="Choose your color">
+            <label for="secondColor" class="form-label mx-2">Second Color</label>
+            <input type="color" class="form-control form-control-color" id="secondColor" value="#563d7c" title="Choose your color">
+          </div>
+          <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Add Challenge</a>
+        </form>
+      </div>
+
+    </div>
+    <div class="col d-flex justify-content-center align-items-center">
+      <img src="/img/jog.webp" class="rounded" style="width: 100%;">
+    </div>
+  </div>
+
+
+  <!--Search Challenge Modal -->
+  <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Challenge Search</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="searchChallengeTitle" class="form-label">Title</label>
+            <input type="email" class="form-control" id="searchChallengeTitle">
+          </div>
+          <div class="mb-3">
+            <label for="searchChallengeDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="searchChallengeDescription" rows="3"></textarea>
+          </div>
+          <div class="row text-center">
+            <div class="dropdown col-6 d-flex justify-content-center align-items-center">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Badge Icon
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-1-square" viewBox="0 0 16 16">
+                  <path d="M9.283 4.002V12H7.971V5.338h-.065L6.072 6.656V5.385l1.899-1.383h1.312Z"/>
+                  <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2Zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2Z"/>
+                </svg></a></li>
+                <li><a class="dropdown-item" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-2-square" viewBox="0 0 16 16">
+                  <path d="M6.646 6.24v.07H5.375v-.064c0-1.213.879-2.402 2.637-2.402 1.582 0 2.613.949 2.613 2.215 0 1.002-.6 1.667-1.287 2.43l-.096.107-1.974 2.22v.077h3.498V12H5.422v-.832l2.97-3.293c.434-.475.903-1.008.903-1.705 0-.744-.557-1.236-1.313-1.236-.843 0-1.336.615-1.336 1.306Z"/>
+                  <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2Zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2Z"/>
+                </svg></a></li>
+                <li><a class="dropdown-item" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-3-square" viewBox="0 0 16 16">
+                  <path d="M7.918 8.414h-.879V7.342h.838c.78 0 1.348-.522 1.342-1.237 0-.709-.563-1.195-1.348-1.195-.79 0-1.312.498-1.348 1.055H5.275c.036-1.137.95-2.115 2.625-2.121 1.594-.012 2.608.885 2.637 2.062.023 1.137-.885 1.776-1.482 1.875v.07c.703.07 1.71.64 1.734 1.917.024 1.459-1.277 2.396-2.93 2.396-1.705 0-2.707-.967-2.754-2.144H6.33c.059.597.68 1.06 1.541 1.066.973.006 1.6-.563 1.588-1.354-.006-.779-.621-1.318-1.541-1.318Z"/>
+                  <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2Zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2Z"/>
+                </svg></a></li>
+              </ul>
+            </div>
+            <div class="range-wrap col-6">
+              <label for="customRange4" class="form-label">Point Value:
+                <output class="bubble text-center"></output>
+              </label>
+              <input type="range" class="range" max="50" step="5" id="customRange4">
+            </div>
+          </div>
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Search exercises  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg>
+          </button>
+          <div class="collapse" id="collapseExample">
+            <div class="mb-3">
+              <label for="apiSearch" class="form-label">Search By Muscle Group</label>
+              <input type="text" class="form-control" id="apiSearch">
+              <hr>
+              <div>
+                <h3>Challenge Requirements:</h3>
+                <ul>
+                  <li class="li">Push Ups</li>
+                  <li class="li">Squats</li>
+                  <li class="li">Crunches</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+          <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Custom Challenge</button>
+          <button type="button" class="btn btn-primary">Submit Challenge</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Challenge Modal -->
+  <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Custom Challenge</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form">
+            <div class="mb-3">
+              <label for="challengeTitle" class="form-label">Title</label>
+              <input type="email" class="form-control" id="challengeTitle">
+            </div>
+            <div class="mb-3">
+              <label for="challengeDescription" class="form-label">Description</label>
+              <textarea class="form-control" id="challengeDescription" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="challengeTitle" class="form-label">Demonstration Link</label>
+              <input type="email" class="form-control" id="demo">
+            </div>
+            <div class="row text-center">
+              <div class="dropdown col-6">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Badge Icon
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-1-square" viewBox="0 0 16 16">
+                    <path d="M9.283 4.002V12H7.971V5.338h-.065L6.072 6.656V5.385l1.899-1.383h1.312Z"/>
+                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2Zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2Z"/>
+                  </svg></a></li>
+                  <li><a class="dropdown-item" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-2-square" viewBox="0 0 16 16">
+                    <path d="M6.646 6.24v.07H5.375v-.064c0-1.213.879-2.402 2.637-2.402 1.582 0 2.613.949 2.613 2.215 0 1.002-.6 1.667-1.287 2.43l-.096.107-1.974 2.22v.077h3.498V12H5.422v-.832l2.97-3.293c.434-.475.903-1.008.903-1.705 0-.744-.557-1.236-1.313-1.236-.843 0-1.336.615-1.336 1.306Z"/>
+                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2Zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2Z"/>
+                  </svg></a></li>
+                  <li><a class="dropdown-item" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-3-square" viewBox="0 0 16 16">
+                    <path d="M7.918 8.414h-.879V7.342h.838c.78 0 1.348-.522 1.342-1.237 0-.709-.563-1.195-1.348-1.195-.79 0-1.312.498-1.348 1.055H5.275c.036-1.137.95-2.115 2.625-2.121 1.594-.012 2.608.885 2.637 2.062.023 1.137-.885 1.776-1.482 1.875v.07c.703.07 1.71.64 1.734 1.917.024 1.459-1.277 2.396-2.93 2.396-1.705 0-2.707-.967-2.754-2.144H6.33c.059.597.68 1.06 1.541 1.066.973.006 1.6-.563 1.588-1.354-.006-.779-.621-1.318-1.541-1.318Z"/>
+                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2Zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2Z"/>
+                  </svg></a></li>
+                </ul>
+              </div>
+              <div class="range-wrap col-6">
+                <label for="customRange2" class="form-label">Point Value:
+                  <output class="bubble text-center"></output>
+                </label>
+                <input type="range" class="range" max="50" step="5" id="customRange2">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to challenge search</button>
+          <button type="button" class="btn btn-primary">Submit Challenge</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="row text-center mt-3">
+      <div class="col">
+        <hr>
+        <h5>Links</h5>
+        <hr>
+        <ul class="list-inline mt-4 row">
+          <li class="list-inline-item col-12"><a href="#" target="_blank" title="twitter"><i class="fa fa-twitter">Test</i></a></li>
+          <li class="list-inline-item col-12"><a href="#" target="_blank" title="facebook"><i class="fa fa-facebook">Privacy Policy</i></a></li>
+          <li class="list-inline-item col-12"><a href="#" target="_blank" title="instagram"><i class="fa fa-instagram">Terms</i></a></li>
+          <li class="list-inline-item col-12"><a href="#" target="_blank" title="pinterest"><i class="fa fa-pinterest">About Us</i></a></li>
+          <li class="list-inline-item col-12"><a href="#" target="_blank" title="vimeo"><i class="fa fa-vimeo">About Our Project</i></a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="js/healthPointsScript.js"></script>
+</body>
+</html>

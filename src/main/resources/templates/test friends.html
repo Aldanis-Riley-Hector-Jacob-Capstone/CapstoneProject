@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Document</title>
+    <style>
+        .navbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .notification-bar {
+            width: 100%;
+            height: 50px;
+            background-color: lightgray;
+        }
+        .main-container {
+            display: flex;
+            height: calc(100% - 100px);
+        }
+        .list-container {
+            width: 66.6%;
+            background-color: lightblue;
+            overflow-y: scroll;
+        }
+        .form-container {
+            width: 33.3%;
+            background-color: lightgreen;
+        }
+        .footer {
+            width: 100%;
+            height: 50px;
+            background-color: gray;
+        }
+        .user-list-container {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .user-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .user {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Notification bar -->
+<div class="notification-bar"></div>
+
+<!-- Main container -->
+<div class="main-container">
+    <!-- List container -->
+    <div class="list-container">
+        <!-- List of names searched to add -->
+        <p>Test</p>
+        <p>Test</p>
+        <p>Test</p>
+        <p>Test</p>
+    </div>
+
+    <div class="form-container">
+        <!-- Form filled with search parameters -->
+        <div name="searchfriends">
+            <form>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="search" name="name" id="name">
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="search" name="location" id="location">
+                </div>
+            </form>
+        </div>
+
+        <!-- Completed paths range -->
+        <div class="form-group">
+            <label for="pointRange">Completed Paths</label>
+            <script>
+                function updateValue() {
+                    const currentValue = document.getElementById("pointRange").value;
+                    document.getElementById("currentValue").innerHTML = currentValue;
+                }
+            </script>
+            <input type="range" name="pathsCompleted" id="pointRange" min="0" max="500" value="0" oninput="updateValue()">
+            <label id="currentValue">0</label>
+        </div>
+
+        <!-- Checkboxes for points range -->
+        <fieldset>
+            <legend>Select Points</legend>
+            <div class="form-group">
+                <input type="checkbox" name="1to100" id="1to100">
+                <label for="1to100">1-100</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="101to200" id="101to200">
+                <label for="101to200">101-200</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="201to300" id="201to300">
+                <label for="201to300">201-300</label>
+            </div>
+        </fieldset>
+
+        <!-- Radio buttons for mentor/not a mentor -->
+        <fieldset>
+            <legend>Is a Mentor?</legend>
+            <div class="form-group">
+                <input type="radio" id="mentorYes" name="isMentor" value="yes">
+                <label for="mentorYes">Yes</label>
+            </div>
+            <div class="form-group">
+                <input type="radio" id="mentorNo" name="isMentor" value="no">
+                <label for="mentorNo">No</label>
+            </div>
+        </fieldset>
+    </div>
+</div>
+<div class="user-list-container">
+    <ul class="user-list">
+        <!-- List of users -->
+        <li class="user">User 1</li>
+        <li class="user">User 2</li>
+        <li class="user">User 3</li>
+        <li class="user">User 1</li>
+        <li class="user">User 2</li>
+        <li class="user">User 3</li>
+
+
+    </ul>
+</div>
+
+
+
+<!-- Footer -->
+<footer class="footer">
+</footer>
+</body>
+</html>

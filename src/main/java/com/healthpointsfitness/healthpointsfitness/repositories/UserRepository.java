@@ -4,5 +4,5 @@ import com.healthpointsfitness.healthpointsfitness.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findUserByUsername(Object username);
+    User findUserByUsername(String username);
 }

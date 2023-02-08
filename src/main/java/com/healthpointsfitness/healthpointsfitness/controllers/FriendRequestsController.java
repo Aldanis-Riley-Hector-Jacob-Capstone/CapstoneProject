@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 public class FriendRequestsController {
     @GetMapping("/friend_requests")
     public String friendRequestsGET(){
-        return "/users/friendSearch";
+        return "/users/friendsSearch";
     }
 
     @PostMapping("/friend_request")

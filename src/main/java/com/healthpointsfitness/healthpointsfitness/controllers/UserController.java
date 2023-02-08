@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UserController {
+
     @RequestMapping("profile")
     public String uc01(){
         return "/users/index";
     }
+
     @RequestMapping("fsearch")
     public String uc02(){
         return "/users/friendsSearch";

@@ -1,15 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/html">
+      xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Users Panel</title>
     <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
+    <link href="/css/main.css" rel="stylesheet">
 </head>
 <body>
     <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
     <div class="container">
-        Users Panel
+<!--        PROFILE PICTURE     -->
+        <div class="row" style="padding-top: 50px">
+            <div class="col-4">
+                <img id="profile_image" src="/img/top_of_dog_face.jpeg" alt="Profile Image" width="360px" height="360px">
+            </div>
+<!--            PROFILE DESCRIPTION     -->
+            <div class="col-8">
+                <div id="profile_description">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus. Ac tortor vitae purus faucibus ornare. Adipiscing at in tellus integer feugiat scelerisque varius morbi enim. Nisi vitae suscipit tellus mauris a diam maecenas sed. Vitae congue mauris rhoncus aenean vel elit scelerisque mauris. Et tortor at risus viverra adipiscing at. Vel facilisis volutpat est velit egestas dui id ornare arcu. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Pretium nibh ipsum consequat nisl vel pretium lectus. Convallis a cras semper auctor.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl nunc mi ipsum faucibus. Ac tortor vitae purus faucibus ornare. Adipiscing at in tellus integer feugiat scelerisque varius morbi enim. Nisi vitae suscipit tellus mauris a diam maecenas sed. Vitae congue mauris rhoncus aenean vel elit scelerisque mauris. Et tortor at risus viverra adipiscing at. Vel facilisis volutpat est velit egestas dui id ornare arcu. Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Pretium nibh ipsum consequat nisl vel pretium lectus. Convallis a cras semper auctor.
+                </p>
+                </div>
+            </div>
+        </div>
+<!--        ACHIEVEMENT AREA        -->
+        <div id="achv" class="row achv_box">
+            <div id="achv1" class="col-2 achv_badge_holder">
+                <img src="img/glutes.png" alt="Achievement Badge" width="128px" height="128px" class="achv_badge">
+            </div>
+            <div id="achv2" class="col-2 achv_badge_holder">
+                <img src="img/bicep.png" alt="Achievement Badge" width="128px" height="128px" class="achv_badge">
+            </div>
+            <div id="achv3" class="col-2 achv_badge_holder">
+                <img src="img/barbell.png" alt="Achievement Badge" width="128px" height="128px" class="achv_badge">
+            </div>
+            <div id="achv4" class="col-2 achv_badge_holder">
+                <img src="img/forearms.png" alt="Achievement Badge" width="128px" height="128px" class="achv_badge">
+            </div>
+            <div id="achv5" class="col-2 achv_badge_holder">
+                <img src="img/chest.png" alt="Achievement Badge" width="128px" height="128px" class="achv_badge">
+            </div>
+            <div id="achv6" class="col-2 achv_badge_holder">
+                <img src="img/legs.png" alt="Achievement Badge" width="128px" height="128px" class="achv_badge">
+            </div>
+        </div>
     </div>
     <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
 </body>

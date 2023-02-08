@@ -3,3 +3,27 @@ footer{
     bottom: 0px;
     width: 100%;
 }
+
+.achv_box > * {
+    border: 2px red solid;
+}
+
+.achv_box {
+    margin-top: 50px;
+    background-color: darkblue;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.achv_badge_holder {
+    padding: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.achv_badge {
+    border: 9px solid gold;
+    border-radius: 50%;
+}

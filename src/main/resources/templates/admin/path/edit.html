@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Path With API Test</title>
+  <th:block th:replace="~{/fragments/header.html :: header}"/>
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+<th:block th:replace="~{/fragments/navbar.html :: navbar}"/>
+<div class="container">
+  <div class="navbar bg-body-tertiary">
+    <span class="h2">Edit Path</span>
+  </div>
+  Edit path controls
+</div>
+</body>
+</html>

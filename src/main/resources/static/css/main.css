@@ -4,13 +4,13 @@ footer{
     width: 100%;
 }
 
-.achv_box > * {
-    border: 2px red solid;
+#profile_image {
+    border: 3px solid black;
 }
 
 .achv_box {
     margin-top: 50px;
-    background-color: darkblue;
+    /*background-color: darkblue;*/
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -24,6 +24,17 @@ footer{
 }
 
 .achv_badge {
-    border: 9px solid gold;
+    padding: 0;
+    margin: 0;
+    border: 9px solid darkblue;
+    border-radius: 50%;
+}
+
+.acvh_badge_2 {
+    padding: 0;
+    margin: 0;
+    background: #AEA;
+    box-shadow: 10px 12px 0.5rem rgba(0,0,0,0.5);
+    border: 16px solid gold;
     border-radius: 50%;
 }

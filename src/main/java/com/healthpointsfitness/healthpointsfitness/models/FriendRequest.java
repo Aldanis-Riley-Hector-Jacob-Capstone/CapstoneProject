@@ -33,4 +33,10 @@ public class FriendRequest {
 
     @ManyToOne
     private User to;
+
+    public FriendRequest(Timestamp time, User userFrom, User userTo){
+        this.date_sent = time;
+        this.from = userFrom;
+        this.to = userTo;
+    }
 }

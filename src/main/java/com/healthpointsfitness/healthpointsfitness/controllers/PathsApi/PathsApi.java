@@ -54,14 +54,15 @@ public class PathsApi {
             //Deserialize a list of challenges from the challenges string of json
             Challenge[] challengeList = builder.create().fromJson(challenges, Challenge[].class);
 
+            //Create a new empty path
+            Path newPath = new Path();
+
             //Iterate trough all the challenges
             for (Challenge challenge : challengeList) {
                 //And print out the title
                 System.out.println(challenge.getTitle());
+                challenge.setPath(newPath);
             }
-
-            //Create a new empty path
-            Path newPath = new Path();
 
             //Set the path's title
             newPath.setTitle(title);

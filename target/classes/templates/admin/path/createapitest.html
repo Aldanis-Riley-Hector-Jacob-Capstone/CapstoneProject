@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>Create Path With API Test</title>
     <th:block th:replace="~{/fragments/header.html :: header}"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
     <th:block th:replace="~{/fragments/navbar.html :: navbar}"/>
@@ -214,12 +216,20 @@
          */
         const pullExercisesFromBackend = async () => {
             try {
+                // const token = $("meta[name='_csrf']").attr("content");
+                // const header = $("meta[name='_csrf_header']").attr("content");
+
+                const token = document.getElementsByName("_csrf")[0].getAttribute("content")
+                // const header = document.querySelector("meta=[name='_csrf_header']").getAttribute("content")
+
+
                 //Send a fetch request to the backend for the list of exercises
                 const request = await fetch('http://localhost:8080/admin/api/v1/findExerciseByMuscle', {
                     method: "POST",
                     credentials: "include", //Send the SpringSec credentials
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN" : token
                     },
                     body: muscleSelect.value
                 })
@@ -237,17 +247,21 @@
          * Filter exercises list based on search term
          */
         const filterExerciseSearch = async (e) => {
-            if(e.target.tagName.toLowerCase() === 'select'){
-                //Filter exercise by muscle type
-                exercises = await pullExercisesFromBackend()
-            }else{
-                //filter exercises array by search term in searchExercise element value
-                if(e.target.value.length > 0){
-                    //if there's a search term
-                    exercises = exercises.filter(i=>i.name.includes(e.target.value))
-                }else{//Otherwise
+            try {
+                if (e.target.tagName.toLowerCase() === 'select') {
+                    //Filter exercise by muscle type
                     exercises = await pullExercisesFromBackend()
+                } else {
+                    //filter exercises array by search term in searchExercise element value
+                    if (e.target.value.length > 0) {
+                        //if there's a search term
+                        exercises = exercises.filter(i => i.name.includes(e.target.value))
+                    } else {//Otherwise
+                        exercises = await pullExercisesFromBackend()
+                    }
                 }
+            } catch(err){
+                console.error(err)
             }
 
             //Any time the user updates the muscle, or search term, redraw the list of exercises
@@ -697,6 +711,8 @@
                     formData.append("badge",path_image_file)
                     formData.append("challenges",JSON.stringify(challenges))
 
+                    const token = document.getElementsByName("_csrf")[0].getAttribute("content")
+
                     //Generate request to create the new path in the database
                     const request = await fetch('http://localhost:8080/admin/api/v1/createPath',{
                         method : "POST",
@@ -704,6 +720,10 @@
                         //     "Content-Type" : "application/json"
                         // },
                         // body : JSON.stringify(pathModel)
+                        credentials : "include",
+                        headers : {
+                            "X-CSRF-TOKEN" : token
+                        },
                         body: formData
                     })
 

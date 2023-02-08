@@ -27,10 +27,11 @@ class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 //Configure cors
-                .cors()
+                .cors().and()
+//                .csrf().disable()
 
                 //Allow public access to all public routes
-                .and()
+
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/login",
@@ -55,7 +56,8 @@ class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/admin/**",
-                        "/admin/api/v1/**"
+                        "/admin/api/v1/**",
+                        "/admin/api/v1//findExerciseByMuscle"
                 ).hasAuthority("ROLE_ADMIN")
 
                 //Block all other requests

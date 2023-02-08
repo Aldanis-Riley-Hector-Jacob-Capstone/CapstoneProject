@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:mysql://localhost:3306/healthpointsfitness</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="healthpointsfitness@localhost [2]" uuid="c1c22b2d-c206-46f2-8044-7ff5fae299d6">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/healthpointsfitness</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

@@ -6,6 +6,7 @@ import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,5 +28,23 @@ public class PathsService {
         List<Challenge> currentChallenges = path.getChallenges();
         currentChallenges.remove(challenge);
         path.setChallenges(currentChallenges);
+    }
+
+    public Path getPathById(Long id){
+        try {
+            return pathRepository.findById(id).get();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Path> getPaths(){
+        try {
+            return pathRepository.findAll();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

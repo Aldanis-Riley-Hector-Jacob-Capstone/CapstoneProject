@@ -4,6 +4,7 @@ footer{
     width: 100%;
 }
 
+/*PROFILE PAGE (/users/index.html) */
 #profile_image {
     border: 3px solid black;
 }
@@ -45,3 +46,6 @@ footer{
     background: #AEA;
     box-shadow: 10px 12px 0.5rem rgba(0,0,0,0.5);
 }
+
+/* END PROFILE PAGE (users/index.html) */
+

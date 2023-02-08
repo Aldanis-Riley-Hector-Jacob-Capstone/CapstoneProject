@@ -62,6 +62,12 @@ public class User {
         roles = copy.roles;
     }
 
+    public User(String username){
+        this.username = username;
+        this.password = "pass123";
+        this.roles = "ROLE_USER";
+    }
+
 
     ///////// RELATIONSHIPS ////////////
 

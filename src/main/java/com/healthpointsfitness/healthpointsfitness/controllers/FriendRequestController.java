@@ -19,7 +19,7 @@ public class FriendRequestController {
 
     @GetMapping("/friend_request")
     public String redirect(){
-        return "/users/request";
+        return "/users/index";
     }
 
     @PostMapping("/friend_request")

@@ -5,8 +5,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="14151139-3e42-4b48-8276-851ea93628f6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/157101d9-4d28-40a7-86cd-d4c29f0d47f6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/157101d9-4d28-40a7-86cd-d4c29f0d47f6.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/users/request.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/users/request.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/healthpointsfitness/healthpointsfitness/controllers/FriendRequestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/healthpointsfitness/healthpointsfitness/controllers/FriendRequestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/healthpointsfitness/healthpointsfitness/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/healthpointsfitness/healthpointsfitness/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/path/create.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/path/create.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/paths.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/paths.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/footer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/navbar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/users/acheivements.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/users/enrolled_paths.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/users/enrolled_paths.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/users/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/users/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/users/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/users/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/users/request.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/abs.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/barbell.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/bicep.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/biking.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/boxing.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/calves.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/chest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/climbing.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/doodad.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/dumbell.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/forearms.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/fronthamstrings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/glutes.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/hamstrings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/hex.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/jog.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/lateral.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/legs.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/lift.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/logo.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/lowerback.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/rowing.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/running.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/shoulder.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/stars.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/stripes.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/swimming.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/top_of_dog_face.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/tricep.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/upperback.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/yoga.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/yoga1.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/admin/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/admin/path/create.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/admin/paths.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/fragments/footer.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/fragments/header.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/fragments/navbar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/users/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/users/request.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +77,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="HTML File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -47,27 +108,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "spring.configuration.checksum": "d226e035134864f78d12545c6b64b667",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;743473bc669924290fd529df777f91ec&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="CapstoneProject" />
@@ -99,11 +165,19 @@
       <option name="presentableId" value="Default" />
       <updated>1675802922854</updated>
       <workItem from="1675802924181" duration="325000" />
-      <workItem from="1675804660458" duration="3521000" />
+      <workItem from="1675804660458" duration="4193000" />
+      <workItem from="1675809860979" duration="104000" />
+      <workItem from="1675872681642" duration="660000" />
+      <workItem from="1675873353610" duration="416000" />
+      <workItem from="1675874228260" duration="2244000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

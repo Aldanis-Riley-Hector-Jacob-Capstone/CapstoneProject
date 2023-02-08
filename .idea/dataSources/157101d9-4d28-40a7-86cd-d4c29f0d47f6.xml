@@ -1329,7 +1329,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>UK_1p2axrepu5uqirkpwr70w4coq</UnderlyingIndexName>
     </key>
     <column id="349" parent="304" name="id">
-      <AutoIncrement>2</AutoIncrement>
+      <AutoIncrement>1</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>

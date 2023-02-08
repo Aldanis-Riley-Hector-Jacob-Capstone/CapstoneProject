@@ -7,6 +7,10 @@
         <a class="navbar-brand" href="#">
           <img height="80px" src="/img/logo.gif">
         </a>
+        <container> |
+          <a th:href="@{/profile}">Profile</a> |
+          <a th:href="@{/fsearch}">Friend Search</a> |
+        </container>
         <div sec:authorize="isAuthenticated()">
           <form th:action="@{/logout}" method="post" class="logout-button-form">
             <button class="btn btn-primary" type="submit">LOGOUT</button>

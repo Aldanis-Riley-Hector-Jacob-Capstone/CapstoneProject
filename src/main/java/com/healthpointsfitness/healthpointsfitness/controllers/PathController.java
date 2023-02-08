@@ -32,6 +32,11 @@ public class PathController {
         return "/admin/path/create";
     }
 
+    @GetMapping("/admin/path/createapitest")
+    private String createApiTest(){
+        return "/admin/path/createapitest";
+    }
+
     @PostMapping("/admin/path/create")
     private String createPathPostRequest(@ModelAttribute("newPath") Path path,
                                   @RequestParam("pathImage") MultipartFile pathImage){

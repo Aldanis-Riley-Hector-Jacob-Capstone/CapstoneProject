@@ -109,18 +109,21 @@
                 <div class="card-title">
                     <h3>Create a new path</h3>
                 </div>
-                <form enctype="multipart/form-data">
+                <form th:action="@{/admin/path/create}" th:method="POST" th:object="${newPath}" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="pathTitle" class="form-label">Title</label>
-                        <input type="email" class="form-control" id="pathTitle">
+                        <input type="text" class="form-control" placeholder="Path Title" id="pathTitle" name="pathTitle" th:field="*{title}">
                     </div>
                     <div class="mb-3">
-                        <label for="pathDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="pathDescription" rows="3"></textarea>
+                        <label for="pathDescription" class="w-100">Description
+                            <textarea type="text" class="form-control" placeholder="Path Description" id="pathDescription" name="pathDescription" th:field="*{description}" cols="auto" rows="7"></textarea>
+                        </label>
                     </div>
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">Image</label>
-                        <input class="form-control" type="file" id="formFile">
+                        <label for="pathImage" class="form-label">Image</label>
+                        <!-- Preview Image will be set when user selects an image using the following element.-->
+                        <img id="path_image_preview"/>
+                        <input type="file" name="pathImage" id="pathImage" placeholder="Select Badge Icon Image" accept="png,jpg,jpeg"/>
                     </div>
                     <div class="mb-3 d-flex">
                         <label for="firstColor" class="form-label mx-2">First Color</label>

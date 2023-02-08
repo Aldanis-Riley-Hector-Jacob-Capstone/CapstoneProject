@@ -22,10 +22,10 @@ public class Challenge {
     @Column(name="instructions", nullable = false, length = 255)
     private String instructions;
 
-    @Column(name="points", nullable = true)
+    @Column(name="points", nullable = false)
     private Integer points;
 
-    @Column(name="icon", nullable = false, length = 255)
+    @Column(name="icon", nullable = true, length = 255)
     private String icon;
 
     //Relationships

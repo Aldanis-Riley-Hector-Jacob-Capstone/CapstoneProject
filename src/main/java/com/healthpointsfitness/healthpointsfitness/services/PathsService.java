@@ -13,17 +13,17 @@ public class PathsService {
     @Autowired
     PathRepository pathRepository;
 
-    private void createOrUpdatePath(Path path){
+    public void createOrUpdatePath(Path path){
         pathRepository.save(path);
     }
 
-    private void addChallenge(Path path,Challenge challenge){
+    public void addChallenge(Path path,Challenge challenge){
         List<Challenge> currentChallenges = path.getChallenges();
         currentChallenges.add(challenge);
         path.setChallenges(currentChallenges);
     }
 
-    private void removeChallenge(Path path, Challenge challenge){
+    public void removeChallenge(Path path, Challenge challenge){
         List<Challenge> currentChallenges = path.getChallenges();
         currentChallenges.remove(challenge);
         path.setChallenges(currentChallenges);

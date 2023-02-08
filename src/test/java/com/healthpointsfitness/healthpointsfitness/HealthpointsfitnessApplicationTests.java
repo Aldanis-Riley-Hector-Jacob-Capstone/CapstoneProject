@@ -19,7 +19,7 @@ class HealthpointsfitnessApplicationTests {
 	void contextLoads() {
 		System.out.println("Context is loading");
 		System.out.println("Testing api calls");
-		List<Exercise> exercises = service.getExercisesByMuscle(Muscles.calves);
+		List<Exercise> exercises = service.getExercisesByMuscle("calves");
 		for(Exercise e : exercises){
 //			System.out.println(e.getInstructions());
 			System.out.println(e.getName());

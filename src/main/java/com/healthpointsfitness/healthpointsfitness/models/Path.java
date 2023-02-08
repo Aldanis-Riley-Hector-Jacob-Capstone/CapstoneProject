@@ -38,4 +38,7 @@ public class Path {
     // Path <> Challenge
     @OneToMany(mappedBy = "path", cascade = CascadeType.ALL)
     private List<Challenge> challenges;
+
+    @Transient
+    String imageDataUrl;
 }

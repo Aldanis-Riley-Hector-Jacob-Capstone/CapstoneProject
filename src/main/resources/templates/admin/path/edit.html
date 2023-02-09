@@ -3,7 +3,7 @@
       xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
-  <title>Create Path With API Test</title>
+  <title>Edit Path</title>
   <th:block th:replace="~{/fragments/header.html :: header}"/>
   <meta name="_csrf" th:content="${_csrf.token}"/>
   <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -12,9 +12,843 @@
 <th:block th:replace="~{/fragments/navbar.html :: navbar}"/>
 <div class="container">
   <div class="navbar bg-body-tertiary">
-    <span class="h2">Edit Path</span>
+    <a href="/admin/index">
+      <button class="btn btn-light ms-3">
+        <i class="bi bi-arrow-left-square"></i>
+      </button>
+    </a>
+    <div class="h2 ms-1 me-auto">Edit Path</div>
   </div>
-  Edit path controls
+  <div class="p-3">
+    <!--Path Title-->
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="titleLabel">Path Title</span>
+      <input type="text" class="form-control" aria-label="Path Title" id="title" th:value="${path.title}" placeholder="Path Title" aria-describedby="titleLabel">
+    </div>
+
+    <!--Path ID Hidden Field-->
+    <input type="hidden" th:value="${path.id}" id="pathId"/>
+
+    <!--Path Description-->
+    <div class="input-group">
+      <span class="input-group-text">Description</span>
+      <textarea class="form-control" aria-label="Path description" th:text="${path.description}" placeholder="Path Description" id="description"></textarea>
+    </div>
+
+    <div class="input-group mt-3">
+      <!--Path Badge File-->
+      <label for="pathBadge">
+        Path Badge Image
+        <input type="file" id="pathBadge"/>
+      </label>
+    </div>
+    <div class="input-group m-3">
+      <label for="imagePreview">
+        <img id="imagePreview" width="200px" th:src="'data:image/jpeg;base64,'+ ${path.getImageDataUrl()}"/>
+      </label>
+    </div>
+
+    <div class="navbar bg-body-tertiary mt-3">
+      <!--Add Challenge Button-->
+      <button id="add_challenge_btn" class="btn btn-primary ms-auto">
+        <i class="bi bi-plus-square"></i>
+        Add Challenge
+      </button>
+    </div>
+
+    <!--List of Challenges-->
+    <div id="list_of_challenges" th:challenges="${challenges}">
+      No Challenges...
+    </div>
+
+    <!--Button to Save Path-->
+    <div class="navbar bg-body-tertiary mt-3">
+      <a href="/admin/index" class="btn btn-primary ms-auto me-2">Cancel</a>
+      <a id="savePathButton" class="btn btn-primary me-auto">Save Path</a>
+    </div>
+
+    <!-- Challenge Modal -->
+    <div id="challenge_modal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="challengeModalTitle">Add Challenge</h5>
+            <button type="button" class="btn-close"  aria-label="Close" id="closeChallengeModal"></button>
+          </div>
+          <div class="modal-body">
+            <p>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+              <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Challenge Title" id="challengeTitle">
+            </div>
+            </p>
+            <p>
+            <div class="input-group">
+              <span class="input-group-text">Description</span>
+              <textarea class="form-control" placeholder="Challenge Description" id="challengeDescription" aria-label="Challenge Description"></textarea>
+            </div>
+            </p>
+            <p>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default1"><span id="challengePointsDisplay"></span>&nbsp;Points</span>
+              <input type="range" min="1" max="50" id="challengePoints" class="w-auto ms-2"/>
+            </div>
+            </p>
+            <p>
+            <hr/>
+            <button id="add_exercise_button">
+              <i class="bi bi-plus-square"></i>
+              Add Exercise
+            </button>
+            <hr/>
+            <div id="selected_exercises"></div>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button id="saveChallengeButton">Save Challenge</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Add Exercise Modal -->
+    <div id="add_exercise_modal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Exercise</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" data-bs-target="#add_exercise_modal" aria-label="Close" id="closeExerciseModal"></button>
+          </div>
+          <div class="modal-body">
+            <label for="muscle">Muscle:
+              <select id="muscle">
+                <option value="abdominals">Abdominals</option>
+                <option value="abductors">Abductors</option>
+                <option value="adductors">Adductors</option>
+                <option value="biceps">Biceps</option>
+                <option value="calves">Calves</option>
+                <option value="chest">Chest</option>
+                <option value="forearms">Forearms</option>
+                <option value="glutes">Glutes</option>
+                <option value="hamstrings">Hamstrings</option>
+                <option value="lats">Lats</option>
+                <option value="lower_back">Lower Back</option>
+                <option value="middle_back">Middle Back</option>
+                <option value="neck">Neck</option>
+                <option value="quadriceps">Quadriceps</option>
+                <option value="traps">Traps</option>
+                <option value="triceps">Triceps</option>
+              </select>
+            </label>
+            <label for="searchExercise">
+              Search
+              <input type="search" id="searchExercise" placeholder="Filter Exercise by Name"/>
+            </label>
+            <div id="list_of_exercises">
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="close_exercise_button">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+<th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
+<script defer th:inline="javascript">
+  //========= Element References ===============
+  const pathTitle = document.getElementById('title')
+  const pathDescription = document.getElementById('description')
+  const addChallengeButton = document.getElementById('add_challenge_btn')
+  const saveChallengeButton = document.getElementById('saveChallengeButton')
+  const addExerciseButton = document.getElementById('add_exercise_button')
+  const closeExerciseDialogButton = document.getElementById('close_exercise_button')
+  const muscleSelect = document.getElementById('muscle')
+  const searchExercise = document.getElementById('searchExercise')
+  const closeChallengeModal = document.getElementById('closeChallengeModal')
+  const listOfExercises = document.getElementById('list_of_exercises')
+  const listOfSelectedExercises = document.getElementById('selected_exercises')
+  const challengeTitle = document.getElementById('challengeTitle')
+  const challengeDescription = document.getElementById('challengeDescription')
+  const challengePoints = document.getElementById('challengePoints')
+  const challengePointsDisplay = document.getElementById('challengePointsDisplay')
+  const listOfChallenges = document.getElementById('list_of_challenges')
+  const challengeModalTitle = document.getElementById('challengeModalTitle')
+  const savePathButton = document.getElementById('savePathButton')
+  const pathImage = document.getElementById('pathBadge')
+  const pathId = document.getElementById('pathId')
+  const imagePreview = document.getElementById('imagePreview')
+
+  //========= Bootstrap Modal References ===========
+  const addChallengeModal = new bootstrap.Modal('#challenge_modal', {
+    keyboard: false
+  })
+
+  const addExerciseModal = new bootstrap.Modal('#add_exercise_modal',{
+    keyboard : false
+  })
+
+
+
+  //========= Variables and Constants ===============
+  let exercises = []
+  let challenges = []
+  let selected_exercises = []
+  let mode = 'add'
+  let selected_challenge = null
+  let selected_challenge_index = null
+  let path_image_file = null
+
+  //========= Initial Display Conditions ===============
+  // challengeModal.style.display = "none"
+  // exercisesModal.style.display = "none"
+  challengePointsDisplay.innerText = "0"
+
+
+
+  //========= Default Data Models ===============
+  let challengeTemplate = {
+    title : "",
+    description : "",
+    points : 0,
+    demo_link : "/img/default.jpeg",
+    exercises : []
+  }
+
+
+  //========= Helper Functions ===============
+
+  /*
+   * Retrieve a list of exercises using rapid api from the backend
+   */
+  const pullExercisesFromBackend = async () => {
+    try {
+      // const token = $("meta[name='_csrf']").attr("content");
+      // const header = $("meta[name='_csrf_header']").attr("content");
+
+      const token = document.getElementsByName("_csrf")[0].getAttribute("content")
+      // const header = document.querySelector("meta=[name='_csrf_header']").getAttribute("content")
+
+
+      //Send a fetch request to the backend for the list of exercises
+      const request = await fetch('http://localhost:8080/admin/api/v1/findExerciseByMuscle', {
+        method: "POST",
+        credentials: "include", //Send the SpringSec credentials
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN" : token
+        },
+        body: muscleSelect.value
+      })
+
+      //Return the response from the request
+      return await request.json()
+    }catch(err){
+      //Display errors on the console
+      console.error(err)
+    }
+  }
+
+
+  /*
+   * Filter exercises list based on search term
+   */
+  const filterExerciseSearch = async (e) => {
+    try {
+      if (e.target.tagName.toLowerCase() === 'select') {
+        //Filter exercise by muscle type
+        exercises = await pullExercisesFromBackend()
+      } else {
+        //filter exercises array by search term in searchExercise element value
+        if (e.target.value.length > 0) {
+          //if there's a search term
+          exercises = exercises.filter(i => i.name.includes(e.target.value))
+        } else {//Otherwise
+          exercises = await pullExercisesFromBackend()
+        }
+      }
+    } catch(err){
+      console.error(err)
+    }
+
+    //Any time the user updates the muscle, or search term, redraw the list of exercises
+    renderExerciseList()
+  }
+
+
+  /*
+   * Generate a list item for the exercises list
+   */
+  const generateExerciseListItem = (exercise) => {
+    //Create a container to hold the list item
+    const item = document.createElement('div')
+    item.classList.add("exercise_list_item")
+
+    //When the list item is clicked, show an alert with the instructions for this exercise.
+    item.onclick = ()=> {
+      alert(exercise["instructions"])
+    }
+
+    //Create add button to add this exercise to the list of selected exercises
+    const add_button = document.createElement('button')
+    add_button.classList.add("btn","btn-light","ms-3")
+    add_button.innerHTML += "<i class='bi bi-plus-square'></i>"
+    // add_button.innerText = "Add Exercise"
+
+    //Event handler for the add button
+    add_button.onclick = (e)=> {
+      e.stopPropagation()
+      selected_exercises.push(exercise)
+      addExerciseModal.hide()
+      renderSelectedExerciseList()
+    }
+
+    //Create span with the title of the exercise
+    const title = document.createElement('span')
+    title.innerText = exercise["name"]
+
+    //Add the title to the list item container
+    item.appendChild(title)
+
+    //Add the add button to the container
+    item.appendChild(add_button)
+
+    //Return the generated list item
+    return item
+  }
+
+  /*
+   * Render out the list of exercises
+   */
+  const renderExerciseList = () => {
+    //Step 1: Clear the previous list
+    listOfExercises.innerHTML = ""
+
+    //Step 2: Iterate through the new list of exercises
+    exercises.forEach(exercise=>{
+      //And for each item, generate a list item
+      const currentItem = generateExerciseListItem(exercise)
+
+      //And add the item to the list
+      listOfExercises.appendChild(currentItem)
+    })
+
+    //Wallah!
+  }
+
+  /*
+   * Generate the list of selected exercises in the path modal
+   */
+  const generateSelectedExerciseListItem = (exercise) => {
+    //Create a container to hold the exercise list item
+    const item = document.createElement('div')
+
+    // item.classList.add("accordion-item")
+
+    item.onclick = () => {
+      alert(exercise["instructions"])
+    }
+
+    //Create a button to remove the exercise from the list
+    const del = document.createElement("button")
+    del.classList.add("btn","btn-danger","ms-3")
+    del.innerHTML = "<i class='bi bi-trash3'></i>"
+    // del.innerText = "Remove Exercise"
+
+    //Handle the click event on the delete button
+    del.onclick = (e) => {
+      e.stopPropagation()
+      e.preventDefault()
+      selected_exercises.splice(selected_exercises.indexOf(exercise), 1) //Remove 1 from the list
+      renderSelectedExerciseList()
+    }
+
+    //Create a span with the title of the exercise
+    const title = document.createElement('span')
+    title.innerText = exercise["name"]
+
+    //Add the title to the container
+    item.appendChild(title)
+
+    //Add the delete button to the container
+    item.appendChild(del)
+
+    //Return the item
+    return item
+  }
+
+  /*
+   * Renders a list of selected exercises for a new challenge inside the challenge modal
+   */
+  const renderSelectedExerciseList = () => {
+    //Step 1 : Clear existing list
+    listOfSelectedExercises.innerHTML = ""
+
+    //Step 2 : Iterate through the list of selected exercises
+    selected_exercises.forEach(exercise => {
+      //Generate a selected exercise list item
+      const item = generateSelectedExerciseListItem(exercise)
+
+      //Add it to the list
+      listOfSelectedExercises.appendChild(item)
+    })
+  }
+
+  /*
+   * Clears the list of selected exercises, the challenge form and closes the challenge dialog
+   */
+  const clearChallengeModal = () => {
+    //Clear the selected exercises array
+    selected_exercises = []
+
+    //Clear the list on the dialog
+    listOfSelectedExercises.innerHTML = ""
+
+    //Clear the challenge title
+    challengeTitle.value = ""
+
+    //Clear the challenge description
+    challengeDescription.value = ""
+  }
+
+  /*
+   *  Validates that the input given by the user for a new challenge is valid.
+   *  If it's not valid it will show an alert with errors.
+   */
+  const validateChallengeInput = (challenge) => {
+    console.log("Validating challenge")
+    console.log(challenge)
+    let errors = []
+    //TODO: Validate the user input, make sure at least one exercise in the array
+    if(challenge.exercises.length === 0){
+      errors.push("You must include at least one exercise in the challenge before saving it.")
+    }
+
+    //TODO: Make sure title is not empty
+    if(challenge.title.length === 0){
+      errors.push("Please include a title for your challenge before saving it.")
+    }
+
+    //TODO: Make sure description is not empty
+    if(challenge.description.length === 0){
+      errors.push("Please include a description for your challenge")
+    }
+
+    if(errors.length > 0){
+      //Start off with an empty error message
+      let msg = ""
+      //Build out the error message list.
+      errors.forEach(err=>{
+        msg += "\n" + err
+      })
+
+      //Alert the error message list to the user
+      alert(msg)
+
+      //Return false to stop it from saving the challenge
+      return false
+    }else{ //Otherwise
+      //Return true to save the challenge
+      return true
+    }
+  }
+
+
+  /*
+   * Fills in the challenge modal with the data from the selected challenge
+   */
+  const fillInSelectedChallengeForm = () => {
+    //Set the selected exercises
+    selected_exercises = selected_challenge.exercises
+
+    //Set the title
+    challengeTitle.value = selected_challenge.title
+
+    //Set the description
+    challengeDescription.value = selected_challenge.description
+
+    //Set the points count
+    challengePoints.value = selected_challenge.points
+
+    // challengePoints display value
+    challengePointsDisplay.innerText = selected_challenge.points
+
+    //Render the list of selected exercises
+    renderSelectedExerciseList()
+  }
+
+  /*
+   * Generate a new item for the list of challenges
+   */
+  const generateChallengeListItem = (challenge) => {
+    //Generate a container for the challenge list item
+    const item = document.createElement('div')
+
+    //Show pointer icon when user hovers
+    item.onmouseover = () => {
+      item.style.cursor = "pointer"
+    }
+
+    //Add click event to the challenge container
+    item.onclick = e => {
+      //Set the mode to edit
+      mode = "edit"
+
+      //Set the selected challenge
+      selected_challenge = challenge
+
+      //Set the selected challenge index
+      selected_challenge_index = challenges.indexOf(challenge)
+
+      //Fill in the form
+      fillInSelectedChallengeForm()
+
+      //Change the title of the challenge dialog to edit
+      challengeModalTitle.innerText = "Edit Challenge"
+
+      //Change the text of the footer button to update
+      saveChallengeButton.innerText = "Update Challenge"
+
+      //Show the challenge modal
+      addChallengeModal.show()
+    }
+
+    //Generate a title span element for the list item
+    const title = document.createElement('span')
+    title.innerText = challenge.title
+
+    //Generate a delete button to get rid of it
+    const del = document.createElement('button')
+    del.classList.add("btn","btn-danger","ms-3")
+    del.innerHTML = "<i class='bi bi-trash3'></i>"
+    // del.innerText = "Remove Challenge"
+    del.onclick = e => {
+      if(window.confirm("Are you sure you want to delete this challenge from the path?")) {
+        //Prevent propagation to the parent element
+        e.stopPropagation()
+
+        //Remove the challenge from the list of challenges
+        challenges.splice(challenges.indexOf(challenge), 1)
+
+        //Re-render the list of challenges
+        renderListOfChallenges()
+
+        //If the challenges is 0 then add a label with no challenges into the challenges list
+        //to indicate that there's no challenges
+        if(challenges.length === 0) {
+          listOfChallenges.innerText = "No challenges..."
+        }
+      }
+    }
+
+    //Add the title span to the container
+    item.appendChild(title)
+
+    //Add the delete button to the container
+    item.appendChild(del)
+
+    //Return the item
+    return item
+  }
+
+  const renderListOfChallenges = () => {
+    //Step 1: Clear the list of challenges
+    listOfChallenges.innerHTML = ""
+
+    //Step 2: Iterate through the list of challenges
+    challenges.forEach(challenge => {
+      //Generate an item for the list of challenges
+      const challengeItem = generateChallengeListItem(challenge)
+
+      //Add the item to the list of challenges
+      listOfChallenges.appendChild(challengeItem)
+    })
+  }
+
+  /*
+   *  Adds a validated challenge to the list of created challenges.
+   */
+  const saveChallenge = (e) => {
+    //Create a model of the challenge
+    const challenge = {
+      title: challengeTitle.value,
+      description : challengeDescription.value,
+      exercises : selected_exercises,
+      points : challengePoints.value,
+      id : selected_challenge ? selected_challenge.id : null
+    }
+
+    console.log("Saving challenge")
+    console.log(challenge)
+
+    //Validate the model's input
+    if(validateChallengeInput(challenge)) { //If the input is valid
+      //If we're in add mode
+      if(mode === 'add') {
+        //Add the challenge to the list
+        challenges.push(challenge)
+      }else if(mode === 'edit'){
+        //Update the challenge at the selected challenge index
+        challenges[selected_challenge_index] = challenge
+
+        //Set the mode back to add
+        mode = "edit"
+      }
+
+      //Clear the challenge modal
+      clearChallengeModal()
+
+      //Close the new challenge modal
+      addChallengeModal.hide()
+
+      //Render the list of challenges
+      renderListOfChallenges()
+    }else{
+      // alert("No work")
+    }
+  }
+
+  /*
+   * Validates path input before sending off request to save the path
+   * to the database
+   */
+  const validatePathInput = () => {
+    let errors = []
+
+    //TODO: Validate that a title was provided for the path
+    if(pathTitle.value.length === 0){
+      errors.push("Please provide a title for the path before attempting to save it.")
+    }
+
+    //TODO: Validate that a description was provided for the path
+    if(pathDescription.value.length === 0){
+      errors.push("Please provide a description for your path before attempting to save it.")
+    }
+
+    //TODO: Validate that an image was provided for the path
+    // if(pathImage.files.length === 0){
+    //   errors.push("Please provide at least one badge image for this path before attempting to save it.")
+    // }
+
+    //TODO: Validate that there's at least one challenge in the path
+    if(challenges.length === 0){
+      errors.push("Please add at least one challenge to the path before attempting to save it.")
+    }
+
+    //TODO: Validate that all challenges that are part of the path have at least one exercise in
+    //their list of exercises.
+    if(challenges.some(challenge=>challenge.exercises.length === 0)){
+      errors.push("Please make sure that all your challenges have at least one exercise before attempting to save the path.")
+    }
+
+    if(errors.length === 0){ //If all checks go through
+      return true //Continue as usual
+    }else{ //Otherwise
+      let msg = "" //Start with an empty err message
+      errors.forEach(err=>{ //Iterate through all the errors
+        msg += "\n" + err //And put one in each line
+      })
+      //And show it in an alert box.
+      alert(msg)
+      return false
+    }
+  }
+
+  /*
+   * Generates an array of blobs from an array of files
+   */
+  const getBlobsFromFiles = async (files) => {
+    console.log(files)
+    //Create an empty list of blob promises
+    let blobPromises = []
+    //Iterate through all the files and create a promise
+    files.forEach(file=>{
+      if(file === null) return //Ignore null
+
+      //Create a promise for each file
+      const promise = new Promise((resolve,reject)=>{
+        try {
+          //Create a reader for reading the file as a blob
+          const reader = new FileReader()
+
+          //When the file loads
+          reader.onload = (item) => {
+            //Resolve with the blob
+            resolve(item.currentTarget.result)
+          }
+
+          //Try to read the file as a blob
+          reader.readAsArrayBuffer(file)
+        }catch(err){ //If there's an error
+          //Reject the promise with the error
+          reject(err)
+        }
+      })
+
+
+      blobPromises.push(promise)
+    })
+
+    //Wait for all promises to fulfill, and return the generated list of blobs
+    const blobs = await Promise.all(blobPromises)
+
+    //Return the blobs
+    return blobs
+  }
+
+  /*
+   * Sends request to controller to save the path and all its
+   * associated challenges and exercises to the database.
+   */
+  const savePath = async () => {
+    const pathModel = {
+      title : pathTitle.value,
+      description : pathDescription.value,
+      challenges : challenges,
+      image : await getBlobsFromFiles([path_image_file]),
+    }
+
+
+    console.log(pathModel)
+    // console.log(await getBlobsFromFiles([path_image_file]))
+
+    if(validatePathInput(pathModel)){
+      try{
+        const formData = new FormData()
+
+        formData.append("title",pathTitle.value)
+        formData.append("description",pathDescription.value)
+        formData.append("badge",path_image_file)
+        formData.append("challenges",JSON.stringify(challenges))
+        formData.append("pathId",pathId.value)
+
+        const token = document.getElementsByName("_csrf")[0].getAttribute("content")
+
+        //Generate request to create the new path in the database
+        const request = await fetch('http://localhost:8080/admin/api/v1/updatePath',{
+          method : "PATCH",
+          // headers : {
+          //     "Content-Type" : "application/json"
+          // },
+          // body : JSON.stringify(pathModel)
+          credentials : "include",
+          headers : {
+            "X-CSRF-TOKEN" : token
+          },
+          body: formData
+        })
+
+        //Get the response from the server
+        const response = await request.json()
+
+        //Log it
+        console.log(response)
+
+        //Redirect to the admin index page
+        window.location.href = "/admin/index"
+      }catch(err){
+        console.error(err)
+      }
+    }
+  }
+
+  /*
+ * Converts file into a base64 data url string for the image preview element.
+ */
+  const getImagePreview = file => {
+    return new Promise((resolve,reject)=>{
+      try {
+        const reader = new FileReader();
+        reader.onload = e => {
+          resolve(reader.result)
+        }
+        reader.readAsDataURL(file)
+      }catch(err){
+        reject(err)
+      }
+    })
+  }
+
+  //========= Event Handlers ===============
+
+  //Add Path Button Clicked
+  addChallengeButton.onclick = () => {
+    //Set the mode to adding
+    mode = 'add'
+
+    //Set selected_challenge to null
+    selected_challenge = null
+
+    //Set the title of the challenge dialog
+    challengeModalTitle.innerText = "Add Challenge"
+
+    //Set the text of the save challenge button to save
+    saveChallengeButton.innerText = "Save Challenge"
+
+    //Clear the challenge modal
+    clearChallengeModal()
+
+    //Show the challenge modal
+    addChallengeModal.show()
+  }
+
+  //Add Exercise Button Clicked
+  addExerciseButton.onclick = () => addExerciseModal.show()
+
+  //Close Exercise Dialog Button Clicked
+  closeExerciseDialogButton.onclick = () => addExerciseModal.hide()
+
+  //Close Challenge Modal Button Clicked
+  closeChallengeModal.onclick = () => addChallengeModal.hide()
+
+  //Muscle Group Select Value Changed
+  muscleSelect.onchange = filterExerciseSearch
+
+  //Exercise Modal Search Term Changed
+  searchExercise.onchange = filterExerciseSearch
+
+  //Save path button clicked
+  saveChallengeButton.onclick = saveChallenge
+
+  //Challenge Points Slider Changed Value
+  challengePoints.onchange = e => challengePointsDisplay.innerText = e.target.value
+
+  //Save Path Button Clicked
+  savePathButton.onclick = savePath
+
+  //Path Image File Change
+  pathImage.onchange = async e => {
+    const file = e.target.files[0]
+    console.log(file)
+
+    const imageDataUrl = await getImagePreview(e.target.files[0])
+    console.log(imageDataUrl)
+
+    path_image_file = e.target.files[0]
+    imagePreview.setAttribute("src",imageDataUrl)
+  }
+
+
+  //======= Initialize the page for editing mode ========================================
+  //Get the list of challenges from spring boot hibernate
+  const currentChallenges = JSON.parse(listOfChallenges.getAttribute('challenges'));
+
+  //If the list has at least one item, set the list of challenges
+  if(Array.isArray(currentChallenges) && currentChallenges.length > 0) {
+    console.log("Found existing list of challenges.")
+    console.log("Attempting to render them now.")
+    for(let challenge of currentChallenges){
+      challenge.exercises.forEach(exercise=>{
+        exercise.challengeid = challenge.id
+      })
+      challenges.push(challenge)
+    }
+    console.log("Rendering list of challenges")
+    renderListOfChallenges();
+  }
+
+</script>
 </body>
 </html>

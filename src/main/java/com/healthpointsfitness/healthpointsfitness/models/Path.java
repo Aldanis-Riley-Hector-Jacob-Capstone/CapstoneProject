@@ -31,7 +31,7 @@ public class Path {
 
     //Relationships
     //Path <> User(Admin)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private User admin;
 
 

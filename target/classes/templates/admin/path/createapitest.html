@@ -3,7 +3,7 @@
       xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Create Path With API Test</title>
+    <title>Create Path</title>
     <th:block th:replace="~{/fragments/header.html :: header}"/>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -11,9 +11,8 @@
 <body>
     <th:block th:replace="~{/fragments/navbar.html :: navbar}"/>
     <div class="container">
-<!--        <input type="text" placeholder="Path Title" id="title">-->
         <div class="navbar bg-body-tertiary">
-            <a href="/">
+            <a href="/admin/index">
                 <button class="btn btn-light ms-3">
                     <i class="bi bi-arrow-left-square"></i>
                 </button>
@@ -56,7 +55,7 @@
 
             <!--Button to Save Path-->
             <div class="navbar bg-body-tertiary mt-3">
-                <a href="/" class="btn btn-primary ms-auto me-2">Cancel</a>
+                <a href="/admin/index" class="btn btn-primary ms-auto me-2">Cancel</a>
                 <a id="savePathButton" class="btn btn-primary me-auto">Save Path</a>
             </div>
 
@@ -423,7 +422,7 @@
             }
 
             //TODO: Make sure description is not empty
-            if(challenge.instructions.length === 0){
+            if(challenge.description.length === 0){
                 errors.push("Please include a description for your challenge")
             }
 
@@ -565,7 +564,7 @@
             //Create a model of the challenge
             const challenge = {
                 title: challengeTitle.value,
-                instructions: challengeDescription.value,
+                description: challengeDescription.value,
                 exercises : selected_exercises,
                 points : challengePoints.value
             }
@@ -732,6 +731,9 @@
 
                     //Log it
                     console.log(response)
+
+                    //Redirect to the admin index page
+                    window.location.href = "/admin/index"
                 }catch(err){
                     console.error(err)
                 }

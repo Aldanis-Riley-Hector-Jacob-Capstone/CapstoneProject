@@ -1,21 +1,28 @@
 package com.healthpointsfitness.healthpointsfitness.controllers;
 
-import com.healthpointsfitness.healthpointsfitness.models.Path;
-import com.healthpointsfitness.healthpointsfitness.models.User;
-import com.healthpointsfitness.healthpointsfitness.models.UserWithRoles;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.healthpointsfitness.healthpointsfitness.models.*;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.healthpointsfitness.healthpointsfitness.services.PathsService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -25,10 +32,12 @@ public class PathController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PathsService pathService;
+
     @GetMapping("/admin/path/create")
     private String createPathGetRequest(Model model){
         model.addAttribute("newPath",new Path());
-        System.out.println("Visiting path create now.");
         return "/admin/path/create";
     }
 
@@ -79,5 +88,71 @@ public class PathController {
 
         //When completed, simply redirect the user the admins index page
         return "redirect:/";
+    }
+
+    /*
+     * GET Mapping for edit/update path
+     */
+    @GetMapping("/admin/path/edit/{id}")
+    public String editPathGet(@PathVariable("id") Long pathId, Model model){
+        try {
+            //Grab the path using the path service
+            Path path = pathService.findPathById(pathId);
+
+            //Encode the image blob into a base64 string
+            byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
+
+            //Get the base 64 UTF-8 encoded version
+            String base64Encoded = new String(encodeBase64, "UTF-8");
+
+            //Set the data url in the path object
+            path.setImageDataUrl(base64Encoded);
+
+            //Add the path to the model so the frontend can display it
+            model.addAttribute("path", path);
+
+            //Encode the list of challenges into a json array
+            List<Challenge> pathChallenges = path.getChallenges();
+
+            //Create a GSON builder
+//            GsonBuilder builder = new GsonBuilder();
+
+            //Turn the challenge list into a json string
+            pathChallenges.forEach(challenge->{ //Ninja-ish
+                challenge.setPath(null); //Clear the path to allow json conversion without circular references
+
+                //Iterate through the challenge exercises and clear their challenge field
+                challenge.getExercises().forEach(exercise -> {
+                    exercise.setChallenge(null);
+                });
+            });
+
+            String challengesArray = new ObjectMapper().writeValueAsString(pathChallenges);
+
+            //Attach the challenges array json to the model
+            model.addAttribute("challenges",challengesArray);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        //Return the model and view
+        return "/admin/path/edit";
+    }
+
+    /*
+     * Handle DELETE Mapping for paths
+     */
+    @GetMapping("/admin/path/delete/{id}")
+    public String deletePath(@PathVariable("id") Long pathId){
+        try { //This might cause some whales
+            //Grab the path and delete it using the path service
+            pathService.deletePathById(pathId);
+        }catch(Exception e){ //Properly hook them in the jaw
+            e.printStackTrace();
+        }
+
+        return "redirect:/admin/index";
     }
 }

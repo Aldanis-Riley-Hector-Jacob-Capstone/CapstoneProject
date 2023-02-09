@@ -89,7 +89,10 @@
   <div class="column" style="border-radius: 10px;">
     <div class="row d-flex justify-content-center" th:text="${param.error != null ? 'Oops. There was an error logging in.' : ''}"/>
     <div class="row d-flex justify-content-center" th:text="${param.logout != null ? 'You have logged out.' : ''}"/>
-    <div class="row d-flex justify-content-center" sec:authorize="isAuthenticated()" th:text="${param.logout == null && param.error == null ? 'You are logged in.' : ''}" />
+    <div class="row d-flex justify-content-center" sec:authorize="isAuthenticated()" th:text="${param.logout == null && param.error == null ? 'You are logged in.' : ''}">
+    </div>
+    <a href="/admin/index" sec:authorize="isAuthenticated()"><button>Go To Profile</button></a>
+
     <div class="row hexBg my-3">
       <div class="col-4 m-0 shadow d-flex justify-content-center align-items-center">
         <form class="d-flex justify-content-center align-items-center m-0 p-4 pe-0 rounded" sec:authorize="!isAuthenticated()" th:action="@{/login}" th:method="post">

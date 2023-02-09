@@ -32,4 +32,21 @@ public class PathsService {
     public List<Path> getAllPaths() {
         return pathRepository.findAll();
     }
+
+    public Path findPathById(Long id){
+        try { //This may fail
+            return pathRepository.findById(id).get();
+        }catch (Exception e){ //Catch any fishy
+            e.printStackTrace(); //Print it out
+        }
+        return null;
+    }
+
+    public void deletePathById(Long id){
+        try { //Attempt to delete the path by it's id
+            pathRepository.deleteById(id);
+        } catch(Exception e){ //Catch any whales
+            e.printStackTrace(); //Send them fishing
+        }
+    }
 }

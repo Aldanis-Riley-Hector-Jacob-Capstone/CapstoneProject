@@ -6,12 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-public class Challenge {
+public class Challenge implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,8 +22,8 @@ public class Challenge {
     @Column(name="title", nullable = false, length = 255)
     private String title;
 
-    @Column(name="instructions", nullable = false, length = 255)
-    private String instructions;
+    @Column(name="description", nullable = false, length = 255)
+    private String description;
 
     @Column(name="points", nullable = false)
     private Integer points;
@@ -29,7 +32,25 @@ public class Challenge {
     private String icon;
 
     //Relationships
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "path_id")
     private Path path;
+
+    @OneToMany(mappedBy = "challenge",cascade = {CascadeType.MERGE, CascadeType.ALL})
+    List<Exercise> exercises;
+
+    //GSON Required function for serialization
+    public String toString() {
+        return "{\"title\":\""
+                + title
+                + "\"id\":\""
+                + id
+                + "\",\"instructions\":\""
+                + description
+                + "\",\"points\":\""
+                + points
+                + "\",\"icon\":\""
+                + icon
+                + "\"}";
+    }
 }

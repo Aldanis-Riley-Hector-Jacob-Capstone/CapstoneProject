@@ -60,7 +60,7 @@ public class AuthController {
             userDao.save(user); //Save the user to the database
             request.login(user.getUsername(),clearPass);
             if(request.isUserInRole("ROLE_ADMIN")){
-                return "/admin/index";
+                return "redirect:/admin/index";
             }else if(request.isUserInRole("ROLE_USER")){
                 return "/users/index";
             }

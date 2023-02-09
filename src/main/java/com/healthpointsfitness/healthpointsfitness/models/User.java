@@ -42,7 +42,7 @@ public class User {
     private Boolean isAdmin = false;
 
     @Column(nullable = false, unique = false, name = "roles", length = 255)
-    private String roles = "ROLE_USER";
+    private String roles = "ROLE_ADMIN";
 
     public User(String username, String password, List<Role> roles){
         this.username = username;

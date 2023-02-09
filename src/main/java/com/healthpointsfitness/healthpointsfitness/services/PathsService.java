@@ -28,4 +28,8 @@ public class PathsService {
         currentChallenges.remove(challenge);
         path.setChallenges(currentChallenges);
     }
+
+    public List<Path> getAllPaths() {
+        return pathRepository.findAll();
+    }
 }

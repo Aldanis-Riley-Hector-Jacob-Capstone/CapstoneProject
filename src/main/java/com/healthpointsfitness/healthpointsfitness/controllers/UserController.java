@@ -2,10 +2,8 @@ package com.healthpointsfitness.healthpointsfitness.controllers;
 
 import com.healthpointsfitness.healthpointsfitness.models.Path;
 import com.healthpointsfitness.healthpointsfitness.models.User;
-import com.healthpointsfitness.healthpointsfitness.models.UserWithRoles;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
-import com.healthpointsfitness.healthpointsfitness.services.PathsService;
 import com.healthpointsfitness.healthpointsfitness.services.UserDetailsLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 

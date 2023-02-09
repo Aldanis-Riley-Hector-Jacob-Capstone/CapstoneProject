@@ -141,8 +141,8 @@
     <!-- Paths Examples -->
     <h3 class="text-center">Paths</h3>
     <hr class="p-1 rounded" style="color: black;">
-    <div class="row d-flex justify-content-evenly align-items-center mb-5">
-        <a th:each="path : ${paths}" href="#" class="d-flex col-2 p-0 shadowAnimation">
+    <div class="row d-flex justify-content-evenly align-items-center mb-5 redirect">
+        <a th:each="path : ${paths}" href="#/login" class="d-flex col-2 p-0 shadowAnimation">
             <div class="text-center border border-primary border-1 card p-0">
                 <div class="card-img-top">
                     <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" class="rounded" style="width: 100%">
@@ -152,46 +152,6 @@
                 </div>
             </div>
         </a>
-<!--        <a href="#" class="m-1 d-flex col-2 p-0 shadowAnimation">-->
-<!--            <div class="text-center border border-primary border-1 card p-0">-->
-<!--                <div class="card-img-top">-->
-<!--                    <img src="img/pear.webp" class="rounded" style="width: 100%">-->
-<!--                </div>-->
-<!--                <div class="card-title">-->
-<!--                    Path #2-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </a>-->
-<!--        <a href="#" class="m-1 d-flex col-2 p-0 shadowAnimation">-->
-<!--            <div class="text-center border border-primary border-1 card p-0">-->
-<!--                <div class="card-img-top">-->
-<!--                    <img src="img/pear.webp" class="rounded" style="width: 100%">-->
-<!--                </div>-->
-<!--                <div class="card-title">-->
-<!--                    Path #3-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </a>-->
-<!--        <a href="#" class="m-1 d-flex col-2 p-0 shadowAnimation">-->
-<!--            <div class="text-center border border-primary border-1 card p-0">-->
-<!--                <div class="card-img-top">-->
-<!--                    <img src="img/pear.webp" class="rounded" style="width: 100%">-->
-<!--                </div>-->
-<!--                <div class="card-title">-->
-<!--                    Path #4-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </a>-->
-<!--        <a href="#" class="m-1 d-flex col-2 p-0 shadowAnimation">-->
-<!--            <div class="text-center border border-primary border-1 card p-0">-->
-<!--                <div class="card-img-top">-->
-<!--                    <img src="img/pear.webp" class="rounded" style="width: 100%">-->
-<!--                </div>-->
-<!--                <div class="card-title">-->
-<!--                    Path #5-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </a>-->
     </div>
 
 
@@ -334,7 +294,12 @@
 
 <script>
     // Redirect to Login
-    document.getElementById("loginBtn").onclick = (e)=> {
+    document.getElementById("loginBtn").onclick = (e) => {
+        e.preventDefault()
+        window.location.href="/login"
+    }
+
+    document.querySelector(".redirect").onclick = (e) => {
         e.preventDefault()
         window.location.href="/login"
     }

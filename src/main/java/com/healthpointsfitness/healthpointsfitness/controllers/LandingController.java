@@ -17,7 +17,6 @@ public class LandingController {
     @Autowired
     PathsService pathsService;
 
-
     @GetMapping("/landing")
     public String welcome(Model model) {
         List<Path> paths = pathsService.getAllPaths();
@@ -35,6 +34,4 @@ public class LandingController {
         model.addAttribute("paths", paths);
         return "landing";
     }
-
-
 }

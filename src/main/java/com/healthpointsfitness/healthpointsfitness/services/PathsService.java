@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PathsService {
@@ -35,9 +36,12 @@ public class PathsService {
         return pathRepository.findAll();
     }
 
-    public Path getPathById(Long id){
+    public Path findPathById(Long id){
         try {
-            return pathRepository.findById(id).get();
+            Optional<Path> p = pathRepository.findById(id);
+            if (p.isPresent()) {
+                return p.get();
+            }
         } catch (Exception e){
             e.printStackTrace();
         }

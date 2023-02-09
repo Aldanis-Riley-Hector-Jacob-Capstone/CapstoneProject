@@ -57,11 +57,17 @@ public class AuthController {
         try { //Try to
             String clearPass = user.getPassword();
             user.setPassword(passwordEncoder.encode(user.getPassword())); //Encode the password
+            user.setTotalPoints(0L);
             userDao.save(user); //Save the user to the database
             request.login(user.getUsername(),clearPass);
             if(request.isUserInRole("ROLE_ADMIN")){
+<<<<<<< HEAD
                 return "redirect:/admin/index";
             }else if(request.isUserInRole("ROLE_USER")){
+=======
+                return "/admin/index";
+            }else if(request.isUserInRole("ROLE_CLIENT")){
+>>>>>>> origin/JakeWorking
                 return "/users/index";
             }
         }catch(Exception e) { //Catch any exceptions

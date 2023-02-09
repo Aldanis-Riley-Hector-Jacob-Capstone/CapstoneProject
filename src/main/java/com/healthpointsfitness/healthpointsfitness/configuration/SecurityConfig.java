@@ -58,7 +58,7 @@ class SecurityConfig {
                 .requestMatchers(
                         "/admin/**",
                         "/admin/api/v1/**",
-                        "/admin/api/v1//findExerciseByMuscle"
+                        "/admin/api/v1/findExerciseByMuscle"
                 ).hasAuthority("ROLE_ADMIN")
 
                 //Block all other requests

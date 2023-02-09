@@ -2,10 +2,12 @@ package com.healthpointsfitness.healthpointsfitness.services;
 
 import com.healthpointsfitness.healthpointsfitness.models.Challenge;
 import com.healthpointsfitness.healthpointsfitness.models.Path;
+import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,11 +35,11 @@ public class PathsService {
         return pathRepository.findAll();
     }
 
-    public Path findPathById(Long id){
-        try { //This may fail
+    public Path getPathById(Long id){
+        try {
             return pathRepository.findById(id).get();
-        }catch (Exception e){ //Catch any fishy
-            e.printStackTrace(); //Print it out
+        } catch (Exception e){
+            e.printStackTrace();
         }
         return null;
     }

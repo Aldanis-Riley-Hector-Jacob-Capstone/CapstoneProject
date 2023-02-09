@@ -25,4 +25,13 @@ public class UserDetailsLoader implements UserDetailsService {
 
         return new UserWithRoles(user);
     }
+
+
+    public Long getUserPoints(int userid) {
+        User user = users.findUserById(userid);
+        if (user == null) {
+            throw new UsernameNotFoundException("A user could not be found matching the id of  " + userid);
+        }
+        return user.getTotalPoints();
+    }
 }

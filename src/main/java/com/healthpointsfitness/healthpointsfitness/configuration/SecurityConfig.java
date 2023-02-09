@@ -48,7 +48,8 @@ class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/users/**",
-                        "/users"
+                        "/users",
+                        "/profile"
                 ).hasAuthority("ROLE_CLIENT")
 
                 //Lock down admin routes

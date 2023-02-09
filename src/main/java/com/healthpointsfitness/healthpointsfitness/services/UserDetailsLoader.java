@@ -1,16 +1,32 @@
 package com.healthpointsfitness.healthpointsfitness.services;
 
+import com.healthpointsfitness.healthpointsfitness.models.Path;
 import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.models.UserWithRoles;
+import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
+import java.util.List;
 
 @Service
 public class UserDetailsLoader implements UserDetailsService {
     private final UserRepository users;
+
+    @Autowired
+    private UserRepository userDao;
+    @Autowired
+    private PathRepository pathRepository;
+
 
     public UserDetailsLoader(UserRepository users) {
         this.users = users;
@@ -33,5 +49,33 @@ public class UserDetailsLoader implements UserDetailsService {
             throw new UsernameNotFoundException("A user could not be found matching the id of  " + userid);
         }
         return user.getTotalPoints();
+    }
+
+    public Model getUserData(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User curUser = userDao.findUserByUsername(auth.getName());
+
+        List<Path> paths = pathRepository.findAll();
+
+//        Dynamic Path icons / badges
+        for (Path path : paths){
+            byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
+            String base64Encoded;
+            try {
+                base64Encoded = new String(encodeBase64, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+            path.setImageDataUrl(base64Encoded);
+        }
+
+//        Gets total points
+        Long pointsTotal = curUser.getTotalPoints();
+
+
+        model.addAttribute("paths", paths);
+        model.addAttribute("points", pointsTotal);
+
+        return model;
     }
 }

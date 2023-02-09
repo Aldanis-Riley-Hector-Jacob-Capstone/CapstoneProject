@@ -5,13 +5,13 @@ import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.models.UserWithRoles;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
+import com.healthpointsfitness.healthpointsfitness.services.UserDetailsLoader;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,14 +32,14 @@ import java.util.stream.IntStream;
 public class AuthController {
     @Autowired
     private UserRepository userDao;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private AuthenticationManager authManager;
     @Autowired
     private PathRepository pathRepository;
+    @Autowired
+    private UserDetailsLoader userDetailsLoader;
 
 
     @GetMapping("/login")
@@ -64,29 +64,7 @@ public class AuthController {
             if(request.isUserInRole("ROLE_ADMIN")){
                 return "redirect:/admin/index";
             }else if(request.isUserInRole("ROLE_CLIENT")){
-                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                User curUser = userDao.findUserByUsername(auth.getName());
-
-                List<Path> paths = pathRepository.findAll();
-
-//        Dynamic Path icons / badges
-                for (Path path : paths){
-                    byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
-                    String base64Encoded;
-                    try {
-                        base64Encoded = new String(encodeBase64, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        throw new RuntimeException(e);
-                    }
-                    path.setImageDataUrl(base64Encoded);
-                }
-
-//        Gets total points
-                Long pointsTotal = curUser.getTotalPoints();
-
-
-                model.addAttribute("paths", paths);
-                model.addAttribute("points", pointsTotal);
+                model = userDetailsLoader.getUserData(model);
                 return "/users/index";
             }
         }catch(Exception e) { //Catch any exceptions
@@ -140,29 +118,7 @@ public class AuthController {
             if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
                return "redirect:/admin/index";
             } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
-                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                User curUser = userDao.findUserByUsername(auth.getName());
-
-                List<Path> paths = pathRepository.findAll();
-
-//        Dynamic Path icons / badges
-                for (Path path : paths){
-                    byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
-                    String base64Encoded;
-                    try {
-                        base64Encoded = new String(encodeBase64, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        throw new RuntimeException(e);
-                    }
-                    path.setImageDataUrl(base64Encoded);
-                }
-
-//        Gets total points
-                Long pointsTotal = curUser.getTotalPoints();
-
-
-                model.addAttribute("paths", paths);
-                model.addAttribute("points", pointsTotal);
+                model = userDetailsLoader.getUserData(model);
                 return "/users/index";
             } else {
                 return "/login";

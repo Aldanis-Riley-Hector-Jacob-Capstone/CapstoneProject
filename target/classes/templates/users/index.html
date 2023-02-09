@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    number of points (TOTAL)
+    <span th:text="'Total Points: ' + ${points}" />
 
     paths subscribed to (DYNAMIC)
 
@@ -50,8 +50,7 @@
         <div th:each="path : ${paths}" id="achv1" class="col-2 achv_badge_holder">
             <div class="achv_badge_3">
                 <div class="achv_badge_2">
-<!--                        <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="128px" height="128px" class="achv_badge">-->
-                    <span th:text="${path.getImageDataUrl()}"></span>
+                        <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="128px" height="128px" class="achv_badge">
                 </div>
             </div>
         </div>

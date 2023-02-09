@@ -2,6 +2,7 @@ package com.healthpointsfitness.healthpointsfitness.controllers;
 
 import com.healthpointsfitness.healthpointsfitness.models.Path;
 import com.healthpointsfitness.healthpointsfitness.models.User;
+import com.healthpointsfitness.healthpointsfitness.models.UserWithRoles;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
 import com.healthpointsfitness.healthpointsfitness.services.PathsService;
@@ -39,7 +40,9 @@ public class UserController {
 
     @GetMapping("/profile")
     public String UserController_UniqueName_01(Model model){
-        User activeUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User curUser = userRepo.findUserByUsername(auth.getName());
+
         List<Path> paths = pathRepo.findAll();
 
 //        Dynamic Path icons / badges
@@ -55,8 +58,7 @@ public class UserController {
         }
 
 //        Gets total points
-        pointsTotal = users.getUserPoints(1);
-
+        pointsTotal = curUser.getTotalPoints();
 
 
         model.addAttribute("paths", paths);

@@ -57,11 +57,12 @@ public class AuthController {
         try { //Try to
             String clearPass = user.getPassword();
             user.setPassword(passwordEncoder.encode(user.getPassword())); //Encode the password
+            user.setTotalPoints(0L);
             userDao.save(user); //Save the user to the database
             request.login(user.getUsername(),clearPass);
             if(request.isUserInRole("ROLE_ADMIN")){
                 return "redirect:/admin/index";
-            }else if(request.isUserInRole("ROLE_USER")){
+            }else if(request.isUserInRole("ROLE_CLIENT")){
                 return "/users/index";
             }
         }catch(Exception e) { //Catch any exceptions
@@ -114,7 +115,7 @@ public class AuthController {
             principal.getAuthorities().forEach(auth->System.out.println(auth.getAuthority()));
             if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
                return "redirect:/admin/index";
-            } else if (roles.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
+            } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
                 return "/users/index";
             } else {
                 return "/login";

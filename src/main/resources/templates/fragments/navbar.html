@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
-<!--      xmlns:th="www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">-->
+      xmlns:th="www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
   <th:block th:fragment="navbar">
     <nav class="navbar bg-body-tertiary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
           <img height="80px" src="/img/logo.gif">
         </a>
+        <container> |
+<!--          TODO: Make 'Create Paths' only appear for admins (JJ) -->
+          <a th:href="@{/admin/index}">Create Paths</a> |
+          <a th:href="@{/profile}">Profile</a> |
+          <a th:href="@{/fsearch}">Friend Search</a> |
+        </container>
+<!--        TODO: Make the logout button show only when user is logged in/ else show log in (JJ)-->
         <div sec:authorize="isAuthenticated()">
           <form th:action="@{/logout}" method="post" class="logout-button-form">
             <button class="btn btn-primary" type="submit">LOGOUT</button>

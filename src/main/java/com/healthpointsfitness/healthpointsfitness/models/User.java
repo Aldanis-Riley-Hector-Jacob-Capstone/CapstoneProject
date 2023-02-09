@@ -44,6 +44,9 @@ public class User {
     @Column(nullable = false, unique = false, name = "roles", length = 255)
     private String roles = "ROLE_USER";
 
+    @Column(nullable = false, unique = false, name = "totalPoints", length = 255)
+    private Long totalPoints;
+
     public User(String username, String password, List<Role> roles){
         this.username = username;
         this.password = password;
@@ -52,6 +55,7 @@ public class User {
             rolesStrList.add(role.getRoleName());
         });
         this.roles = StringUtils.join(rolesStrList,',');
+        this.totalPoints = 0L;
     }
 
     public User(User copy) {
@@ -60,6 +64,7 @@ public class User {
         username = copy.username;
         password = copy.password;
         roles = copy.roles;
+        totalPoints = copy.totalPoints;
     }
 
 

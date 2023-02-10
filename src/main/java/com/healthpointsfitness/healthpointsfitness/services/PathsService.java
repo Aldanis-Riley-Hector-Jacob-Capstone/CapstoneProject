@@ -67,8 +67,6 @@ public class PathsService {
         return points.intValue();
     }
 
-
-//    TODO: Setup to get and return the given path's image
     public String getPathImage(Path myPath){
         byte[] encodeBase64 = Base64.getEncoder().encode(myPath.getImageBlob());
         String base64Encoded;
@@ -78,7 +76,6 @@ public class PathsService {
                 UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-//        myPath.setImageDataUrl(base64Encoded);
         return base64Encoded;
     }
 

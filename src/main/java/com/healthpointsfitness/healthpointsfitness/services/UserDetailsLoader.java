@@ -25,8 +25,6 @@ public class UserDetailsLoader implements UserDetailsService {
     @Autowired
     private UserRepository userDao;
     @Autowired
-    private PathRepository pathRepository;
-    @Autowired
     PathsService pathServ;
 
 

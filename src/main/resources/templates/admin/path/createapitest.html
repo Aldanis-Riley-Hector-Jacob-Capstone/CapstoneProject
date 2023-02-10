@@ -61,7 +61,7 @@
 
             <!-- Challenge Modal -->
             <div id="challenge_modal" class="modal">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="challengeModalTitle">Add Challenge</h5>
@@ -105,7 +105,7 @@
 
             <!--Add Exercise Modal -->
             <div id="add_exercise_modal" class="modal">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Add Exercise</h5>
@@ -146,9 +146,31 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Exercise Description Modal -->
+            <div id="instructionModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 id="exerciseInstructionTitle" class="modal-title fs-5">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div id="modal-body" class="modal-body">
+                            <!-- Filled by JS -->
+                        </div>
+                        <div class="modal-footer">
+                            <button id="exerciseInstructionClose" type="button" class="btn btn-secondary">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
     <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
+
+
     <script defer>
         //========= Element References ===============
         const pathTitle = document.getElementById('title')
@@ -177,6 +199,10 @@
         })
 
         const addExerciseModal = new bootstrap.Modal('#add_exercise_modal',{
+            keyboard : false
+        })
+
+        const instructionModal = new bootstrap.Modal('#instructionModal',{
             keyboard : false
         })
 
@@ -276,14 +302,10 @@
             const item = document.createElement('div')
             item.classList.add("exercise_list_item")
 
-            //When the list item is clicked, show an alert with the instructions for this exercise.
-            item.onclick = ()=> {
-                alert(exercise["instructions"])
-            }
 
             //Create add button to add this exercise to the list of selected exercises
             const add_button = document.createElement('button')
-            add_button.classList.add("btn","btn-light","ms-3")
+            add_button.classList.add("btn","btn-light","m-1")
             add_button.innerHTML += "<i class='bi bi-plus-square'></i>"
             // add_button.innerText = "Add Exercise"
 
@@ -324,7 +346,6 @@
                 //And add the item to the list
                 listOfExercises.appendChild(currentItem)
             })
-
             //Wallah!
         }
 
@@ -335,17 +356,26 @@
             //Create a container to hold the exercise list item
             const item = document.createElement('div')
 
-            // item.classList.add("accordion-item")
-
-            item.onclick = () => {
-                alert(exercise["instructions"])
-            }
 
             //Create a button to remove the exercise from the list
             const del = document.createElement("button")
             del.classList.add("btn","btn-danger","ms-3")
             del.innerHTML = "<i class='bi bi-trash3'></i>"
             // del.innerText = "Remove Exercise"
+
+            // Create button to popup exercise instruction
+            const instruction = document.createElement("i")
+            instruction.onclick = e => {
+                const modalTitle = document.getElementById("exerciseInstructionTitle")
+                modalTitle.innerText = exercise["name"]
+
+                const descriptionModal = document.getElementById("modal-body")
+                descriptionModal.innerText = exercise["instructions"]
+                instructionModal.show()
+            }
+            const exerciseInstructionClose = document.getElementById('exerciseInstructionClose')
+            exerciseInstructionClose.onclick = e => instructionModal.hide()
+            instruction.classList.add("bi", "bi-info-circle", "btn", "btn-warning", "ms-3", "my-1")
 
             //Handle the click event on the delete button
             del.onclick = (e) => {
@@ -361,6 +391,9 @@
 
             //Add the title to the container
             item.appendChild(title)
+
+            // Add instruction button to the container
+            item.appendChild(instruction)
 
             //Add the delete button to the container
             item.appendChild(del)

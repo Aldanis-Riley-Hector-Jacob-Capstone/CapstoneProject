@@ -66,4 +66,8 @@ footer{
     font-weight: bold;
 }
 
+* {
+    border: 1px red dotted;
+}
+
 /* END PATH PAGE (users/viewPath/{path}) */

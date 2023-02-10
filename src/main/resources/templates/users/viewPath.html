@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/html">
 <head>
-  <meta charset="UTF-8">
-  <title>View Path</title>
-  <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
+    <meta charset="UTF-8">
+    <title>View Path</title>
+    <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
 </head>
 <body>
 <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
@@ -14,59 +14,38 @@
             <div class="col-4">
                 <h1 th:text="${path.getTitle()}"></h1>
             </div>
-            <hr class="thicker_hr" />
+            <hr class="thicker_hr"/>
         </div>
         <div class="row">
             <div class="col-3">
-<!--                <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="256px" height="256px" class="path_image">-->
-                <img src="/img/top_of_dog_face.jpeg" alt="Achievement Badge" width="256px" height="256px" class="path_image">
+                <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="256px"
+                     height="256px" class="path_image">
             </div>
             <div class="col-9">
-                Description of path
+                <div th:text="${path.getDescription()}"/>
             </div>
         </div>
-            <div class="row">
-                <div class="col-1">
-                    Points=000
-                </div>
-                <div class="col-2">
-<!--                    BLANK AREA FOR PRETTY SPACING -->
-                </div>
-                <div class="col-2">
-                <div class="challengeTitle">Challenge #1</div>
-                <ul>
-                    <li>Exercise #1</li>
-                    <li>Exercise #2</li>
-                    <li>Exercise #3</li>
-                </ul>
-                </div>
-                <div class="col-2">
-                <div class="challengeTitle">Challenge #2</div>
-                <ul>
-                    <li>Exercise #4</li>
-                    <li>Exercise #5</li>
-                    <li>Exercise #6</li>
-                </ul>
-                </div>
-                <div class="col-2">
-                <div class="challengeTitle">Challenge #3</div>
-                <ul>
-                    <li>Exercise #7</li>
-                    <li>Exercise #8</li>
-                    <li>Exercise #9</li>
-                </ul>
-                </div>
-                <div class="col-2">
-                <div class="challengeTitle">Challenge #4</div>
-                <ul>
-                    <li>Exercise #10</li>
-                    <li>Exercise #11</li>
-                    <li>Exercise #12</li>
-                </ul>
+        <div class="row">
+            <div class="col-3">
+                <div th:text="'Total Points for this path= ' + ${points}"/>
             </div>
+<!--            FOR EVERY CHALLENGE IN PATH -->
+            <div th:each="challenge : ${path.getChallenges()}">
+                <div class="col-3">
+                    <div class="challengeTitle" th:text="${challenge.getTitle()}" />
+<!--                    FOR EVERY EXERCISE UNDER CHALLENGES -->
+                    <div th:text="${challenge.getDescription()}" />
+                    <ul>
+                        <div th:each="exercise : ${challenge.getExercises()}">
+                            <li th:text="${exercise.getName()}" />
+                        </div>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 
 

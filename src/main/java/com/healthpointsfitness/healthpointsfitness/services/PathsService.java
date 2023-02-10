@@ -2,14 +2,13 @@ package com.healthpointsfitness.healthpointsfitness.services;
 
 import com.healthpointsfitness.healthpointsfitness.models.Challenge;
 import com.healthpointsfitness.healthpointsfitness.models.Path;
-import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class PathsService {
@@ -55,4 +54,18 @@ public class PathsService {
             e.printStackTrace(); //Send them fishing
         }
     }
+
+//    TODO: Make this go into path > into exercises > into challenges > for each incriment total points > return
+//     total points (JJ)
+    public int getTotalPathPoints(Path path){
+        AtomicInteger points = new AtomicInteger();
+        try {
+            path.getChallenges().forEach(challenge -> points.addAndGet(challenge.getPoints()));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return points.intValue();
+    }
+
+
 }

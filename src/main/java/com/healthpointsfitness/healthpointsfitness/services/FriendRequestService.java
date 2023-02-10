@@ -8,14 +8,19 @@ import java.util.List;
 
 @Service
 public class FriendRequestService {
+
     private final UserRepository userDao;
     public FriendRequestService(UserRepository userDao) {
         this.userDao =userDao;
     }
 
     public List<User> getAllUsers() {
-        for
-        return userDao.findAll();
+        try {
+            return userDao.findAll();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-
 }

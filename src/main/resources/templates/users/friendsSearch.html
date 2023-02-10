@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>Document</title>
+    <title>Friends</title>
     <style>
         .main-container {
             display: flex;
@@ -44,30 +43,34 @@
 <div class="main-container">
     <!-- List container -->
     <div class="list-container">
-        <!-- List of names searched to add -->
-        <p>Test</p>
-        <p>Test</p>
-        <p>Test</p>
-        <p>Test</p>
+        <div th:if="${searchedUser != null}">
+            <span th:text="${searchedUser.username}"></span>
+        </div>
+        <div th:if="${searchedUser == null}">
+            <div th:each="user : ${allUsers}">
+                <span th:text="${user.username}"></span>
+            </div>
+        </div>
     </div>
 
     <div class="form-container">
         <!-- Form filled with search parameters -->
         <!--Name and location search-->
+        <form action="/friend_list" method="post">
         <div>
             <form>
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="search" name="name" id="name">
+                    <input type="search" name="name" id="name" placeholder="Search by name">
                 </div>
-                <div class="form-group">
+               <!-- <div class="form-group">
                     <label for="location">Location</label>
                     <input type="search" name="location" id="location">
                 </div>
             </form>
         </div>
 
-        <!-- Completed paths range -->
+        &lt;!&ndash; Completed paths range &ndash;&gt;
         <div class="form-group">
             <label for="pointRange">Completed Paths</label>
             <script>
@@ -80,7 +83,7 @@
             <label id="currentValue">0</label>
         </div>
 
-        <!-- Checkboxes for points range -->
+        &lt;!&ndash; Checkboxes for points range &ndash;&gt;
         <fieldset>
             <legend>Select Points</legend>
             <div class="form-group">
@@ -97,7 +100,7 @@
             </div>
         </fieldset>
 
-        <!-- Radio buttons for mentor/not a mentor -->
+        &lt;!&ndash; Radio buttons for mentor/not a mentor &ndash;&gt;
         <fieldset>
             <legend>Is a Mentor?</legend>
             <div class="form-group">
@@ -108,9 +111,12 @@
                 <input type="radio" id="mentorNo" name="isMentor" value="no">
                 <label for="mentorNo">No</label>
             </div>
-        </fieldset>
+        </fieldset>-->
+        <button type="submit">Search for friends</button>
+        </form>
     </div>
-    <button type="submit">Search for friends</button>
+        </form>
+</div>
 </div>
     <!--User list-->
 <div class="user-list-container">
@@ -120,6 +126,8 @@
         <li class="user">User 2</li>
         <li class="user">User 3</li>
         <li class="user">User 1</li>
+        <li class="user">User 2</li>
+        <li class="user">User 3</li>
         <li class="user">User 2</li>
         <li class="user">User 3</li>
     </ul>

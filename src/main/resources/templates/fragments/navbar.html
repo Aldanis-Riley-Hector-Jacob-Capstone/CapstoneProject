@@ -9,7 +9,7 @@
         </a>
         <container> |
           <a th:href="@{/profile}">Profile</a> |
-          <a th:href="@{/fsearch}">Friend Search</a> |
+          <a th:href="@{/friends_list}">Friend Search</a> |
         </container>
         <div sec:authorize="isAuthenticated()">
           <form th:action="@{/logout}" method="post" class="logout-button-form">

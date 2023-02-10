@@ -22,16 +22,17 @@ public class UserController {
     private ArrayList<Path> pathList;
 
     @RequestMapping("profile")
-    public String UserController_UniqueName_01(){
+    public String UserController_UniqueName_01() {
         pathList = new ArrayList<Path>();
-        for (Path path : repo.getPaths()){
+        for (Path path : repo.getPaths()) {
             pathList.add(path);
         }
         return "/users/index";
     }
-
-    @RequestMapping("fsearch")
+}
+// old friends request controller
+    /*@RequestMapping("fsearch")
     public String UserController_UniqueName_02(){
         return "/users/friendsSearch";
     }
-}
+}*/

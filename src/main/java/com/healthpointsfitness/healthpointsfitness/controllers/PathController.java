@@ -2,13 +2,9 @@ package com.healthpointsfitness.healthpointsfitness.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.healthpointsfitness.healthpointsfitness.models.*;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.healthpointsfitness.healthpointsfitness.services.PathsService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,11 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -103,7 +97,7 @@ public class PathController {
             byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
 
             //Get the base 64 UTF-8 encoded version
-            String base64Encoded = new String(encodeBase64, "UTF-8");
+            String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
 
             //Set the data url in the path object
             path.setImageDataUrl(base64Encoded);
@@ -113,9 +107,6 @@ public class PathController {
 
             //Encode the list of challenges into a json array
             List<Challenge> pathChallenges = path.getChallenges();
-
-            //Create a GSON builder
-//            GsonBuilder builder = new GsonBuilder();
 
             //Turn the challenge list into a json string
             pathChallenges.forEach(challenge->{ //Ninja-ish
@@ -131,8 +122,6 @@ public class PathController {
 
             //Attach the challenges array json to the model
             model.addAttribute("challenges",challengesArray);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

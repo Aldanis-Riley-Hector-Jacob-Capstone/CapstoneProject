@@ -32,7 +32,7 @@ public class FriendRequestsController {
         model.addAttribute("test", "test");
        return "/users/friendsSearch";
     }
-    //
+    //working code for searching for name
     @GetMapping("/friends_list/searched")
     public String listSearch(Model model, @RequestParam String name) {
         List<User> allusers = userRepository.findAll();

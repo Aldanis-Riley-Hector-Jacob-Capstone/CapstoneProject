@@ -51,11 +51,13 @@ public class UserDetailsLoader implements UserDetailsService {
         return user.getTotalPoints();
     }
 
+//    Created here to be used in both UserController and AuthController instead of having to repeat the same code over and over
     public Model getUserData(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User curUser = userDao.findUserByUsername(auth.getName());
 
-        List<Path> paths = pathRepository.findAll();
+//        List<Path> paths = pathRepository.findAll();
+        List<Path> paths = curUser.getFollowed_paths();
 
 //        Dynamic Path icons / badges
         for (Path path : paths){

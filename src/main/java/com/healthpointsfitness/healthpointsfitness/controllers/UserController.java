@@ -1,6 +1,5 @@
 package com.healthpointsfitness.healthpointsfitness.controllers;
 
-import com.healthpointsfitness.healthpointsfitness.models.Path;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
 import com.healthpointsfitness.healthpointsfitness.services.UserDetailsLoader;
@@ -23,15 +22,9 @@ public class UserController {
     @Autowired
     PathRepository pathRepo;
     @Autowired
-    UserDetailsLoader users;
-    @Autowired
     UserRepository userRepo;
     @Autowired
     private UserDetailsLoader userDetailsLoader;
-
-
-    public List<Path> pathList;
-    public long pointsTotal;
 
     @GetMapping("/profile")
     public String UserController_UniqueName_01(Model model){

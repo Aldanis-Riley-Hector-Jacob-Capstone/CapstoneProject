@@ -96,18 +96,10 @@ public class PathController {
     @GetMapping("/admin/path/edit/{id}")
     public String editPathGet(@PathVariable("id") Long pathId, Model model){
         try {
-            //This has been moved to pathService.getPathImage(path); But original implementation here is pretty (JJ)
             //Grab the path using the path service
             Path path = pathService.findPathById(pathId);
 
-            //Encode the image blob into a base64 string
-            byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
-
-            //Get the base 64 UTF-8 encoded version
-            String base64Encoded = new String(encodeBase64, "UTF-8");
-
-            //Set the data url in the path object
-            path.setImageDataUrl(base64Encoded);
+            path.setImageDataUrl(pathService.getPathImage(path));
 
             //Add the path to the model so the frontend can display it
             model.addAttribute("path", path);
@@ -132,12 +124,9 @@ public class PathController {
 
             //Attach the challenges array json to the model
             model.addAttribute("challenges",challengesArray);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e){
+            e.printStackTrace();
         }
-
         //Return the model and view
         return "/admin/path/edit";
     }

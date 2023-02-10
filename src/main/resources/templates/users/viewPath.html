@@ -9,8 +9,67 @@
 <body>
 <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
 <div class="container">
-    <span th:text="${path.getTitle()}" />
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <h1 th:text="${path.getTitle()}"></h1>
+            </div>
+            <hr class="thicker_hr" />
+        </div>
+        <div class="row">
+            <div class="col-3">
+<!--                <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="256px" height="256px" class="path_image">-->
+                <img src="/img/top_of_dog_face.jpeg" alt="Achievement Badge" width="256px" height="256px" class="path_image">
+            </div>
+            <div class="col-9">
+                Description of path
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-1">
+                    Points=000
+                </div>
+                <div class="col-2">
+<!--                    BLANK AREA FOR PRETTY SPACING -->
+                </div>
+                <div class="col-2">
+                <div class="challengeTitle">Challenge #1</div>
+                <ul>
+                    <li>Exercise #1</li>
+                    <li>Exercise #2</li>
+                    <li>Exercise #3</li>
+                </ul>
+                </div>
+                <div class="col-2">
+                <div class="challengeTitle">Challenge #2</div>
+                <ul>
+                    <li>Exercise #4</li>
+                    <li>Exercise #5</li>
+                    <li>Exercise #6</li>
+                </ul>
+                </div>
+                <div class="col-2">
+                <div class="challengeTitle">Challenge #3</div>
+                <ul>
+                    <li>Exercise #7</li>
+                    <li>Exercise #8</li>
+                    <li>Exercise #9</li>
+                </ul>
+                </div>
+                <div class="col-2">
+                <div class="challengeTitle">Challenge #4</div>
+                <ul>
+                    <li>Exercise #10</li>
+                    <li>Exercise #11</li>
+                    <li>Exercise #12</li>
+                </ul>
+            </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
 </body>
 </html>

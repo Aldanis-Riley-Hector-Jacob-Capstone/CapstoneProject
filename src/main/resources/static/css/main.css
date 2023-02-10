@@ -49,3 +49,21 @@ footer{
 
 /* END PROFILE PAGE (users/index.html) */
 
+/* VIEW PATH PAGE (users/viewPath/{path}) */
+.thicker_hr {
+    border: 5px solid #000000;
+    opacity: 100%;
+}
+
+.path_image {
+    border: 5px solid #000000;
+    background: #AEA;
+    box-shadow: 10px 12px 0.5rem rgba(0,0,0,0.5);
+}
+
+.challengeTitle{
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+/* END PATH PAGE (users/viewPath/{path}) */

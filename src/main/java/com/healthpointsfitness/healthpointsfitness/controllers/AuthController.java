@@ -5,6 +5,7 @@ import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.models.UserWithRoles;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
+import com.healthpointsfitness.healthpointsfitness.services.PathsService;
 import com.healthpointsfitness.healthpointsfitness.services.UserDetailsLoader;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,8 @@ public class AuthController {
     private PathRepository pathRepository;
     @Autowired
     private UserDetailsLoader userDetailsLoader;
+    @Autowired
+    PathsService pathServ;
 
 
     @GetMapping("/login")
@@ -84,14 +87,7 @@ public class AuthController {
         Page<Path> currentPage = pathRepository.findAll(pageable);
         Integer pageCount = currentPage.getTotalPages();
         currentPage.forEach(path->{
-            byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
-            String base64Encoded;
-            try {
-                base64Encoded = new String(encodeBase64, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
-            path.setImageDataUrl(base64Encoded);
+            path.setImageDataUrl(pathServ.getPathImage(path));
         });
         model.addAttribute("paths",currentPage);
         model.addAttribute("totalPages",currentPage.getTotalPages());

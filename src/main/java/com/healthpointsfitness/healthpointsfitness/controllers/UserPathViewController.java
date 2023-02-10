@@ -9,8 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
+import java.util.List;
 
 @Controller
 public class UserPathViewController {
@@ -24,14 +23,7 @@ public class UserPathViewController {
         try {
             if (pathnumber != null) {
                 Path myPath = pathRepo.getReferenceById(pathnumber);
-                byte[] encodeBase64 = Base64.getEncoder().encode(myPath.getImageBlob());
-                String base64Encoded;
-                try {
-                    base64Encoded = new String(encodeBase64, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    throw new RuntimeException(e);
-                }
-                myPath.setImageDataUrl(base64Encoded);
+                myPath.setImageDataUrl(pathServ.getPathImage(myPath));
                 model.addAttribute("path", myPath);
                 model.addAttribute("points", pathServ.getTotalPathPoints(myPath));
             } else {
@@ -40,6 +32,27 @@ public class UserPathViewController {
         } catch (Exception e){
             e.printStackTrace();
         }
+
         return "/users/viewPath";
+    }
+
+    @GetMapping("/allPaths")
+    public String allPaths(Model model){
+        try {
+            List<Path> paths = pathRepo.findAll();
+
+            // Iterate through all path objects and assign image
+            for (Path path : paths){
+                path.setImageDataUrl(pathServ.getPathImage(path));
+            }
+
+            model.addAttribute("paths", paths);
+
+            return "/users/allPaths";
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "/profile";
     }
 }

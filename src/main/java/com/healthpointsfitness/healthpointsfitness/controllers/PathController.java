@@ -96,6 +96,7 @@ public class PathController {
     @GetMapping("/admin/path/edit/{id}")
     public String editPathGet(@PathVariable("id") Long pathId, Model model){
         try {
+            //This has been moved to pathService.getPathImage(path); But original implementation here is pretty (JJ)
             //Grab the path using the path service
             Path path = pathService.findPathById(pathId);
 

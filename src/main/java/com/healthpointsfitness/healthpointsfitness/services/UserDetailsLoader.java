@@ -26,6 +26,8 @@ public class UserDetailsLoader implements UserDetailsService {
     private UserRepository userDao;
     @Autowired
     private PathRepository pathRepository;
+    @Autowired
+    PathsService pathServ;
 
 
     public UserDetailsLoader(UserRepository users) {
@@ -61,14 +63,7 @@ public class UserDetailsLoader implements UserDetailsService {
 
 //        Dynamic Path icons / badges
         for (Path path : paths){
-            byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
-            String base64Encoded;
-            try {
-                base64Encoded = new String(encodeBase64, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
-            path.setImageDataUrl(base64Encoded);
+            path.setImageDataUrl(pathServ.getPathImage(path));
         }
 
 //        Gets total points

@@ -21,15 +21,7 @@ public class LandingController {
     public String welcome(Model model) {
         List<Path> paths = pathsService.getAllPaths();
         for (Path path : paths) {
-
-            byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
-            String base64Encoded;
-            try {
-                base64Encoded = new String(encodeBase64, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
-            path.setImageDataUrl(base64Encoded);
+            path.setImageDataUrl(pathsService.getPathImage(path));
         }
         model.addAttribute("paths", paths);
         return "landing";

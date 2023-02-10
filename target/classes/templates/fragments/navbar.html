@@ -11,6 +11,7 @@
 <!--          TODO: Make 'Create Paths' only appear for admins (JJ) -->
           <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/index}">Create Paths</a>
           <a sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/}">Profile</a>
+            <a sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/allPaths}">All Paths</a>
           <a sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/fsearch}">Friend Search</a>
         </container>
 <!--        TODO: Make the logout button show only when user is logged in/ else show log in (JJ)-->

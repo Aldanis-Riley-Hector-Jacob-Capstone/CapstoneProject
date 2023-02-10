@@ -6,6 +6,8 @@ import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -55,8 +57,6 @@ public class PathsService {
         }
     }
 
-//    TODO: Make this go into path > into exercises > into challenges > for each incriment total points > return
-//     total points (JJ)
     public int getTotalPathPoints(Path path){
         AtomicInteger points = new AtomicInteger();
         try {
@@ -65,6 +65,21 @@ public class PathsService {
             e.printStackTrace();
         }
         return points.intValue();
+    }
+
+
+//    TODO: Setup to get and return the given path's image
+    public String getPathImage(Path myPath){
+        byte[] encodeBase64 = Base64.getEncoder().encode(myPath.getImageBlob());
+        String base64Encoded;
+        try {
+            base64Encoded = new String(encodeBase64, "UTF-8");
+        } catch (
+                UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+//        myPath.setImageDataUrl(base64Encoded);
+        return base64Encoded;
     }
 
 

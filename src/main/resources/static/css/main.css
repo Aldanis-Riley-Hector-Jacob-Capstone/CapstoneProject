@@ -67,6 +67,19 @@ footer{
     box-shadow: 10px 12px 0.5rem rgba(0,0,0,0.5);
 }
 
+.path_image_red {
+    border: 5px solid red;
+    background: #AEA;
+    box-shadow: 10px 12px 0.5rem rgba(0,0,0,0.5);
+}
+
+.path_image_green {
+    border: 5px solid green;
+    background: #AEA;
+    box-shadow: 10px 12px 0.5rem rgba(0,0,0,0.5);
+}
+
+
 .challengeTitle{
     text-decoration: underline;
     font-weight: bold;

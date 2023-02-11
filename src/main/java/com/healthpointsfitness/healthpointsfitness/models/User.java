@@ -38,13 +38,20 @@ public class User {
     @Column(name = "last_name", nullable = true, unique = false, length = 255)
     private String lastName;
 
+    @Column(name = "bio", nullable = true, unique = false, length = 255)
+    private String bio;
+
+    @Lob
+    @Column(name = "profile_image", length = Integer.MAX_VALUE, nullable = true)
+    private byte[] profileImage;
+
     @Column(name = "is_admin", nullable = true)
     private Boolean isAdmin = false;
 
     @Column(nullable = false, unique = false, name = "roles", length = 255)
-    private String roles = "ROLE_ADMIN";
+    private String roles = "ROLE_CLIENT";
 
-    @Column(nullable = false, unique = false, name = "totalPoints", length = 255)
+    @Column(nullable = false, unique = false, name = "total_points", length = 255)
     private Long totalPoints;
 
     public User(String username, String password, List<Role> roles){
@@ -56,6 +63,8 @@ public class User {
         });
         this.roles = StringUtils.join(rolesStrList,',');
         this.totalPoints = 0L;
+        this.bio = bio = "";
+        this.profileImage = null;
     }
 
     public User(User copy) {
@@ -63,8 +72,12 @@ public class User {
         email = copy.email;
         username = copy.username;
         password = copy.password;
+        firstName = copy.firstName;
+        lastName = copy.lastName;
         roles = copy.roles;
         totalPoints = copy.totalPoints;
+        bio = copy.bio;
+        profileImage = copy.profileImage;
     }
 
     ///////// RELATIONSHIPS ////////////

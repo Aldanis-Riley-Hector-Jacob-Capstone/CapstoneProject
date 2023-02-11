@@ -3,7 +3,6 @@ package com.healthpointsfitness.healthpointsfitness;
 import com.healthpointsfitness.healthpointsfitness.services.EmailService;
 import com.healthpointsfitness.healthpointsfitness.services.ExercisesService;
 import com.healthpointsfitness.healthpointsfitness.services.PathsService;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +22,7 @@ class ServicesTest {
 	private PathsService pathService;
 
 	@Test
-	void testEmailService() throws UnirestException {
+	void testEmailService() {
 		try {
 			Boolean sent = emailService.prepareAndSend("aldanisvigo@gmail.com", "Testing", "I wirk, hello world!");
 			Assert.isTrue(sent, "EmailService ===> The email was not sent. Please check SMTP settings in application.properties.");

@@ -7,16 +7,23 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
-@Configuration
+
+//@Configuration
 @EnableWebSocket
-public class WebSocketConfiguration implements WebSocketConfigurer {
+@Configuration
+public class VigoChatConfiguration implements WebSocketConfigurer {
     @Autowired
     UserRepository userRepository;
 
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new WebSocketTextHandler(userRepository), "/freechat").setAllowedOrigins("*");
+        try {
+            registry.addHandler(new VigoChatHandler(userRepository), "/freechat").setAllowedOrigins("*");
+        }catch(ClassCastException e){
+            e.printStackTrace();
+        }
     }
-
 }
+
+
 
 

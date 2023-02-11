@@ -67,7 +67,6 @@ public class User {
         totalPoints = copy.totalPoints;
     }
 
-
     ///////// RELATIONSHIPS ////////////
 
     //User <> Goal

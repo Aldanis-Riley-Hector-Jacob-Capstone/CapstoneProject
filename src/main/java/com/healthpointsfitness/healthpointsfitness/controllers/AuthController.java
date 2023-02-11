@@ -79,6 +79,18 @@ public class AuthController {
             Model model,
             @PageableDefault(value = 2) Pageable pageable
     ){
+        try {
+            if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
+                User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                Long id = loggedInUser.getId();
+                System.out.println(id);
+
+                model.addAttribute("userid", id);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         Page<Path> currentPage = pathRepository.findAll(pageable);
         Integer pageCount = currentPage.getTotalPages();
         currentPage.forEach(path->{

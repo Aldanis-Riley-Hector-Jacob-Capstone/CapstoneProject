@@ -5,6 +5,8 @@ import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.models.UserWithRoles;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
+import com.healthpointsfitness.healthpointsfitness.services.PathsService;
+import com.healthpointsfitness.healthpointsfitness.services.UserDetailsLoader;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,14 +33,16 @@ import java.util.stream.IntStream;
 public class AuthController {
     @Autowired
     private UserRepository userDao;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private AuthenticationManager authManager;
     @Autowired
     private PathRepository pathRepository;
+    @Autowired
+    private UserDetailsLoader userDetailsLoader;
+    @Autowired
+    PathsService pathServ;
 
 
     @GetMapping("/login")
@@ -53,7 +57,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    private String registerPost(@ModelAttribute("user") User user, HttpServletRequest request) {
+    private String registerPost(@ModelAttribute("user") User user, HttpServletRequest request, Model model) {
         try { //Try to
             String clearPass = user.getPassword();
             user.setPassword(passwordEncoder.encode(user.getPassword())); //Encode the password
@@ -63,6 +67,7 @@ public class AuthController {
             if(request.isUserInRole("ROLE_ADMIN")){
                 return "redirect:/admin/index";
             }else if(request.isUserInRole("ROLE_CLIENT")){
+                model = userDetailsLoader.getUserData(model);
                 return "/users/index";
             }
         }catch(Exception e) { //Catch any exceptions
@@ -94,14 +99,7 @@ public class AuthController {
         Page<Path> currentPage = pathRepository.findAll(pageable);
         Integer pageCount = currentPage.getTotalPages();
         currentPage.forEach(path->{
-            byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
-            String base64Encoded;
-            try {
-                base64Encoded = new String(encodeBase64, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
-            path.setImageDataUrl(base64Encoded);
+            path.setImageDataUrl(pathServ.getPathImage(path));
         });
         model.addAttribute("paths",currentPage);
         model.addAttribute("totalPages",currentPage.getTotalPages());
@@ -128,6 +126,7 @@ public class AuthController {
             if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
                return "redirect:/admin/index";
             } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
+                model = userDetailsLoader.getUserData(model);
                 return "/users/index";
             } else {
                 return "/login";

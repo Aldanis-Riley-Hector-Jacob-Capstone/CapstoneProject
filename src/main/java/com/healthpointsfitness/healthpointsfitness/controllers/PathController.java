@@ -93,18 +93,8 @@ public class PathController {
             //Grab the path using the path service
             Path path = pathService.findPathById(pathId);
 
-<<<<<<< HEAD
-            //Encode the image blob into a base64 string
-            byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
-
-            //Get the base 64 UTF-8 encoded version
-            String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
-
-            //Set the data url in the path object
-            path.setImageDataUrl(base64Encoded);
-=======
+            //Set image data url for path
             path.setImageDataUrl(pathService.getPathImage(path));
->>>>>>> 049af9a22a47fce6e3ee28563b0494183e7ac9cd
 
             //Add the path to the model so the frontend can display it
             model.addAttribute("path", path);
@@ -126,13 +116,11 @@ public class PathController {
 
             //Attach the challenges array json to the model
             model.addAttribute("challenges",challengesArray);
-<<<<<<< HEAD
+
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
-=======
         } catch (Exception e){
             e.printStackTrace();
->>>>>>> 049af9a22a47fce6e3ee28563b0494183e7ac9cd
         }
         //Return the model and view
         return "/admin/path/edit";

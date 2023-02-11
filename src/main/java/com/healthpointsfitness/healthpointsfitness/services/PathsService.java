@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -69,15 +70,15 @@ public class PathsService {
     }
 
     public String getPathImage(Path myPath){
-        byte[] encodeBase64 = Base64.getEncoder().encode(myPath.getImageBlob());
-        String base64Encoded;
         try {
-            base64Encoded = new String(encodeBase64, "UTF-8");
-        } catch (
-                UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+            byte[] encodeBase64 = Base64.getEncoder().encode(myPath.getImageBlob());
+            String base64Encoded;
+            base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
+            return base64Encoded;
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        return base64Encoded;
+        return null;
     }
 
     public boolean isEnrolled(User user, Path path){

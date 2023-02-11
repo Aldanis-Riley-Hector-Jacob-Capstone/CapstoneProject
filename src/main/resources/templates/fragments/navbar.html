@@ -6,20 +6,19 @@
         <a class="navbar-brand" href="#">
           <img height="80px" src="/img/logo.gif">
         </a>
-        <span> |
-          <a th:href="@{/admin/index}">Create Paths</a> |
-          <a th:href="@{/profile}">Profile</a> |
-          <a th:href="@{/fsearch}">Friend Search</a> |
-          <a th:href="@{/chat}">Chat</a> |
-          <a th:href="@{/user/goals}">Manage Goals</a> |
-        </span>
-        <container>
+<!--        <span> |-->
+<!--          <a th:if="${#authentication.authorities.contains("ROLE_ADMIN")}" th:href="@{/admin/index}">Create Paths</a> |-->
+<!--          <a th:href="@{/profile}">Profile</a> |-->
+<!--          <a th:href="@{/fsearch}">Friend Search</a> |-->
+<!--          <a th:href="@{/user/goals}">Manage Goals</a> |-->
+<!--        </span>-->
+        <div>
 <!--          TODO: Make 'Create Paths' only appear for admins (JJ) -->
           <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/index}">Create Paths</a>
           <a sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/}">Profile</a>
             <a sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/allPaths}">All Paths</a>
           <a sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/fsearch}">Friend Search</a>
-        </container>
+        </div>
 <!--        TODO: Make the logout button show only when user is logged in/ else show log in (JJ)-->
         <div sec:authorize="isAuthenticated()">
           <form th:action="@{/logout}" method="post" class="logout-button-form">

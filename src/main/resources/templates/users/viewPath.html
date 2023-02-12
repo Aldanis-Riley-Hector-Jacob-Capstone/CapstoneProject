@@ -14,12 +14,19 @@
             <div class="col-4">
                 <h1 th:text="${path.getTitle()}"></h1>
             </div>
+            <div class="col-6"></div>
+            <div class="col-2">
+                <form action="#" th:action="@{/paths/enroll/} + ${path.getId()}" method="post">
+                    <input type="submit" th:attr="class=${enrolled ? 'btn btn-danger' : 'btn btn-success'}">
+<!--                    th:attr="value=${enrolled ? 'abandon' : 'enroll'}" -->
+                </form>
+            </div>
             <hr class="thicker_hr"/>
         </div>
         <div class="row">
             <div class="col-3">
-                <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="256px"
-                     height="256px" th:attr="class=${enrolled ? 'path_image_green' : 'path_image_red'}">
+                <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="256px" height="256px" class="path_image">
+<!--                th:attr="class=${enrolled ? 'path_image_green' : 'path_image_red'}" -->
             </div>
             <div class="col-9">
                 <div th:text="${path.getDescription()}"/>

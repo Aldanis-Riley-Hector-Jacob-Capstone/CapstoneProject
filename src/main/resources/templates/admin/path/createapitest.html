@@ -7,46 +7,84 @@
     <th:block th:replace="~{/fragments/header.html :: header}"/>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <style>
+        .dots {
+            background-image: url("/img/dots.png");
+        }
+    </style>
 </head>
-<body>
+<body class="dots">
     <th:block th:replace="~{/fragments/navbar.html :: navbar}"/>
+
+
     <div class="container">
-        <div class="navbar bg-body-tertiary">
-            <a href="/admin/index">
-                <button class="btn btn-light ms-3">
-                    <i class="bi bi-arrow-left-square"></i>
-                </button>
-            </a>
-            <div class="h2 ms-1 me-auto">Add New Path</div>
+        <div class="card d-flex justify-content-center" style="width: 50%;">
+            <div class="card-body">
+                <h5 class="card-title navbar">
+                    Add New Path
+                </h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="titleLabel">Path Title</span>
+                    <input type="text" class="form-control" aria-label="Path Title" id="title" placeholder="Path Title" aria-describedby="titleLabel">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Description</span>
+                    <textarea class="form-control" aria-label="Path description" placeholder="Path Description" id="description"></textarea>
+                </div>
+                <div class="input-group mt-3">
+                    <!--Path Badge File-->
+                    <label for="pathBadge">
+                        Path Badge Image
+                        <input type="file" id="pathBadge"/>
+                    </label>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="navbar bg-body-tertiary mt-3">
+                    <a href="/admin/index">
+                        <button class="btn btn-light ms-3">
+                            <i class="bi bi-arrow-left-square"></i>
+                            Back
+                        </button>
+                    </a>
+                    <!--Add Challenge Button-->
+                    <button id="add_challenge_btn" class="btn btn-primary ms-auto">
+                        <i class="bi bi-plus-square"></i>
+                        Add Challenge
+                    </button>
+                </div>
+            </div>
         </div>
+
         <div class="p-3">
             <!--Path Title-->
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="titleLabel">Path Title</span>
-                <input type="text" class="form-control" aria-label="Path Title" id="title" placeholder="Path Title" aria-describedby="titleLabel">
-            </div>
+<!--            <div class="input-group mb-3">-->
+<!--                <span class="input-group-text" id="titleLabel">Path Title</span>-->
+<!--                <input type="text" class="form-control" aria-label="Path Title" id="title" placeholder="Path Title" aria-describedby="titleLabel">-->
+<!--            </div>-->
 
             <!--Path Description-->
-            <div class="input-group">
-                <span class="input-group-text">Description</span>
-                <textarea class="form-control" aria-label="Path description" placeholder="Path Description" id="description"></textarea>
-            </div>
+<!--            <div class="input-group">-->
+<!--                <span class="input-group-text">Description</span>-->
+<!--                <textarea class="form-control" aria-label="Path description" placeholder="Path Description" id="description"></textarea>-->
+<!--            </div>-->
 
-            <div class="input-group mt-3">
-                <!--Path Badge File-->
-                <label for="pathBadge">
-                    Path Badge Image
-                    <input type="file" id="pathBadge"/>
-                </label>
-            </div>
+<!--            <div class="input-group mt-3">-->
+<!--                &lt;!&ndash;Path Badge File&ndash;&gt;-->
+<!--                <label for="pathBadge">-->
+<!--                    Path Badge Image-->
+<!--                    <input type="file" id="pathBadge"/>-->
+<!--                </label>-->
+<!--            </div>-->
 
-            <div class="navbar bg-body-tertiary mt-3">
-                <!--Add Challenge Button-->
-                <button id="add_challenge_btn" class="btn btn-primary ms-auto">
-                    <i class="bi bi-plus-square"></i>
-                    Add Challenge
-                </button>
-            </div>
+<!--            <div class="navbar bg-body-tertiary mt-3">-->
+<!--                &lt;!&ndash;Add Challenge Button&ndash;&gt;-->
+<!--                <button id="add_challenge_btn" class="btn btn-primary ms-auto">-->
+<!--                    <i class="bi bi-plus-square"></i>-->
+<!--                    Add Challenge-->
+<!--                </button>-->
+<!--            </div>-->
 
             <!--List of Challenges-->
             <div id="list_of_challenges">
@@ -58,6 +96,7 @@
                 <a href="/admin/index" class="btn btn-primary ms-auto me-2">Cancel</a>
                 <a id="savePathButton" class="btn btn-primary me-auto">Save Path</a>
             </div>
+
 
             <!-- Challenge Modal -->
             <div id="challenge_modal" class="modal">

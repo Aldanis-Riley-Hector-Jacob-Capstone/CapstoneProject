@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recover Account</title>
+    <th:block th:replace="~{/fragments/header.html :: header}"/>
+</head>
+<body>
+  <th:block th:replace="~{/fragments/navbar.html :: navbar}"/>
+  <div class="container d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
+      <div class="text-center">
+          <img src="/img/logo.svg" class="mb-4"/>
+          <div style="display: grid; grid-template-columns: 3fr 1fr; text-align: left;">
+              <div class="form-group me-3">
+                  <input type="email" class="w-100 form-control" placeholder="Enter your email" />
+              </div>
+              <div class="form-group">
+                  <button type="button" class="btn btn-primary">Send Recovery</button>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoModal">
+                      <i class="bi bi-patch-question-fill"></i>
+                  </button>
+              </div>
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">How to Recover</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                          Please enter your email, and we'll send you a recovery link in a few minutes. Simply click it and we will redirect you back here where you can update your password.
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <th:block th:replace="~{/fragments/footer.html :: footer}"
+</body>
+</html>

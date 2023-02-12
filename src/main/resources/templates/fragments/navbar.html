@@ -1,25 +1,50 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
-      xmlns:th="www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-  <th:block th:fragment="navbar">
-    <nav class="navbar bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          <img height="80px" src="/img/logo.gif">
-        </a>
-        <container> |
-<!--          TODO: Make 'Create Paths' only appear for admins (JJ) -->
-          <a th:href="@{/admin/index}">Create Paths</a> |
-          <a th:href="@{/profile}">Profile</a> |
-          <a th:href="@{/fsearch}">Friend Search</a> |
-        </container>
-<!--        TODO: Make the logout button show only when user is logged in/ else show log in (JJ)-->
-        <div sec:authorize="isAuthenticated()">
-          <form th:action="@{/logout}" method="post" class="logout-button-form">
-            <button class="btn btn-primary" type="submit">LOGOUT</button>
-          </form>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="navbar">
+    <nav class="navbar bg-body-tertiary sticky-top fixed">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img height="80px" src="/img/logo.gif">
+            </a>
+            <div class="dropdown ms-auto me-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Menu
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/index}">
+                            <button type="button">Add Paths</button>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/profile/} + ${#authentication.principal.username}">
+                            <i class="bi bi-person-fill"></i><button type="button" class="btn w-100">Profile</button>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/allPaths}">
+                            <i class="bi bi-diagram-3-fill"></i><button type="button" class="btn w-100">Paths</button>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/fsearch}">
+                            <i class="bi bi-search"></i><button type="button" class="btn w-100">Buddies</button>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/user/goals}">
+                            <i class="bi bi-list-task"></i><button type="button" class="btn w-100">Goals</button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post" class="logout-button-form">
+                    <button class="btn btn-primary" type="submit">LOGOUT</button>
+                </form>
+            </div>
         </div>
-      </div>
     </nav>
 </th:block>
 </html>

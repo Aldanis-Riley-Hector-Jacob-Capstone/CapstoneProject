@@ -2,24 +2,52 @@ package com.healthpointsfitness.healthpointsfitness.controllers;
 
 import com.healthpointsfitness.healthpointsfitness.models.FriendRequest;
 import com.healthpointsfitness.healthpointsfitness.models.User;
+import com.healthpointsfitness.healthpointsfitness.repositories.FriendRequestsRepository;
+import com.healthpointsfitness.healthpointsfitness.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Controller
 public class FriendRequestsController {
-    @GetMapping("/friend_requests")
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private FriendRequestsRepository friendRequestsRepository;
+
+    @GetMapping("/user/friend_requests")
     public String friendRequestsGET(){
         return "/users/friendsSearch";
     }
 
-    @PostMapping("/friend_request")
-    public String friendRequestPost(User userFrom, User userTo){
-        Timestamp ts = new Timestamp(System.currentTimeMillis());
+    @PostMapping("/user/friend_request")
+    public String friendRequestPost(@RequestParam("from") String from,@RequestParam("to") String to){
+        try {
+            //Get the users based on their usernames
+            User userFrom = userService.findUserByUsername(from);
+            User userTo = userService.findUserByUsername(to);
 
-        FriendRequest fr = new FriendRequest(ts, userFrom, userTo);
-        return "/users/friendsSearch";
+            //Calculate a timestamp.
+            Timestamp ts = new Timestamp(System.currentTimeMillis());
+
+            //Generate the new friend request
+            FriendRequest fr = new FriendRequest(ts, userFrom, userTo);
+
+            //Save the friend request to the db
+            friendRequestsRepository.save(fr);
+
+            //Send the user back to the friends search page
+            return "/users/friendsSearch";
+        }catch(Exception e){
+            e.printStackTrace();
+
+            return "/users/friendsSearch";
+        }
     }
 }

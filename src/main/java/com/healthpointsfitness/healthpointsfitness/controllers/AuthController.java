@@ -5,8 +5,11 @@ import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.models.UserWithRoles;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
+import com.healthpointsfitness.healthpointsfitness.services.PathsService;
+import com.healthpointsfitness.healthpointsfitness.services.UserDetailsLoader;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -31,14 +34,16 @@ import java.util.stream.IntStream;
 public class AuthController {
     @Autowired
     private UserRepository userDao;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private AuthenticationManager authManager;
     @Autowired
     private PathRepository pathRepository;
+    @Autowired
+    private UserDetailsLoader userDetailsLoader;
+    @Autowired
+    PathsService pathServ;
 
 
     @GetMapping("/login")
@@ -53,7 +58,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    private String registerPost(@ModelAttribute("user") User user, HttpServletRequest request) {
+    private String registerPost(@ModelAttribute("user") User user, HttpServletRequest request, Model model) {
         try { //Try to
             String clearPass = user.getPassword();
             user.setPassword(passwordEncoder.encode(user.getPassword())); //Encode the password
@@ -63,10 +68,13 @@ public class AuthController {
             if(request.isUserInRole("ROLE_ADMIN")){
                 return "redirect:/admin/index";
             }else if(request.isUserInRole("ROLE_CLIENT")){
+                model = userDetailsLoader.getUserData(model);
                 return "/users/index";
             }
-        }catch(Exception e) { //Catch any exceptions
-            System.out.println(e.getMessage());  //Print the exception to the terminal
+        }catch(DataIntegrityViolationException e) { //Catch any exceptions
+            e.printStackTrace();
+            return "redirect:/register?exists=true";
+        }catch(Exception e){
             e.printStackTrace();
         }
 
@@ -79,17 +87,22 @@ public class AuthController {
             Model model,
             @PageableDefault(value = 2) Pageable pageable
     ){
+        try {
+            if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
+                User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                Long id = loggedInUser.getId();
+                System.out.println(id);
+
+                model.addAttribute("userid", id);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         Page<Path> currentPage = pathRepository.findAll(pageable);
         Integer pageCount = currentPage.getTotalPages();
         currentPage.forEach(path->{
-            byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
-            String base64Encoded;
-            try {
-                base64Encoded = new String(encodeBase64, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
-            path.setImageDataUrl(base64Encoded);
+            path.setImageDataUrl(pathServ.getPathImage(path));
         });
         model.addAttribute("paths",currentPage);
         model.addAttribute("totalPages",currentPage.getTotalPages());
@@ -108,22 +121,31 @@ public class AuthController {
     private String rootMapping(Model model) {
         try {
             var principal = (UserWithRoles) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            var user = userDao.findUserByUsername(principal.getUsername());
-//            System.out.println(user.getId());
-            var roles = AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRoles());
-//            System.out.println("Contains Admin Authority: " + roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
-            principal.getAuthorities().forEach(auth->System.out.println(auth.getAuthority()));
-            if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-               return "redirect:/admin/index";
-            } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
-                return "/users/index";
-            } else {
-                return "/login";
+
+            if(principal != null) {
+                var user = userDao.findUserByUsername(principal.getUsername());
+                var roles = AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRoles());
+                principal.getAuthorities().forEach(auth -> System.out.println(auth.getAuthority()));
+                if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+                    System.out.println("Sending to admin index page");
+                    return "redirect:/admin/index";
+                } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
+                    model.addAttribute("user", user);
+                    System.out.println("Sending to " + user.getUsername() + "'s profile");
+                    return "redirect:/profile/" + user.getUsername();
+                } else {
+                    System.out.println("Sending to landing");
+                    return "/landing";
+                }
+            }else{
+                System.out.println("No user signed in. Principal is null.");
+                return "/landing";
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
 
+        System.out.println("Sending to login");
         return "/login";
     }
 }

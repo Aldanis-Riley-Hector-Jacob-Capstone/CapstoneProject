@@ -1,0 +1,55 @@
+#chat_icon{
+    color: red;
+    position: absolute;
+    bottom: 40px;
+    right: 30px;
+    width: 48px;
+    height: 48px;
+    font-size: xx-large;
+}
+
+#chat_icon:hover{
+    cursor: pointer;
+}
+
+#main-chat{
+    display: none;
+    position: fixed;
+    bottom: 87px;
+    right: 10px;
+    background: lightgrey;
+    border-radius: 20px;
+    transition: all;
+    width: 1px;
+    height: 1px;
+    max-width: 350px;
+}
+
+#incoming_messages{
+    height: 300px;
+    /*width: 100%;*/
+    background: darkgrey;
+    overflow-y: scroll;
+    padding: 8px;
+}
+
+#chat_controls{
+    background: red;
+    /*position: relative;*/
+    /*bottom: 0px;*/
+    /*left: 0px;*/
+    display: grid;
+    grid-template-columns: auto 40px;
+}
+
+#message{
+    /*width: 92%;*/
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+#send{
+    display: block;
+}

@@ -16,6 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -36,11 +41,15 @@ class SecurityConfig {
                 .requestMatchers(
                         "/login",
                         "/register",
+                        "/recover",
                         "/landing",
                         "/js/**",
                         "/img/**",
                         "/css/**",
-                        "/static/**"
+                        "/static/**",
+                        "/freechat",
+                        "/chat"
+
                 )
                 .permitAll()
 
@@ -49,7 +58,8 @@ class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/users/**",
-                        "/users"
+                        "/users",
+                        "/profile"
                 ).hasAuthority("ROLE_CLIENT")
 
                 //Lock down admin routes
@@ -77,7 +87,7 @@ class SecurityConfig {
                 //Configure Logout
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl("/landing?logout")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .permitAll()
                 .invalidateHttpSession(true)
@@ -108,5 +118,17 @@ class SecurityConfig {
     @Bean
     AuthenticationManager authManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("*"));
+        config.setAllowCredentials(true);
+        config.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
+        config.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 }

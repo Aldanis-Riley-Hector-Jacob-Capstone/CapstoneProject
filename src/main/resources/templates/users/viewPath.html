@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>View Path</title>
+    <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
+<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <h1 th:text="${path.getTitle()}"></h1>
+            </div>
+            <hr class="thicker_hr"/>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="256px"
+                     height="256px" th:attr="class=${enrolled ? 'path_image_green' : 'path_image_red'}">
+            </div>
+            <div class="col-9">
+                <div th:text="${path.getDescription()}"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <div th:text="'Total Points for this path= ' + ${points}"/>
+            </div>
+            <!--            FOR EVERY CHALLENGE IN PATH -->
+            <div th:each="challenge : ${path.getChallenges()}">
+                <div class="col-3">
+                    <div class="challengeTitle" th:text="${challenge.getTitle()}" />
+                    <!--                    FOR EVERY EXERCISE UNDER CHALLENGES -->
+                    <div th:text="${challenge.getDescription()}" />
+                    <ul>
+                        <div th:each="exercise : ${challenge.getExercises()}">
+                            <li th:text="${exercise.getName()}" />
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+<th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
+</body>
+</html>

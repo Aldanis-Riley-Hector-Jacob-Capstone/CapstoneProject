@@ -34,11 +34,20 @@ public class Path {
     @ManyToOne
     private User admin;
 
-
     // Path <> Challenge
     @OneToMany(mappedBy = "path", cascade = CascadeType.ALL)
     private List<Challenge> challenges;
 
     @Transient
     String imageDataUrl;
+
+    public Path(Path copy) {
+        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        title = copy.title;
+        description = copy.description;
+        imageBlob = copy.imageBlob;
+        admin = copy.admin;
+        challenges = copy.challenges;
+        imageDataUrl = copy.imageDataUrl;
+    }
 }

@@ -25,4 +25,11 @@ public class Goal {
     //Relationships
     @ManyToOne
     private User user;
+
+    public Goal(Goal copy) {
+        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        description = copy.description;
+        completed = copy.completed;
+        user = copy.user;
+    }
 }

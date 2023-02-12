@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>All Paths</title>
+  <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
+<div class="container">
+  <div th:each="path : ${paths}" class="col-2">
+        <a th:href="@{/paths/{id} (id=${path.id})}">
+          <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="128px" height="128px">
+        </a>
+  </div>
+</div>
+<th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
+</body>
+</html>

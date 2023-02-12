@@ -8,88 +8,80 @@
     <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
 </head>
 <body>
-    <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
+<th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
 
 
-    <!-- Main container -->
-    <div class="main-container">
-        <!-- List container -->
-        <div class="friends-list">
-            <!-- List of names searched to add -->
-        </div>
-
-        <div class="form-container">
-            <from th:action="/users/friends" method="POST>
-                <div>
-                    <form>
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="search" name="name" id="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="location">Location</label>
-                            <input type="search" name="location" id="location">
-                        </div>
-                    </form>
-                </div>
-
-                <div class="form-group">
-                    <label for="pointRange">Completed Paths</label>
-                    <input type="range" name="pathsCompleted" id="pointRange" min="0" max="500" value="0" oninput="updateValue()">
-                    <label id="currentValue">0</label>
-                </div>
-
-                <fieldset>
-                    <legend>Select Points</legend>
-                    <div class="form-group">
-                        <input type="checkbox" name="1to100" id="1to100">
-                        <label for="1to100">1-100</label>
-                    </div>
-                    <div class="form-group">
-                        <input type="checkbox" name="101to200" id="101to200">
-                        <label for="101to200">101-200</label>
-                    </div>
-                    <div class="form-group">
-                        <input type="checkbox" name="201to300" id="201to300">
-                        <label for="201to300">201-300</label>
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Is a Mentor?</legend>
-                    <div class="form-group">
-                        <input type="radio" id="mentorYes" name="isMentor" value="yes">
-                        <label for="mentorYes">Yes</label>
-                    </div>
-                    <div class="form-group">
-                        <input type="radio" id="mentorNo" name="isMentor" value="no">
-                        <label for="mentorNo">No</label>
-                    </div>
-                </fieldset>
-
-        </div>
-        <button type="submit">Search for friends</button>
-    </div>
-
-    <div class="user-list-container">
-        <ul class="user-list">
-            <li class="user">User 1</li>
-            <li class="user">User 2</li>
-            <li class="user">User 3</li>
-            <li class="user">User 1</li>
-            <li class="user">User 2</li>
-            <li class="user">User 3</li>
+<!-- Main container -->
+<div class="main-container">
+    <!-- List container -->
+    <div class="friends-list">
+        <!-- List of names searched to add -->
+        <ul class="list-group mt-3" style="clear: both;">
+            <li class="list-group-item" th:each="item : ${friends}">
+                <img style="border-radius: 50%;" width="40px" height="40px" alt="path_image" src="" th:src="'data:image/jpeg;base64,'+${item.getImageDataUrl()}"/>
+                <span class="me-auto">
+                    <strong th:if="${item.from.getUsername()} not ${me.getUsername()}" th:text="${item.from.getUsername()}"></strong>
+                    <strong th:if="${item.to.getUsername()} not ${me.getUsername()}" th:text="${item.to.getUsername()}"></strong>
+                </span>
+                <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto" th:item="${item.getId()}"></i>
+                <i class="bi bi-pencil-fill editBtn btn btn-light me-2 ms-auto" th:item="${item.getId()}"></i>
+            </li>
+            <li class="list-group-item" th:if="${friends.isEmpty()}">
+                No friends yet, feel free to search for new friends and send them friend requests.
+            </li>
         </ul>
     </div>
 
-    <footer class="footer">
-        <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
-    </footer>
+    <div class="form-container">
+        <from th:action="@{/users/friends}" th:method="POST">
+            <!--Filter for searching-->
+            <div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="search" name="name" id="name">
+                </div>
+            </div>
 
-    <script>
-        function updateValue() {
-            document.getElementById("currentValue").innerHTML = document.getElementById("pointRange").value;
-        }
-    </script>
+            <!--Filter for point counts-->
+            <fieldset>
+                <legend>Select Points</legend>
+                <div class="form-group">
+                    <input type="checkbox" name="1to100" id="1to100">
+                    <label for="1to100">1-100</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="101to200" id="101to200">
+                    <label for="101to200">101-200</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="201to300" id="201to300">
+                    <label for="201to300">201-300</label>
+                </div>
+            </fieldset>
+            <button type="submit">Search for friends</button>
+        </from>
+    </div>
+</div>
+
+<div class="user-list-container">
+    <ul class="user-list">
+        <li class="user">User 1</li>
+        <li class="user">User 2</li>
+        <li class="user">User 3</li>
+        <li class="user">User 1</li>
+        <li class="user">User 2</li>
+        <li class="user">User 3</li>
+    </ul>
+</div>
+
+<footer class="footer">
+    <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
+</footer>
+
+<script>
+    function updateValue() {
+        document.getElementById("currentValue").innerHTML = document.getElementById("pointRange").value;
+    }
+</script>
 </body>
 </html>

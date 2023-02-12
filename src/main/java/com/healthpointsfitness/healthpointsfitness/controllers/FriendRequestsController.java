@@ -5,12 +5,16 @@ import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.repositories.FriendRequestsRepository;
 import com.healthpointsfitness.healthpointsfitness.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -22,7 +26,58 @@ public class FriendRequestsController {
     private FriendRequestsRepository friendRequestsRepository;
 
     @GetMapping("/user/friend_requests")
-    public String friendRequestsGET(){
+    public String friendRequestsGET(Model model){
+        User me = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<FriendRequest> allRequest = friendRequestsRepository.findAll();
+
+        // Approved sent and received requests
+        List<FriendRequest> approvedRequests = allRequest.stream().filter(friendRequest -> {
+            //Check if the request was approved
+            Boolean approved = friendRequest.getRequestApproved();
+
+            //Get the user the request was sent to
+            User to = friendRequest.getTo();
+
+            //Get the user the request was sent by
+            User from = friendRequest.getFrom();
+
+            //Any approved requests sent or received by me
+            return approved && (Objects.equals(to.getId(), me.getId())) || (Objects.equals(from.getId(), me.getId()));
+        }).toList();
+
+        model.addAttribute("friends", approvedRequests);
+
+        // Denied Sent Requests
+        List<FriendRequest> sentDeniedRequests = allRequest.stream().filter(friendRequest -> {
+            //Check if the request was approved
+            Boolean approved = friendRequest.getRequestApproved();
+
+            //Get the user the request was sent by
+            User from = friendRequest.getFrom();
+
+            //Any denied requests sent by me
+            return !approved &&  (Objects.equals(from.getId(), me.getId()));
+        }).toList();
+
+        model.addAttribute("sent_denied", sentDeniedRequests);
+
+        // Denied Received Requests
+        List<FriendRequest> receivedDeniedRequests = allRequest.stream().filter(friendRequest -> {
+            //Check if the request was approved
+            Boolean approved = friendRequest.getRequestApproved();
+
+            //Get the user the request was sent to
+            User to = friendRequest.getTo();
+
+            //Any denied requests sent by me
+            return !approved &&  (Objects.equals(to.getId(), me.getId()));
+        }).toList();
+
+        //Received denied request
+        model.addAttribute("received_denied", receivedDeniedRequests);
+
+        model.addAttribute("me",me);
+
         return "/users/friendsSearch";
     }
 

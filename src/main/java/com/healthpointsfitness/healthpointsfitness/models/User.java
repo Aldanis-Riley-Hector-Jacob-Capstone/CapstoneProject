@@ -39,11 +39,14 @@ public class User {
     private String lastName;
 
     @Column(name = "bio", nullable = true, unique = false, length = 255)
-    private String bio;
+    private String bio = "You can write your bio in the Profile Settings.";
 
     @Lob
     @Column(name = "profile_image", length = Integer.MAX_VALUE, nullable = true)
     private byte[] profileImage;
+
+    @Transient
+    private String profileImageDataUrl;
 
     @Column(name = "is_admin", nullable = true)
     private Boolean isAdmin = false;
@@ -65,19 +68,6 @@ public class User {
         this.totalPoints = 0L;
         this.bio = bio = "";
         this.profileImage = null;
-    }
-
-    public User(User copy) {
-        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
-        email = copy.email;
-        username = copy.username;
-        password = copy.password;
-        firstName = copy.firstName;
-        lastName = copy.lastName;
-        roles = copy.roles;
-        totalPoints = copy.totalPoints;
-        bio = copy.bio;
-        profileImage = copy.profileImage;
     }
 
     ///////// RELATIONSHIPS ////////////
@@ -102,4 +92,22 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<FriendRequest> friend_requests;
+
+    public User(User copy) {
+        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
+        firstName = copy.firstName;
+        lastName = copy.lastName;
+        roles = copy.roles;
+        totalPoints = copy.totalPoints;
+        bio = copy.bio;
+        profileImage = copy.profileImage;
+        goals = copy.goals;
+        created_paths = copy.created_paths;
+        followed_paths = copy.followed_paths;
+        friends = copy.friends;
+        friend_requests = copy.friend_requests;
+    }
 }

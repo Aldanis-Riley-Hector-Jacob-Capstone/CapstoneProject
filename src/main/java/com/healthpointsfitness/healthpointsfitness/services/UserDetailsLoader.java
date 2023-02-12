@@ -43,7 +43,7 @@ public class UserDetailsLoader implements UserDetailsService {
     }
 
 
-    public Long getUserPoints(int userid) {
+    public Long getUserPoints(Long userid) {
         User user = users.findUserById(userid);
         if (user == null) {
             throw new UsernameNotFoundException("A user could not be found matching the id of  " + userid);
@@ -53,23 +53,29 @@ public class UserDetailsLoader implements UserDetailsService {
 
 //    Created here to be used in both UserController and AuthController instead of having to repeat the same code over and over
     public Model getUserData(Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User curUser = userDao.findUserByUsername(auth.getName());
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User curUser = userDao.findUserByUsername(auth.getName());
 
-//        List<Path> paths = pathRepository.findAll();
-        List<Path> paths = curUser.getFollowed_paths();
+            //        List<Path> paths = pathRepository.findAll();
+            List<Path> paths = curUser.getFollowed_paths();
 
-//        Dynamic Path icons / badges
-        for (Path path : paths){
-            path.setImageDataUrl(pathServ.getPathImage(path));
+            if (paths != null) {
+                //        Dynamic Path icons / badges
+                for (Path path : paths) {
+                    path.setImageDataUrl(pathServ.getPathImage(path));
+                }
+            }
+
+            //        Gets total points
+            Long pointsTotal = curUser.getTotalPoints();
+
+
+            model.addAttribute("paths", paths);
+            model.addAttribute("points", pointsTotal);
+        }catch(Exception e){
+            e.printStackTrace();
         }
-
-//        Gets total points
-        Long pointsTotal = curUser.getTotalPoints();
-
-
-        model.addAttribute("paths", paths);
-        model.addAttribute("points", pointsTotal);
 
         return model;
     }

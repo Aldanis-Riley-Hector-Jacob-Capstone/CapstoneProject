@@ -95,7 +95,7 @@ public class VigoChatHandler extends TextWebSocketHandler {
         try { //Try to save the message
             if (userId != -1L) { //If it's not an admin message
                 //Grab the user for the message
-                User sender = userRepository.findUserById(Math.toIntExact(userId));
+                User sender = userRepository.findUserById(userId);
 
                 //Add the message to the message queue
                 messages.add(sender.getFirstName() + " " + sender.getLastName() + " - " + msg);

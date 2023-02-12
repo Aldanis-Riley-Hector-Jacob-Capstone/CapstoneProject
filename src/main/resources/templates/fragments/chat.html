@@ -2,13 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/html">
   <th:block th:fragment="main_chat">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <div id="main-chat">
-        <input type="hidden" id="userid" th:value="${userid}"/>
+      <input type="hidden" id="userid" th:value="${userid}"/>
       <th:block th:replace="~{/fragments/header.html :: header}"/>
       <div id="incoming_messages"></div>
       <div class="chat_controls">
-        <textarea id="message" placeholder="Say something cool." required></textarea>
-        <button id="send" type="submit">Send</button>
+        <div>
+          <textarea id="message" placeholder="Say something cool." required></textarea>
+        </div>
+        <div>
+          <button id="send" type="submit">Send</button>
+        </div>
       </div>
     </div>
     <i id="chat_icon" class="bi bi-chat-right-dots"></i>

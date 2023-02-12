@@ -39,4 +39,13 @@ public class FriendRequest {
         this.from = userFrom;
         this.to = userTo;
     }
+
+    public FriendRequest(FriendRequest copy){
+        id = copy.id;
+        requestApproved = copy.requestApproved;
+        date_sent = copy.date_sent;
+        date_approved_or_denied = copy.date_approved_or_denied;
+        from = copy.from;
+        to = copy.to;
+    }
 }

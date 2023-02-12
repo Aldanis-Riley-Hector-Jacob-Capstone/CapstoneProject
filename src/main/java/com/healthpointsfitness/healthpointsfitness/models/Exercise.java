@@ -52,4 +52,16 @@ public class Exercise implements Serializable {
                 + instructions
                 + "\"}";
     }
+
+    public Exercise(Exercise copy){
+        id = copy.id;
+        name = copy.name;
+        type = copy.type;
+        muscle = copy.muscle;
+        equipment = copy.equipment;
+        difficulty = copy.difficulty;
+        instructions = copy.instructions;
+        challenge = copy.challenge;
+        challengeid = copy.challengeid;
+    }
 }

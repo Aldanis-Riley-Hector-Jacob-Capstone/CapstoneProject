@@ -1,4 +1,7 @@
 let ws;
+//Get incoming messages container
+const incoming_messages = document.getElementById('incoming_messages')
+
 function setConnected(connected) {
     if(connected) {
         setTimeout(()=>{
@@ -16,7 +19,7 @@ function setConnected(connected) {
 }
 
 function connect() {
-    console.log("Connecting to ws")
+    // console.log("Connecting to ws")
 
     ws = new WebSocket("ws://" + location.host + "/freechat")
 
@@ -25,11 +28,11 @@ function connect() {
     }
 
     ws.onconnect = e => {
-        console.log(e)
+        // console.log(e)
     }
 
     ws.ondisconnect = e => {
-        console.log(e)
+        // console.log(e)
         connect()
     }
 
@@ -41,20 +44,21 @@ function disconnect() {
         ws.close();
     }
     setConnected(false);
-    console.log("Websocket is in disconnected state");
+    // console.log("Websocket is in disconnected state");
 }
 
 function sendData() {
     const message = document.getElementById('message')
     const userid = document.getElementById('userid')
 
+    // console.log(userid.value + " sending => " + message.value)
     const data = JSON.stringify({
         'userid' : userid.value,
         'message' : message.value
     })
 
-    console.log("Sending payload")
-    console.log(data);
+    // console.log("Sending payload")
+    // console.log(data);
 
 
     ws.send(data);
@@ -74,9 +78,16 @@ function incomingMessage(message) {
     //     form.onsubmit = e => e.preventDefault()
     // })
 
-    // document.getElementById('send').onclick = sendData
+    document.getElementById('send').onclick = sendData
 
+    //Connect to the chat socket
     connect()
+
+    //Scroll all the way down on the messages
+    setTimeout(()=>{
+        incoming_messages.scrollTop = incoming_messages.scrollHeight;
+    },200)
+
 
 })();
 
@@ -95,13 +106,18 @@ if(chat_icon) {
         main_chat.style.height = "400px";
         main_chat.style.maxHeight = "400px";
         main_chat.style.overflowY = "scroll";
+        if(display_chat){
+            setTimeout(()=>{
+                incoming_messages.scrollTop = incoming_messages.scrollHeight;
+            },200)
+        }
     }
 }
 
 if(message) {
     message.onkeyup = e => {
         const key = e.key
-        console.log(e)
+        // console.log(e)
         if (key === 'Enter') {
             e.preventDefault();
             sendData()

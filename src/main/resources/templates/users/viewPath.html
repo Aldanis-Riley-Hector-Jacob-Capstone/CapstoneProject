@@ -29,11 +29,11 @@
             <div class="col-3">
                 <div th:text="'Total Points for this path= ' + ${points}"/>
             </div>
-<!--            FOR EVERY CHALLENGE IN PATH -->
+            <!--            FOR EVERY CHALLENGE IN PATH -->
             <div th:each="challenge : ${path.getChallenges()}">
                 <div class="col-3">
                     <div class="challengeTitle" th:text="${challenge.getTitle()}" />
-<!--                    FOR EVERY EXERCISE UNDER CHALLENGES -->
+                    <!--                    FOR EVERY EXERCISE UNDER CHALLENGES -->
                     <div th:text="${challenge.getDescription()}" />
                     <ul>
                         <div th:each="exercise : ${challenge.getExercises()}">

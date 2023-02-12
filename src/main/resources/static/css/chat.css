@@ -22,7 +22,7 @@
     transition: all;
     width: 1px;
     height: 1px;
-    max-width: 200px;
+    max-width: 350px;
 }
 
 #incoming_messages{
@@ -34,13 +34,16 @@
 }
 
 #chat_controls{
+    background: red;
     /*position: relative;*/
     /*bottom: 0px;*/
     /*left: 0px;*/
+    display: grid;
+    grid-template-columns: auto 40px;
 }
 
 #message{
-    width: 92%;
+    /*width: 92%;*/
     padding-left: 3px;
     padding-right: 3px;
     margin-left: 8px;
@@ -48,5 +51,5 @@
 }
 
 #send{
-    display: none;
+    display: block;
 }

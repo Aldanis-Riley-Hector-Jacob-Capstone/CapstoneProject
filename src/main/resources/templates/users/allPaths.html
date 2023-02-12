@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
   <title>All Paths</title>
@@ -9,9 +8,9 @@
 <body>
 <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
 <div class="container">
-  <div th:each="path : ${paths}" id="achv1" class="col-2 achv_badge_holder">
+  <div th:each="path : ${paths}" class="col-2">
         <a th:href="@{/paths/{id} (id=${path.id})}">
-          <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="128px" height="128px" class="achv_badge_solo">
+          <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="128px" height="128px">
         </a>
   </div>
 </div>

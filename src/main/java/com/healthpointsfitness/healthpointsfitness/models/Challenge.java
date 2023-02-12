@@ -53,4 +53,14 @@ public class Challenge implements Serializable {
                 + icon
                 + "\"}";
     }
+
+    public Challenge(Challenge copy){
+        id = copy.id;
+        title = copy.title;
+        description = copy.description;
+        points = copy.points;
+        icon = copy.icon;
+        path = copy.path;
+        exercises = copy.exercises;
+    }
 }

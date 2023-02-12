@@ -87,7 +87,7 @@ class SecurityConfig {
                 //Configure Logout
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl("/landing?logout")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .permitAll()
                 .invalidateHttpSession(true)

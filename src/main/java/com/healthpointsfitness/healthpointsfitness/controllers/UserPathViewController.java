@@ -27,17 +27,26 @@ public class UserPathViewController {
     private Authentication auth;
     private User curUser;
 
+//    Moved to function to use multiple times
+    private User getUser(){
+        auth = SecurityContextHolder.getContext().getAuthentication();
+        curUser = userDao.findUserByUsername(auth.getName());
+
+        return curUser;
+    }
+
     @GetMapping("/paths/{pathnumber}")
     public String paths02(@PathVariable Long pathnumber, Model model){
         try {
+//            IF THE PATH EXISTS
             if (pathnumber != null) {
                 Path myPath = pathRepo.getReferenceById(pathnumber);
                 myPath.setImageDataUrl(pathServ.getPathImage(myPath));
-                auth = SecurityContextHolder.getContext().getAuthentication();
-                curUser = userDao.findUserByUsername(auth.getName());
+                curUser = getUser();
                 model.addAttribute("enrolled", pathServ.isEnrolled(curUser, myPath));
                 model.addAttribute("path", myPath);
                 model.addAttribute("points", pathServ.getTotalPathPoints(myPath));
+//                IF ENROLLED IN PATH
             } else {
                 return "/users/index";
             }
@@ -49,23 +58,23 @@ public class UserPathViewController {
     }
 
     @PostMapping("/paths/enroll/{pathNumber}")
+//    TODO: Prevent user from repreatedly enrolling in the same path forever (JJ)
     public String enrollInPath(@PathVariable Long pathNumber) {
         Path path = pathRepo.getReferenceById(pathNumber);
-        auth = SecurityContextHolder.getContext().getAuthentication();
-        curUser = userDao.findUserByUsername(auth.getName());
+        curUser = getUser();
 
 //        USER IS ENROLLED
         if (pathServ.isEnrolled(curUser, path)) {
             List<Path> followedPaths = curUser.getFollowed_paths();
             followedPaths.remove(path);
             curUser.setFollowed_paths(followedPaths);
+//            TODO: CONFIRM USER WANTS TO DELETE PATH (AND PROGRESS) (JJ)
 //        USER IS NOT ENROLLED
         } else {
             List<Path> followedPaths = curUser.getFollowed_paths();
             followedPaths.add(path);
             curUser.setFollowed_paths(followedPaths);
         }
-
         userDao.save(curUser);
         return "redirect:/profile";
     }

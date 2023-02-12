@@ -46,20 +46,20 @@
         </div>
     </div>
 
-    <div class="container">
-        <ul class="list-group mt-3" style="clear: both;">
-            <li class="list-group-item" th:each="item : ${user.followed_paths}">
-                <img style="border-radius: 50%;" width="40px" height="40px" th:src="'data:image/jpeg;base64,'+${item.imageDataUrl)}"/>
-                <span class="me-auto"><strong th:text="${item.title}"></strong></span>
-                <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto"   th:item="${item.getId()}"></i>
-                <i class="bi bi-pencil-fill editBtn btn btn-light me-2 ms-auto"  th:item="${item.getId()}"></i>
-            </li>
-            <li class="list-group-item" th:if="${user.followed_paths == null}"><i class="bi bi-info-square me-3"></i>You can find paths to follow in the "All Paths" tab.</li>
-        </ul>
-        <th:block th:if="${user.followed_paths.isEmpty()}">
-            <i class="bi bi-info-square me-4"></i>You are not following any paths, would you like to <a href="/allPaths">search</a> for one?
-        </th:block>
-    </div>
+<!--    <div class="container">-->
+<!--        <ul class="list-group mt-3" style="clear: both;">-->
+<!--            <li class="list-group-item" th:each="item : ${user.followed_paths}">-->
+<!--                <img style="border-radius: 50%;" width="40px" height="40px" th:src="'data:image/jpeg;base64,'+${item.imageDataUrl)}"/>-->
+<!--                <span class="me-auto"><strong th:text="${item.title}"></strong></span>-->
+<!--                <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto"   th:item="${item.getId()}"></i>-->
+<!--                <i class="bi bi-pencil-fill editBtn btn btn-light me-2 ms-auto"  th:item="${item.getId()}"></i>-->
+<!--            </li>-->
+<!--            <li class="list-group-item" th:if="${user.followed_paths == null}"><i class="bi bi-info-square me-3"></i>You can find paths to follow in the "All Paths" tab.</li>-->
+<!--        </ul>-->
+<!--        <th:block th:if="${user.followed_paths.isEmpty()}">-->
+<!--            <i class="bi bi-info-square me-4"></i>You are not following any paths, would you like to <a href="/allPaths">search</a> for one?-->
+<!--        </th:block>-->
+<!--    </div>-->
 
     <th:block th:replace="~{/fragments/chat.html :: main_chat}"/>
 

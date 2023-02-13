@@ -77,14 +77,17 @@ public class RecoveryController {
         }
     }
 
-    @GetMapping("/changePassword")
+    @GetMapping("changePassword")
     private String changePasswordView(){
-        return "/changePassword";
+        return "changePassword";
     }
 
-    @PostMapping("/changePassword")
-    private String changePasswordPost(@RequestParam String password, @RequestParam String email, @RequestParam String code) {
-
+    @PostMapping("changePass")
+    private String changePass(
+            @RequestParam("password") String password,
+            @RequestParam("email") String email,
+            @RequestParam("code") String code)
+    {
         try {
             //Get the user by email
             User user = userRepository.findUserByEmail(email);
@@ -92,10 +95,11 @@ public class RecoveryController {
             //Set the new password
             user.setPassword(passwordEncoder.encode(password));
 
+            //Save the user back the database duuuuh!
+            userRepository.save(user);
+
             //Delete the recovery request for the given code just to keep things clean
             recoveryRequestRepository.delete(recoveryRequestRepository.findRecoveryRequestByCode(code));
-
-            //
 
             //Get the user by username
             return "redirect:login";
@@ -106,6 +110,6 @@ public class RecoveryController {
         }
 
         //Otheriwse show an error page
-        return "redirect:error";
+        return "redirect:login";
     }
 }

@@ -17,7 +17,7 @@
     </div>
     <div class="row" style="padding-top: 50px">
         <div class="h6 ps-3">
-            <span th:unless="${user.lastName == null or user.firstName == null}" th:text="${user.firstName + ' ' + user.lastName}"/>
+            <span th:unless="${user.lastName == null or user.firstName == null}" th:text="${user.firstName + ' ' + user.lastName + ' (aka. ' + user.username + ')'}"/>
             <span th:if="${user.lastName == null or user.firstName == null}">What's your name? <a href="/profile/settings">Set Now</a></span>
 
             <!--If the user hasn't set their first and last name then display their username-->

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Null;
 import java.sql.Timestamp;
 
 @Entity
@@ -25,8 +26,9 @@ public class FriendRequest {
     @Column(name="date_sent", nullable = false)
     private Timestamp date_sent;
 
-    @Column(name="date_approved_or_denied", nullable = false)
-    private Timestamp date_approved_or_denied;
+    @Column(name="date_approved_or_denied")
+    @Null
+    private Timestamp date_approved_or_denied = null;
 
     @ManyToOne
     private User from;

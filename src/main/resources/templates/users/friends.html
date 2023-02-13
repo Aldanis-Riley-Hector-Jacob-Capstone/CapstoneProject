@@ -6,75 +6,120 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Friends Search</title>
     <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
-
-
-<!-- Main container -->
-<div class="main-container">
-    <!-- List container -->
-    <div class="friends-list">
-        <!-- List of names searched to add -->
-        <ul class="list-group mt-3" style="clear: both;">
-            <li class="list-group-item" th:each="item : ${friends}">
-                <img style="border-radius: 50%;" width="40px" height="40px" alt="path_image" src="" th:src="'data:image/jpeg;base64,'+${item.getImageDataUrl()}"/>
-                <span class="me-auto">
-                    <strong th:if="${item.from.getUsername()} not ${me.getUsername()}" th:text="${item.from.getUsername()}"></strong>
-                    <strong th:if="${item.to.getUsername()} not ${me.getUsername()}" th:text="${item.to.getUsername()}"></strong>
-                </span>
-                <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto" th:item="${item.getId()}"></i>
-                <i class="bi bi-pencil-fill editBtn btn btn-light me-2 ms-auto" th:item="${item.getId()}"></i>
-            </li>
-            <li class="list-group-item" th:if="${friends.isEmpty()}">
-                No friends yet, feel free to search for new friends and send them friend requests.
-            </li>
-        </ul>
+<div class="container">
+    <input type="hidden" id="myUsername" th:value="${me.username}">
+    <div class="navbar bg-body-tertiary d-flex justify-content-end pe-3">
+        <span class="h2 me-auto ms-3">Manage Friends</span>
+<!--        <a href="/admin/path/createapitest" class="btn btn-light" style="float: right;">-->
+<!--            <i class="bi bi-plus-square"></i>&nbsp;&nbsp;Add Go-->
+<!--        </a>-->
     </div>
+    <div class="row mt-4">
+        <div class="form-container col-12 col-md-9">
+<!--            <from th:action="@{/users/api/v1/search_friends}" th:method="POST">-->
+                <div class="input-group mb-3">
+                    <input class="form-control" id="search_term" placeholder="Search by Name, Points, Path Name" aria-label="Search for friends">
+                    <button class="btn btn-outline-secondary" type="button">Search</button>
+                </div>
+                <br>
+                <ul id="results" class="list-group mt-3">
 
-    <div class="form-container">
-        <from th:action="@{/users/friends}" th:method="POST">
-            <!--Filter for searching-->
-            <div>
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="search" name="name" id="name">
+                </ul>
+<!--            </from>-->
+        </div>
+        <div class="friends-list col-12 col-md-3">
+            <!--            Filter for point counts-->
+            <fieldset class="mb-3">
+                <legend>Filter by Points</legend>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                       Under or at 100pts
+                    </label>
                 </div>
-            </div>
-
-            <!--Filter for point counts-->
-            <fieldset>
-                <legend>Select Points</legend>
-                <div class="form-group">
-                    <input type="checkbox" name="1to100" id="1to100">
-                    <label for="1to100">1-100</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        Under or at 200pts
+                    </label>
                 </div>
-                <div class="form-group">
-                    <input type="checkbox" name="101to200" id="101to200">
-                    <label for="101to200">101-200</label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" name="201to300" id="201to300">
-                    <label for="201to300">201-300</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                    <label class="form-check-label" for="flexRadioDefault3">
+                        Under or at 300pts
+                    </label>
                 </div>
             </fieldset>
-            <button type="submit">Search for friends</button>
-        </from>
+<!--            <button type="submit">Search for friends</button>-->
+
+            <!-- List of names searched to add -->
+            <strong class="mt-5">Friends List</strong>
+            <ul class="list-group mt-3 mb-3" id="friends_list" style="clear: both;">
+<!--                <li class="list-group-item friend_item" style="cursor: pointer;" th:each="item : ${friends}">-->
+<!--                    <img style="border-radius: 50%;" width="40px" height="40px" alt="path_image" src=""-->
+<!--                         th:src="${item.from.profileImageDataUrl}"/>-->
+<!--                    <span class="me-auto friend_username">-->
+<!--                        <strong th:if="${item.from.username} != ${me.username}"-->
+<!--                                th:text="${item.from.username}"></strong>-->
+<!--                        <strong th:if="${item.to.username} != ${me.username}"-->
+<!--                                th:text="${item.to.username}"></strong>-->
+<!--                    </span>-->
+<!--                    <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto" th:item="${item.getId()}"></i>-->
+<!--&lt;!&ndash;                    <i class="bi bi-pencil-fill editBtn btn btn-light me-2 ms-auto" th:item="${item.getId()}"></i>&ndash;&gt;-->
+<!--                </li>-->
+<!--                <li class="list-group-item" th:if="${friends.isEmpty()}">-->
+<!--                    No friends yet, feel free to search for new friends and send them friend requests.-->
+<!--                </li>-->
+            </ul>
+
+            <!-- List of pending sent requests -->
+            <strong class="mt-5">Incoming Pending</strong>
+            <ul class="list-group mt-3 mb-3" id="incoming_pending_list" style="clear: both;">
+<!--                <li class="list-group-item friend_item" style="cursor: pointer;" th:each="item : ${received_denied}">-->
+<!--                    <img style="border-radius: 50%;" width="40px" height="40px" alt="path_image" src=""-->
+<!--                         th:src="${item.from.profileImageDataUrl}"/>-->
+<!--                    <span class="me-auto friend_username">-->
+<!--                        <strong th:if="${item.from.username} != ${me.username}"-->
+<!--                                th:text="${item.from.username}"></strong>-->
+<!--                        <strong th:if="${item.to.username} != ${me.username}"-->
+<!--                                th:text="${item.to.username}"></strong>-->
+<!--                    </span>-->
+<!--                    <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto" th:item="${item.getId()}"></i>-->
+<!--                    &lt;!&ndash;                    <i class="bi bi-pencil-fill editBtn btn btn-light me-2 ms-auto" th:item="${item.getId()}"></i>&ndash;&gt;-->
+<!--                </li>-->
+<!--                <li class="list-group-item" th:if="${received_denied.isEmpty()}">-->
+<!--                    No pending incoming friend requests at this time.-->
+<!--                </li>-->
+            </ul>
+
+            <!-- List of names searched to add -->
+            <strong class="mt-5">Outgoing Pending</strong>
+            <ul class="list-group mt-3" id="outgoing_pending_list" style="clear: both;">
+<!--                <li class="list-group-item friend_item" style="cursor: pointer;" th:each="item : ${sent_denied}">-->
+<!--                    <img style="border-radius: 50%;" width="40px" height="40px" alt="path_image" src=""-->
+<!--                         th:src="${item.from.profileImageDataUrl}"/>-->
+<!--                    <span class="me-auto friend_username">-->
+<!--                        <strong th:if="${item.from.username} != ${me.username}"-->
+<!--                                th:text="${item.from.username}"></strong>-->
+<!--                        <strong th:if="${item.to.username} != ${me.username}"-->
+<!--                                th:text="${item.to.username}"></strong>-->
+<!--                    </span>-->
+<!--                    <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto" th:item="${item.getId()}"></i>-->
+<!--                    &lt;!&ndash;                    <i class="bi bi-pencil-fill editBtn btn btn-light me-2 ms-auto" th:item="${item.getId()}"></i>&ndash;&gt;-->
+<!--                </li>-->
+<!--                <li class="list-group-item" th:if="${sent_denied.isEmpty()}">-->
+<!--                    No pending outgoing friend requests at this time.-->
+<!--                </li>-->
+            </ul>
+        </div>
     </div>
 </div>
-
-<div class="user-list-container">
-    <ul class="user-list">
-        <li class="user">User 1</li>
-        <li class="user">User 2</li>
-        <li class="user">User 3</li>
-        <li class="user">User 1</li>
-        <li class="user">User 2</li>
-        <li class="user">User 3</li>
-    </ul>
-</div>
-
-<footer class="footer">
+<footer class="footer" style="margin-top: 40px;">
     <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
 </footer>
 
@@ -82,6 +127,497 @@
     function updateValue() {
         document.getElementById("currentValue").innerHTML = document.getElementById("pointRange").value;
     }
+
+    const zeroToOneHundred = document.getElementById("flexRadioDefault1");
+    const oneHundredToTwoHundred = document.getElementById("flexRadioDefault2")
+    const twoHundredToThreeHundred = document.getElementById("flexRadioDefault3")
+
+    zeroToOneHundred.onchange = e => search(searchInput.value ? searchInput.value : '')
+    oneHundredToTwoHundred.onchange = e => search(searchInput.value ? searchInput.value : '')
+    twoHundredToThreeHundred.onchange = e => search(searchInput.value ? searchInput.value : '')
+
+    const friendItems = document.getElementsByClassName('friend_item');
+
+    Array.from(friendItems).forEach(item=>item.onclick = e => {
+        const username = item.children.item(1).innerText
+        window.location.href = '/profile/' + username
+    })
+
+    const myUsername = document.getElementById('myUsername')
+
+    /*
+     * Method sends POST request to Friends Api and returns matching friends based on search term and
+     * filters.
+     */
+    const search = async term => {
+        //Get the Cross Site Request Forgery token
+        const token = document.getElementsByName("_csrf")[0].getAttribute("content")
+
+        const points = () => {
+            if(zeroToOneHundred.checked){
+                return 100
+            }else if(oneHundredToTwoHundred.checked){
+                return 200
+            }else{
+                return 300
+            }
+        }
+
+        const endpoint = "http://" + window.location.host + "/users/api/v1/search_friends";
+        console.log(endpoint)
+        console.log(token)
+        //Create a post request to the backend
+        const request = await fetch(endpoint,{
+            method : "POST",
+            credentials: "include", //Send the SpringSec credentials
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN" : token
+            },
+            body : JSON.stringify({
+                points : points(),
+                searchTerm : document.getElementById("search_term").value
+            })
+        })
+
+        //Get the response from the request
+        const response = await request.json()
+
+        //Show the response in the console
+        console.log(response)
+
+        //Grab the list container for the results
+        const results = document.getElementById("results");
+
+        //Clear the results
+        results.innerHTML = ""
+
+        //List of pending sent requests
+        const sent_pending_list = document.getElementById('outgoing_pending_list')
+
+        //Redreaw the pending request list
+        if('sent_pending' in response){
+            sent_pending_list.innerHTML = ""
+            if(response.sent_pending.length > 0) {
+                response.sent_pending.forEach(item => {
+                    const listItem = document.createElement('li')
+                    listItem.classList.add('list-group-item', 'friend_item')
+                    listItem.style.cursor = "pointer"
+
+                    const img = document.createElement('img')
+                    img.classList.add('me-2')
+                    img.style.borderRadius = "50%"
+                    img.width = 40
+                    img.height = 40
+                    img.alt = "friend_profile_image"
+
+                    const username = document.createElement('span')
+                    username.classList.add('me-auto', 'friend_username', 'me-3')
+
+                    let itemUsername;
+                    console.log(item['from'].username)
+                    console.log(item['to'].username)
+                    console.log(myUsername.value)
+                    const defaultProfileImage = "data:image/jpeg;base64,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";
+
+                    if (item['from'].username === myUsername.value) {
+                        itemUsername = item['to'].username
+                        username.innerText = itemUsername
+                        img.src = item['to'].profileImageDataUrl ?? defaultProfileImage;
+                    } else if(item['to'].username === myUsername.value) {
+                        itemUsername = item['from'].username
+                        username.innerText = itemUsername
+                        img.src = item['from'].profileImageDataUrl ?? defaultProfileImage;
+                    }
+
+                    listItem.onclick = e => {
+                        window.location.href = '/profile/' + itemUsername
+                    }
+
+                    listItem.appendChild(img)
+                    listItem.appendChild(username)
+
+                    // < i
+                    // className = "bi bi-trash3-fill deleteBtn btn btn-warning ms-auto"
+                    // th:item = "${item.getId()}" > < /i>
+
+                    const deleteBtn = document.createElement('i')
+                    deleteBtn.classList.add('bi', 'bi-trash3-fill', 'deleteBtn', 'btn', 'btn-warning', 'ms-3')
+                    deleteBtn.style.float = "right"
+                    listItem.appendChild(deleteBtn)
+                    deleteBtn.onclick = async e => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        console.log("Deleting pending sent friend request for " + username.innerText)
+
+                        const request = await fetch("http://" + location.host + "/users/api/v1/delete_friend_request",{
+                            method : "POST",
+                            credentials : "include",
+                            headers : {
+                                "Content-Type" : "application/json",
+                                "X-CSRF-TOKEN" : token
+                            },
+                            body : username.innerText
+                        })
+
+                        const response = await request.json()
+
+                        console.log(response)
+
+                        await search(term)
+                    }
+
+                    sent_pending_list.appendChild(listItem);
+                })
+            }else{
+                console.log("No sent requests pending")
+                const listItem = document.createElement('li')
+                listItem.classList.add('list-group-item', 'friend_item')
+                listItem.style.cursor = "pointer"
+                listItem.append("No pending outgoing friend requests at this time.")
+                sent_pending_list.appendChild(listItem);
+            }
+        }
+
+        //List of pending sent requests
+        const received_pending_list = document.getElementById('incoming_pending_list')
+
+        //Re-dreaw the pending request list
+        if('received_pending' in response){
+            received_pending_list.innerHTML = ""
+            if(response.received_pending.length > 0) {
+                response.received_pending.forEach(item => {
+                    const listItem = document.createElement('li')
+
+                    listItem.classList.add('list-group-item', 'friend_item')
+                    listItem.style.cursor = "pointer"
+
+                    const img = document.createElement('img')
+                    img.classList.add('me-2')
+                    img.style.borderRadius = "50%"
+                    img.width = 40
+                    img.height = 40
+                    img.alt = "friend_profile_image"
+
+                    const username = document.createElement('span')
+                    username.classList.add('me-auto', 'friend_username', 'me-3')
+
+                    let itemUsername;
+                    console.log(item['from'].username)
+                    console.log(item['to'].username)
+                    console.log(myUsername.value)
+                    const defaultProfileImage = "data:image/jpeg;base64,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";
+
+                    if (item['from'].username === myUsername.value) {
+                        itemUsername = item['to'].username
+                        username.innerText = itemUsername
+                        img.src = item['to'].profileImageDataUrl ?? defaultProfileImage;
+                    } else if(item['to'].username === myUsername.value) {
+                        itemUsername = item['from'].username
+                        username.innerText = itemUsername
+                        img.src = item['from'].profileImageDataUrl ?? defaultProfileImage;
+                    }
+
+                    listItem.onclick = e => {
+                        window.location.href = '/profile/' + itemUsername
+                    }
+
+                    listItem.appendChild(img)
+                    listItem.appendChild(username)
+
+
+                    const acceptBtn = document.createElement('i')
+                    acceptBtn.classList.add('bi', 'bi-person-plus', 'addBtn', 'btn', 'btn-warning')
+                    acceptBtn.style.float = "right"
+                    acceptBtn.onclick = async e => {
+                        //TODO: Send post request to backend to add friend
+                        e.stopPropagation();
+                        e.preventDefault();
+                        console.log("Accepting friend request from " +  username.innerText)
+
+                        //Create a request to accept the friend request
+                        const request = await fetch("http://" + location.host + "/users/api/v1/accept_friend_request",{
+                            method : "POST",
+                            credentials : "include",
+                            headers : {
+                                "Content-Type" : "application/json",
+                                "X-CSRF-TOKEN" : token
+                            },
+                            body : username.innerText
+                        })
+
+                        const response = await request.json()
+
+                        console.log(response)
+
+                        await search(term)
+
+                    }
+                    listItem.appendChild(acceptBtn)
+
+                    const denyBtn = document.createElement('i')
+                    denyBtn.classList.add('bi','bi-person-x','delBtn', 'btn', 'btn-danger','ms-2')
+                    denyBtn.onclick = async e => {
+                        //TODO: Send post request to deny the friend request
+                        e.stopPropagation();
+                        e.preventDefault();
+                        console.log("Denying friend request from " + username.innerText)
+
+                        //Create a request to deny the friend request
+                        const request = await fetch("http://" + location.host + "/users/api/v1/deny_friend_request",{
+                            method : "POST",
+                            credentials : "include",
+                            headers : {
+                                "Content-Type" : "application/json",
+                                "X-CSRF-TOKEN" : token
+                            },
+                            body : username.innerText
+                        })
+
+                        const response = await request.json()
+
+                        console.log(response)
+
+                        await search(term)
+
+                    }
+
+                    listItem.appendChild(denyBtn)
+
+                    received_pending_list.appendChild(listItem);
+                })
+            }else{
+                console.log("No incoming requests pending")
+                const listItem = document.createElement('li')
+                listItem.classList.add('list-group-item', 'friend_item')
+                listItem.style.cursor = "pointer"
+                listItem.append("No pending incoming friend requests at this time.")
+                received_pending_list.appendChild(listItem);
+            }
+        }
+
+        //Show new results
+        if('results' in response) { //If there's matches in the response
+            response.results.forEach(user => {
+                //Create a list item
+                const item = document.createElement('li')
+                item.classList.add('list-group-item')
+                item.onclick = e => {
+                    window.location.href = "/profile/" + user['username']
+                }
+
+                //Create the profile image icon
+                const img = document.createElement('img')
+                img.src = user.profileImageDataUrl
+                img.setAttribute("style", "border-radius: 50%;margin-right: 4px;")
+                img.alt = "profile user image"
+                img.width = 40
+                img.height = 40
+
+                //Generate a span to show the username for the current list item user.
+                const username = document.createElement('span')
+                username.innerText = user.username;
+
+                const requestIcon = document.createElement('i')
+                requestIcon.classList.add("bi","bi-person-plus-fill")
+
+                const requestButton = document.createElement('button')
+                requestButton.classList.add('btn','btn-primary')
+                requestButton.appendChild(requestIcon)
+                requestButton.onclick = async e => {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    const sendFriendRequest = async u => {
+                        const endp = "http://" + location.host + "/users/api/v1/add_friend"
+
+                        const request = await fetch(endp,{
+                            method : "POST",
+                            credentials : "include",
+                            headers : {
+                                "Content-Type" : "application/json",
+                                "X-CSRF-TOKEN" : token
+                            },
+                            body : user["username"]
+                        })
+
+                        const response = await request.json()
+
+                        if('success' in response){
+                            if(response.success){
+                                alert(response.message)
+                            }else{
+                                console.error(response.message)
+                                alert("There was an error while sending your friend request.")
+                            }
+
+                            await search(term)
+                        }
+                    }
+
+                    // console.log("Sending friend request to " + user["username"])
+                    console.log(await sendFriendRequest(user))
+                }
+                requestButton.style.float = "right"
+
+
+                //Add the image to the list item
+                item.appendChild(img)
+
+                //Add the username to the list item
+                item.appendChild(username)
+
+                //Return a bool if the request is pending approval
+                const requestPendingApproval = () => {
+                    const pendingApprovalSent = response['sent_pending']
+                    const sentPending = pendingApprovalSent.filter(req=>req['to'].id === user.id).length > 0
+
+                    const pendingApprovalReceived = response['received_pending']
+                    const receivedPending = pendingApprovalReceived.filter(req=>req['from'].id === user.id).length > 0
+
+                    return sentPending || receivedPending
+                }
+
+                const requestDenied = () => {
+                    return response['denied_requests'].filter(item=>{
+                        return item.from.id === user.id || item.to.id === user.id
+                    }).length > 0
+                }
+
+                const userIsFriend = () => {
+                    return response['friends'].filter(item=>{
+                        return item.from.id === user.id || item.to.id === user.id
+                    }).length > 0
+                }
+
+                // console.log(requestPendingApproval())
+                if(!requestPendingApproval() && !requestDenied() && !userIsFriend()) {
+                    //Add the add friend button to the list item
+                    item.appendChild(requestButton)
+                }else if (!requestPendingApproval() && requestDenied()) {
+                    //If this request was denied
+                    const deniedIcon = document.createElement('i')
+                    deniedIcon.classList.add('bi','bi-person-fill-slash','me-3')
+
+                    const deniedLabel = document.createElement('span')
+                    deniedLabel.appendChild(deniedIcon);
+
+                    deniedLabel.append("Denied")
+                    deniedLabel.style.color = 'red'
+                    deniedLabel.style.float = 'right'
+
+                    // Unblock icon
+                    const unblockIcon = document.createElement('i')
+                    unblockIcon.classList.add('bi','bi-person-check', 'me-3')
+
+                    //Unblock Label
+                    const unblockLabel = document.createElement('span')
+                    unblockLabel.innerText = "Unblock"
+
+                    //Unblock button
+                    const unblockButton = document.createElement('button')
+                    unblockButton.classList.add('btn','btn-success','ms-3')
+                    unblockButton.appendChild(unblockIcon)
+                    unblockButton.appendChild(unblockLabel)
+                    unblockButton.onclick = async e => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        const request = await fetch("http://" + location.host + "/users/api/v1/unblock_request",{
+                            method : "POST",
+                            credentials : "include",
+                            headers : {
+                                "Content-Type" : "application/json",
+                                "X-CSRF-TOKEN" : token
+                            },
+                            body : user["username"]
+                        })
+
+                        const response = await request.json()
+
+                        console.log(response)
+
+                        await search(term)
+                    }
+
+
+                    item.appendChild(unblockButton)
+                    item.appendChild(deniedLabel)
+                } else if(userIsFriend()) {
+                    const friendIcon = document.createElement('i')
+                    friendIcon.classList.add('bi', 'bi-person-check', 'me-3')
+
+                    const friendLabel = document.createElement('span')
+                    friendLabel.appendChild(friendIcon);
+
+                    friendLabel.append("Friends")
+                    friendLabel.style.color = 'green'
+                    friendLabel.style.float = 'right'
+                    item.appendChild(friendLabel)
+
+                    //Unfriend Icon
+                    const unfriendIcon = document.createElement('i')
+                    unfriendIcon.classList.add('bi','bi-person-slash')
+
+                    //Unfriend Button
+                    const unfriendButton = document.createElement('button')
+                    unfriendButton.classList.add('btn','btn-danger','me-3')
+                    unfriendButton.style.float = 'right'
+                    unfriendButton.appendChild(unfriendIcon)
+                    unfriendButton.onclick = async e => {
+                        e.stopPropagation();
+                        e.preventDefault();
+
+                        //TODO: Send unfriend request
+                        console.log("Unfriending " + username.innerText);
+
+                        const request = await fetch("http://" + location.host + "/users/api/v1/unfriend_request",{
+                            method : "POST",
+                            credentials : "include",
+                            headers : {
+                                "Content-Type" : "application/json",
+                                "X-CSRF-TOKEN" : token
+                            },
+                            body : user["username"]
+                        })
+
+                        const response = await request.json()
+
+                        console.log(response)
+
+                        await search(term)
+
+                    }
+                    item.appendChild(unfriendButton)
+                } else{
+                    const pendingIcon = document.createElement('i')
+                    pendingIcon.classList.add('bi','bi-hourglass','me-3')
+
+                    const pendingLabel = document.createElement('span')
+                    pendingLabel.appendChild(pendingIcon);
+
+                    pendingLabel.append("Pending")
+                    pendingLabel.style.color = 'orange'
+                    pendingLabel.style.float = 'right'
+                    item.appendChild(pendingLabel)
+                }
+
+                //Add the list item to the list
+                results.appendChild(item)
+            })
+        }
+    }
+
+
+    const searchInput = document.getElementById('search_term')
+
+    searchInput.oninput = async e => {
+        await search(e.target.value)
+    }
+
+    (async ()=>{
+        await search("")
+    })()
+
 </script>
 </body>
 </html>

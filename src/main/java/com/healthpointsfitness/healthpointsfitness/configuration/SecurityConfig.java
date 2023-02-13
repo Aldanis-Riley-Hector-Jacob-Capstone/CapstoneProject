@@ -39,6 +39,7 @@ class SecurityConfig {
 
                 .authorizeHttpRequests()
                 .requestMatchers(
+                        "/changePass",
                         "/login",
                         "/register",
                         "/recover",
@@ -51,9 +52,7 @@ class SecurityConfig {
                         "/chat",
                         "/",
                         "/user/api/v1/recoveryCodeCheck",
-                        "/user/api/v1/changePassword",
                         "/changePassword"
-
                 )
                 .permitAll()
 
@@ -64,7 +63,8 @@ class SecurityConfig {
                         "/users/**",
                         "/users",
                         "/profile",
-                        "/user/api/v1/**"
+                        "/users/api/v1/**",
+                        "/users/api/v1/search_friends"
                 ).hasAuthority("ROLE_CLIENT")
 
                 //Lock down admin routes

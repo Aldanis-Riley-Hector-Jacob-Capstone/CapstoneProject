@@ -79,6 +79,15 @@ public class UserPathViewController {
         return "redirect:/profile";
     }
 
+    @PostMapping("/paths/update/{pathNumber}")
+    public String updatePath(@PathVariable Long pathNumber){
+        Path path = pathRepo.getReferenceById(pathNumber);
+        curUser = getUser();
+
+        System.out.println(path.getTitle());
+        return "redirect:/paths/{pathNumber}";
+    }
+
     @GetMapping("/allPaths")
     public String allPaths(Model model){
         try {

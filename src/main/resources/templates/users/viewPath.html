@@ -37,18 +37,19 @@
             </div>
 <!--            FOR EVERY CHALLENGE IN PATH -->
             <div class="row">
-            <div th:each="challenge : ${path.getChallenges()}">
-                <div class="card col-2">
-                    <div class="challengeTitle" th:text="${challenge.getTitle()}" />
-<!--                    FOR EVERY EXERCISE UNDER CHALLENGES -->
-                    <div th:text="${challenge.getDescription()}" />
-                    <ul>
-                        <a th:each="exercise : ${challenge.getExercises()}">
-                            <li th:text="${exercise.getName()}" />
-                        </a>
-                    </ul>
+                <div th:each="challenge : ${path.getChallenges()}">
+                    <form action="#" th:action="@{/paths/update/} + ${path.getId()}" method="post">
+                        <div class="card">
+                            <div class="challengeTitle" th:text="${challenge.getTitle()}"/>
+                            <!-- FOR EVERY EXERCISE UNDER CHALLENGES -->
+                            <div th:text="${challenge.getDescription()}"/>
+                            <div th:each="exercise : ${challenge.getExercises()}">
+                                <input type="checkbox" th:name="${exercise}" th:text="${exercise.getName()}">
+                            </div>
+                        </div>
                 </div>
-            </div>
+                <input type="submit">
+                </form>
             </div>
         </div>
 </div>

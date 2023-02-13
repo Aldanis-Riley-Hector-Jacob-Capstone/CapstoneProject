@@ -31,6 +31,9 @@ public class Exercise implements Serializable {
 
     private String instructions;
 
+    @Column
+    private boolean complete;
+
     @ManyToOne
     @JoinColumn(name = "challenge_id")
     private Challenge challenge;

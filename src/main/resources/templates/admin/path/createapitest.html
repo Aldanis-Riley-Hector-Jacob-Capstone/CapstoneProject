@@ -7,166 +7,205 @@
     <th:block th:replace="~{/fragments/header.html :: header}"/>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <style>
+        .dots {
+            background-image: url("/img/dots.png");
+        }
+        .submitBtn {
+            background-color: #01295f;
+            border: none;
+            transition: .5s;
+        }
+        .submitBtn:hover {
+            color: #01295f;
+            border: none;
+            background-color: #ffcb05;
+        }
+    </style>
 </head>
-<body>
+
+<body style="background-color: #3c5aa6">
+
+    <!-- Navbar -->
     <th:block th:replace="~{/fragments/navbar.html :: navbar}"/>
+
+
     <div class="container">
-        <div class="navbar bg-body-tertiary">
-            <a href="/admin/index">
-                <button class="btn btn-light ms-3">
-                    <i class="bi bi-arrow-left-square"></i>
-                </button>
-            </a>
-            <div class="h2 ms-1 me-auto">Add New Path</div>
-        </div>
-        <div class="p-3">
-            <!--Path Title-->
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="titleLabel">Path Title</span>
-                <input type="text" class="form-control" aria-label="Path Title" id="title" placeholder="Path Title" aria-describedby="titleLabel">
+
+        <div class="row p-4 dots rounded my-5">
+
+            <!-- Img Side -->
+            <div class="col col-md-12 col-lg-6 d-flex justify-content-center align-items-center">
+                <img src="/img/path.webp" class="rounded" style="width: 100%;">
             </div>
 
-            <!--Path Description-->
-            <div class="input-group">
-                <span class="input-group-text">Description</span>
-                <textarea class="form-control" aria-label="Path description" placeholder="Path Description" id="description"></textarea>
-            </div>
-
-            <div class="input-group mt-3">
-                <!--Path Badge File-->
-                <label for="pathBadge">
-                    Path Badge Image
-                    <input type="file" id="pathBadge"/>
-                </label>
-            </div>
-
-            <div class="navbar bg-body-tertiary mt-3">
-                <!--Add Challenge Button-->
-                <button id="add_challenge_btn" class="btn btn-primary ms-auto">
-                    <i class="bi bi-plus-square"></i>
-                    Add Challenge
-                </button>
-            </div>
-
-            <!--List of Challenges-->
-            <div id="list_of_challenges">
-                No Challenges...
-            </div>
-
-            <!--Button to Save Path-->
-            <div class="navbar bg-body-tertiary mt-3">
-                <a href="/admin/index" class="btn btn-primary ms-auto me-2">Cancel</a>
-                <a id="savePathButton" class="btn btn-primary me-auto">Save Path</a>
-            </div>
-
-            <!-- Challenge Modal -->
-            <div id="challenge_modal" class="modal">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="challengeModalTitle">Add Challenge</h5>
-                            <button type="button" class="btn-close"  aria-label="Close" id="closeChallengeModal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
-                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Challenge Title" id="challengeTitle">
-                            </div>
-                            </p>
-                            <p>
-                            <div class="input-group">
-                                <span class="input-group-text">Description</span>
-                                <textarea class="form-control" placeholder="Challenge Description" id="challengeDescription" aria-label="Challenge Description"></textarea>
-                            </div>
-                            </p>
-                            <p>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="inputGroup-sizing-default1"><span id="challengePointsDisplay"></span>&nbsp;Points</span>
-                                <input type="range" min="1" max="50" id="challengePoints" class="w-auto ms-2"/>
-                            </div>
-                            </p>
-                            <p>
-                            <hr/>
-                            <button id="add_exercise_button">
-                                <i class="bi bi-plus-square"></i>
-                                Add Exercise
+            <!-- Card Side -->
+            <div class="col-lg-6">
+                <div class="card" style="width: 100%;">
+                    <div class="navbar bg-white mt-2 rounded-top pb-0">
+                        <a href="/admin/index">
+                            <button class="btn btn-light ms-3">
+                                <i class="bi bi-arrow-left-square"></i>
                             </button>
-                            <hr/>
-                            <div id="selected_exercises"></div>
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button id="saveChallengeButton">Save Challenge</button>
-                        </div>
+                        </a>
+                        <div class="h2 ms-2 my-0 me-auto" style="color: #3c5aa6">Add New Path</div>
                     </div>
-                </div>
-            </div>
+                    <hr class="mx-4 my-0" style="color: #3c5aa6">
 
-            <!--Add Exercise Modal -->
-            <div id="add_exercise_modal" class="modal">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Add Exercise</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" data-bs-target="#add_exercise_modal" aria-label="Close" id="closeExerciseModal"></button>
+                    <div class="card-body">
+                        <!--Path Title-->
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="titleLabel">Path Title</span>
+                            <input type="text" class="form-control" aria-label="Path Title" id="title" placeholder="Path Title" aria-describedby="titleLabel">
                         </div>
-                        <div class="modal-body">
-                            <label for="muscle">Muscle:
-                                <select id="muscle">
-                                    <option value="abdominals">Abdominals</option>
-                                    <option value="abductors">Abductors</option>
-                                    <option value="adductors">Adductors</option>
-                                    <option value="biceps">Biceps</option>
-                                    <option value="calves">Calves</option>
-                                    <option value="chest">Chest</option>
-                                    <option value="forearms">Forearms</option>
-                                    <option value="glutes">Glutes</option>
-                                    <option value="hamstrings">Hamstrings</option>
-                                    <option value="lats">Lats</option>
-                                    <option value="lower_back">Lower Back</option>
-                                    <option value="middle_back">Middle Back</option>
-                                    <option value="neck">Neck</option>
-                                    <option value="quadriceps">Quadriceps</option>
-                                    <option value="traps">Traps</option>
-                                    <option value="triceps">Triceps</option>
-                                </select>
+
+                        <!--Path Description-->
+                        <div class="input-group">
+                            <span class="input-group-text">Description</span>
+                            <textarea class="form-control" aria-label="Path description" placeholder="Path Description" id="description"></textarea>
+                        </div>
+
+                        <div class="input-group mt-3">
+                            <!--Path Badge File-->
+                            <label for="pathBadge">
+                                Path Badge Image
+                                <input type="file" id="pathBadge"/>
                             </label>
-                            <label for="searchExercise">
-                                Search
-                                <input type="search" id="searchExercise" placeholder="Filter Exercise by Name"/>
-                            </label>
-                            <div id="list_of_exercises">
-
-                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button id="close_exercise_button">Close</button>
+
+                        <div class="navbar my-3">
+                            <!--Add Challenge Button-->
+                            <button id="add_challenge_btn" class="btn btn-light border border-secondary">
+                                <i class="bi bi-plus-square"></i>
+                                Add Challenge
+                            </button>
+                        </div>
+
+                        <hr>
+
+                        <!--List of Challenges-->
+                        <div id="list_of_challenges">
+                            No Challenges...
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <!--Button to Save Path-->
+                        <div class="navbar">
+                            <a href="/admin/index" class="btn btn-light ms-auto me-2">Cancel</a>
+                            <a id="savePathButton" class="btn btn-primary me-auto submitBtn">Save Path</a>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Exercise Description Modal -->
-            <div id="instructionModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-scrollable modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 id="exerciseInstructionTitle" class="modal-title fs-5">Modal title</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div id="modal-body" class="modal-body">
-                            <!-- Filled by JS -->
-                        </div>
-                        <div class="modal-footer">
-                            <button id="exerciseInstructionClose" type="button" class="btn btn-secondary">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 
         </div>
+
+        <!-- Challenge Modal -->
+        <div id="challenge_modal" class="modal">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="challengeModalTitle">Add Challenge</h5>
+                        <button type="button" class="btn-close"  aria-label="Close" id="closeChallengeModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Challenge Title" id="challengeTitle">
+                        </div>
+                        </p>
+                        <p>
+                        <div class="input-group">
+                            <span class="input-group-text">Description</span>
+                            <textarea class="form-control" placeholder="Challenge Description" id="challengeDescription" aria-label="Challenge Description"></textarea>
+                        </div>
+                        </p>
+                        <p>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default1"><span id="challengePointsDisplay"></span>&nbsp;Points</span>
+                            <input type="range" min="1" max="50" id="challengePoints" class="w-auto ms-2"/>
+                        </div>
+                        </p>
+                        <p>
+                        <hr/>
+                        <button id="add_exercise_button">
+                            <i class="bi bi-plus-square"></i>
+                            Add Exercise
+                        </button>
+                        <hr/>
+                        <div id="selected_exercises"></div>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="saveChallengeButton">Save Challenge</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="add_exercise_modal" class="modal">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Exercise</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" data-bs-target="#add_exercise_modal" aria-label="Close" id="closeExerciseModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="muscle">Muscle:
+                            <select id="muscle">
+                                <option value="abdominals">Abdominals</option>
+                                <option value="abductors">Abductors</option>
+                                <option value="adductors">Adductors</option>
+                                <option value="biceps">Biceps</option>
+                                <option value="calves">Calves</option>
+                                <option value="chest">Chest</option>
+                                <option value="forearms">Forearms</option>
+                                <option value="glutes">Glutes</option>
+                                <option value="hamstrings">Hamstrings</option>
+                                <option value="lats">Lats</option>
+                                <option value="lower_back">Lower Back</option>
+                                <option value="middle_back">Middle Back</option>
+                                <option value="neck">Neck</option>
+                                <option value="quadriceps">Quadriceps</option>
+                                <option value="traps">Traps</option>
+                                <option value="triceps">Triceps</option>
+                            </select>
+                        </label>
+                        <label for="searchExercise">
+                            Search
+                            <input type="search" id="searchExercise" placeholder="Filter Exercise by Name"/>
+                        </label>
+                        <div id="list_of_exercises">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="close_exercise_button">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise Description Modal -->
+        <div id="instructionModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 id="exerciseInstructionTitle" class="modal-title fs-5">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="modal-body" class="modal-body">
+                        <!-- Filled by JS -->
+                    </div>
+                    <div class="modal-footer">
+                        <button id="exerciseInstructionClose" type="button" class="btn btn-secondary">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
     <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
 

@@ -4,42 +4,59 @@
     <meta charset="UTF-8">
     <title>User Settings</title>
     <th:block th:replace="~{/fragments/header.html :: header}"/>
+    <style>
+        .hexBg {
+            background-image: url("/img/hex.png");
+        }
+    </style>
 </head>
-<body>
+
+<body class="hexBg">
+
+<!-- Navbar -->
   <th:block th:replace="~{/fragments/navbar.html :: navbar}"/>
-  <div class="container">
+
+  <div class="container rounded my-5 px-5 py-3 bg-light">
       <div class="navbar bg-body-tertiary mb-3">
           <a th:href="'/profile/' + ${me.username}">
-              <button class="btn btn-light ms-3">
+              <button class="btn btn-light">
                   <i class="bi bi-arrow-left-square"></i>
               </button>
           </a>
           <div class="h2 ms-1 me-auto">Edit Profile</div>
       </div>
       <form th:action="@{/profile/settings/update}" th:method="POST" th:object="${me}" enctype="multipart/form-data">
-          <img id="profile_image_preview" class="img-thumbnail" name="profileImage" width="200px" th:src="'data:image/jpeg;base64,' + ${profile_image}"/>
-          <input type="file" name="newImage" id="newImage" accept=".png,.jpeg,.jpg,.gif"/>
-          <div class="input-group mb-3 mt-3">
-              <span class="input-group-text" id="firstNameLabel">First Name</span>
-              <input type="text" class="form-control" aria-label="First Name" id="firstName"  th:field="*{firstName}" placeholder="First Name" aria-describedby="firstNameLabel">
+          <div class="row">
+              <div class="col">
+                  <img id="profile_image_preview" class="img-thumbnail m-2" name="profileImage" width="200px" th:src="'data:image/jpeg;base64,' + ${profile_image}"/>
+                  <input type="file" name="newImage" id="newImage" accept=".png,.jpeg,.jpg,.gif"/>
+              </div>
+              <div class="col">
+                  <div class="input-group mb-3 mt-3">
+                      <span class="input-group-text" id="firstNameLabel">First Name</span>
+                      <input type="text" class="form-control" aria-label="First Name" id="firstName"  th:field="*{firstName}" placeholder="First Name" aria-describedby="firstNameLabel">
+                  </div>
+                  <div class="input-group mb-3">
+                      <span class="input-group-text" id="lastNameLabel">Last Name</span>
+                      <input type="text" class="form-control" aria-label="First Name" id="lastName"  th:field="*{lastName}" placeholder="First Name" aria-describedby="lastNameLabel">
+                  </div>
+                  <div class="input-group">
+                      <span class="input-group-text">Bio</span>
+                      <textarea class="form-control" aria-label="Bio" placeholder="Tell use a little bit about yourself." id="bio" th:text="*{bio}" th:field="*{bio}"></textarea>
+                  </div>
+                  <input type="hidden" th:value="${me.username}" th:field="*{username}"/>
+                  <input type="hidden" name="profileImageDataUrl" th:value="${profile_image}" th:field="*{profileImageDataUrl}"/>
+                  <div class="navbar bg-body-tertiary mt-3">
+                      <!--Add Challenge Button-->
+                      <button type="submit" id="add_challenge_btn" class="btn btn-primary ms-auto">
+                          <i class="bi bi-save"></i>
+                          Save Profile
+                      </button>
+                  </div>
+              </div>
           </div>
-          <div class="input-group mb-3">
-              <span class="input-group-text" id="lastNameLabel">Last Name</span>
-              <input type="text" class="form-control" aria-label="First Name" id="lastName"  th:field="*{lastName}" placeholder="First Name" aria-describedby="lastNameLabel">
-          </div>
-          <div class="input-group">
-              <span class="input-group-text">Bio</span>
-              <textarea class="form-control" aria-label="Bio" placeholder="Tell use a little bit about yourself." id="bio" th:text="*{bio}" th:field="*{bio}"></textarea>
-          </div>
-          <input type="hidden" th:value="${me.username}" th:field="*{username}"/>
-          <input type="hidden" name="profileImageDataUrl" th:value="${profile_image}" th:field="*{profileImageDataUrl}"/>
-          <div class="navbar bg-body-tertiary mt-3">
-              <!--Add Challenge Button-->
-              <button type="submit" id="add_challenge_btn" class="btn btn-primary ms-auto">
-                  <i class="bi bi-save"></i>
-                  Save Profile
-              </button>
-          </div>
+
+
       </form>
   </div>
   <script>

@@ -4,15 +4,36 @@
   <meta charset="UTF-8">
   <title>All Paths</title>
   <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
+    <style>
+        .hexBg {
+            background-image: url("/img/hex.png");
+        }
+        .transBg {
+            background-color: rgba(255,255,255,.65);
+        }
+    </style>
 </head>
-<body>
+
+<body style="background-color: #3c5aa6">
+<!-- Navbar -->
 <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
+
 <div class="container">
-  <div th:each="path : ${paths}" class="col-2">
-        <a th:href="@{/paths/{id} (id=${path.id})}">
-          <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="128px" height="128px">
-        </a>
-  </div>
+
+    <div class="d-flex justify-content-center row hexBg rounded my-5 p-3">
+        <h2 class="text-center transBg mb-0 pt-2 rounded-top">Welcome to Paths</h2>
+        <div th:each="path : ${paths}" class="d-flex transBg justify-content-center col-lg-3 col-md-4 col-sm-6 p-3">
+            <a th:href="@{/paths/{id} (id=${path.id})}">
+                <div class="card text-center" style="width: 12rem;">
+                    <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" class="card-img-top" alt="Achievement Badge" width="128px" height="128px">
+                    <div class="card-body">
+                        <div th:text="${path.getTitle()}" class="card-title"></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
 </div>
 <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
 </body>

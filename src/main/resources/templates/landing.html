@@ -113,15 +113,7 @@
     <!-- Banner -->
     <div class="d-flex justify-content-center align-items-center my-5 p-3 row rounded" id="bannerDiv">
         <!-- Left Side Banner -->
-        <div class="col p-3 bannerDivs m-3 rounded">
-            <h4 style="color: #01295f">Welcome to Health Points Fitness!</h4>
-            <hr class="mt-0" style="color: #3c5aa6">
-            <p>The social media platform that keeps your health and fitness in mind!  Sign up today to follow your favorite fitness paths, create and complete your own custom goals, add new friends, and level up your health and fitness!</p>
-            <button id="loginBtn" type="submit" class="btn btn-primary submitBtn" style="width: 100%;">Make Your Profile Today!</button>
-        </div>
-
-        <!-- Right Side Banner -->
-        <div class="col bannerDivs m-3 p-3 rounded">
+        <div class="col-md-6 col-sm-12 bannerDivs m-3 p-3 rounded">
             <div class="banner row text-center">
                 <p style="color: black;">Improve your</p>
                 <section class="animation">
@@ -132,87 +124,254 @@
                 <p style="color: black;"> with...</p>
             </div>
             <div class="row d-flex justify-content-center align-items-center">
-                <img src="img/logo.gif" class="col-12 mb-3" style="width: 14em;">
+                <img src="/img/logo.gif" class="col-12 mb-3" style="width: 14em;">
             </div>
+        </div>
+
+        <!-- Right Side Banner -->
+        <div class="col p-3 bannerDivs m-3 rounded">
+            <h4 style="color: #01295f">Welcome to Health Points Fitness!</h4>
+            <hr class="mt-0" style="color: #3c5aa6">
+            <p>The social media platform that keeps your health and fitness in mind!  Sign up today to follow your favorite fitness paths, create and complete your own custom goals, add new friends, and level up your health and fitness!</p>
+            <button id="loginBtn" type="submit" class="btn btn-primary submitBtn" style="width: 100%;">Make Your Profile Today!</button>
         </div>
     </div>
 
+    <!-- Tutorial Trigger -->
+    <div class="d-flex justify-content-center mb-5">
+        <button class="btn btn-primary" data-bs-target="#howTo1" data-bs-toggle="modal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="pb-1 bi bi-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+            </svg>
+            Click Here for Tutorial
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="pb-1 bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>
+        </button>
+    </div>
 
     <!-- Paths Examples -->
     <h3 class="text-center">Paths</h3>
     <hr class="p-1 rounded" style="color: black;">
-    <div class="row d-flex justify-content-evenly align-items-center mb-5 redirect">
-        <a th:each="path : ${paths}" href="#/login" class="d-flex col-2 p-0 shadowAnimation">
-            <div class="text-center border border-primary border-1 card p-0">
-                <div class="card-img-top">
-                    <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" class="rounded" style="width: 100%">
+<!--    <div class="row d-flex justify-content-evenly align-items-center mb-5 redirect">-->
+<!--        <a th:each="path : ${paths}" href="#/login" class="d-flex col-lg-2 col-md-3 col-sm-6 p-0 m-1 my-2 shadowAnimation">-->
+<!--            <div class="text-center border border-primary border-1 card p-0">-->
+<!--                <div class="card-img-top">-->
+<!--                    <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" class="rounded img-fluid" style="width: 100%; height: 100%;">-->
+<!--                </div>-->
+<!--                <div th:text="${path.getTitle()}" class="card-title">-->
+<!--                    Path #1-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </a>-->
+<!--    </div>-->
+
+    <div class="d-flex justify-content-center row">
+        <div th:each="path : ${paths}" class="d-flex justify-content-center col-lg-3 col-md-4 col-sm-6 p-0 my-2">
+            <a th:href="@{/paths/{id} (id=${path.id})}">
+                <div class="card text-center" style="width: 12rem;">
+                    <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" class="card-img-top" alt="Achievement Badge" width="128px" height="128px">
+                    <div class="card-body">
+                        <div th:text="${path.getTitle()}" class="card-title"></div>
+                    </div>
                 </div>
-                <div th:text="${path.getTitle()}" class="card-title">
-                    Path #1
-                </div>
-            </div>
-        </a>
+            </a>
+        </div>
     </div>
 
-
-    <h4 class="leaderboard text-center">High Scores!</h4>
+    <!-- High Score Section -->
+    <h4 class="leaderboard text-center mt-5">High Scores!</h4>
     <hr class="p-1 rounded" style="color: black;">
     <div class="row mb-5">
         <!-- Week High Score -->
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <div class="card highScore bg-dark border border-5 border-dark" style="width: 18rem;">
-                        <div class="card-header">
-                            <h5 class="text-center m-0" style="color: #849324">This Week</h5>
-                        </div>
-                        <div class="card-body" style="background-color: #849324">
-                            <div id="typewriter1" class="py-2"></div>
-                            <div id="typewriter2" class="py-2"></div>
-                            <div id="typewriter3" class="py-2"></div>
-                            <div id="typewriter4" class="py-2"></div>
-                        </div>
-                    </div>
+        <div class="col m-1 d-flex justify-content-center align-items-center">
+            <div class="card highScore bg-dark border border-5 border-dark" style="width: 18rem;">
+                <div class="card-header">
+                    <h5 class="text-center m-0" style="color: #849324">This Week</h5>
+                </div>
+                <div class="card-body" style="background-color: #849324">
+                    <div id="typewriter1" class="py-2"></div>
+                    <div id="typewriter2" class="py-2"></div>
+                    <div id="typewriter3" class="py-2"></div>
+                    <div id="typewriter4" class="py-2"></div>
                 </div>
             </div>
         </div>
         <!-- Month High Score -->
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <div class="card highScore bg-dark border border-5 border-dark" style="width: 18rem;">
-                        <div class="card-header">
-                            <h5 class="text-center m-0" style="color:  #849324">This Month</h5>
-                        </div>
-                        <div class="card-body" style="background-color: #849324">
-                            <div id="typewriter5" class="py-2"></div>
-                            <div id="typewriter6" class="py-2"></div>
-                            <div id="typewriter7" class="py-2"></div>
-                            <div id="typewriter8" class="py-2"></div>
-                        </div>
-                    </div>
+        <div class="col m-1 d-flex justify-content-center align-items-center">
+            <div class="card highScore bg-dark border border-5 border-dark" style="width: 18rem;">
+                <div class="card-header">
+                    <h5 class="text-center m-0" style="color:  #849324">This Month</h5>
+                </div>
+                <div class="card-body" style="background-color: #849324">
+                    <div id="typewriter5" class="py-2"></div>
+                    <div id="typewriter6" class="py-2"></div>
+                    <div id="typewriter7" class="py-2"></div>
+                    <div id="typewriter8" class="py-2"></div>
                 </div>
             </div>
         </div>
         <!-- All Time High Score -->
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <div class="card highScore bg-dark border border-5 border-dark" style="width: 18rem;">
-                        <div class="card-header">
-                            <h5 class="text-center m-0" style="color:  #849324">All Time</h5>
-                        </div>
-                        <div class="card-body" style="background-color: #849324">
-                            <div id="typewriter9" class="py-2"></div>
-                            <div id="typewriter10" class="py-2"></div>
-                            <div id="typewriter11" class="py-2"></div>
-                            <div id="typewriter12" class="py-2"></div>
-                        </div>
-                    </div>
+        <div class="col m-1 d-flex justify-content-center align-items-center">
+            <div class="card highScore bg-dark border border-5 border-dark" style="width: 18rem;">
+                <div class="card-header">
+                    <h5 class="text-center m-0" style="color:  #849324">All Time</h5>
+                </div>
+                <div class="card-body" style="background-color: #849324">
+                    <div id="typewriter9" class="py-2"></div>
+                    <div id="typewriter10" class="py-2"></div>
+                    <div id="typewriter11" class="py-2"></div>
+                    <div id="typewriter12" class="py-2"></div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Tutorial Modals -->
+    <div class="modal" id="howTo1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="howTo1Label">Welcome to the Tutorial!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/img/pathsAndChallengesExample.drawio.png" style="width: 100%">
+                    <!-- Dot Nav -->
+                    <div class="row">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-record-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-end">
+                    <button class="btn btn-primary" data-bs-target="#howTo2" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-square" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                    </svg></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="howTo2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="howTo2Label">Tutorial</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/img/exerciseReal.png" style="width: 100%">
+                    <!-- Dot Nav -->
+                    <div class="row">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-record-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="modal-footer d-flex justify-content-between">
+                    <button class="btn btn-primary" data-bs-target="#howTo1" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                    </svg></button>
+                    <button class="btn btn-primary" data-bs-target="#howTo3" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-square" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                    </svg></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="howTo3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="howTo3Label">Tutorial</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/img/challenges.drawio.png" style="width: 100%;">
+                    <!-- Dot Nav -->
+                    <div class="row">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-record-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button class="btn btn-primary" data-bs-target="#howTo2" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                    </svg></button>
+                    <button class="btn btn-primary" data-bs-target="#howTo4" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-square" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                    </svg></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="howTo4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="howTo4Label">Tutorial</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/img/paths.drawio.png" style="width: 100%;">
+                    <!-- Dot Nav -->
+                    <div class="row">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-record-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button class="btn btn-primary" data-bs-target="#howTo3" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                    </svg></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <footer class="text-center text-white" style="background-color: #f1f1f1;">

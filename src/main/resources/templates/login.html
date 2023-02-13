@@ -85,7 +85,7 @@
 <body style="background-color: #3c5aa6">
 <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 
-<div class="container mt-5">
+<div class="container my-5">
   <div class="column" style="border-radius: 10px;">
     <div class="row d-flex justify-content-center" th:text="${param.error != null ? 'Oops. There was an error logging in.' : ''}"/>
     <div class="row d-flex justify-content-center" th:text="${param.logout != null ? 'You have logged out.' : ''}"/>
@@ -93,10 +93,16 @@
     </div>
     <a href="/admin/index" sec:authorize="isAuthenticated()"><button>Go To Profile</button></a>
 
-    <div class="row hexBg my-3">
-      <div class="col-4 m-0 shadow d-flex justify-content-center align-items-center">
-        <form class="d-flex justify-content-center align-items-center m-0 p-4 pe-0 rounded" sec:authorize="!isAuthenticated()" th:action="@{/login}" th:method="post">
-          <div class="card m-0" style="width: 18rem;">
+    <div class="row hexBg my-3 p-4">
+      <!-- Img Side -->
+      <div class="col col-md-12 col-lg-6 d-flex justify-content-center align-items-center">
+        <img src="/img/login.webp" class="rounded" style="width: 100%">
+      </div>
+
+      <!-- Form Side -->
+      <div class="col-lg-6 m-0 shadow d-flex justify-content-center align-items-center">
+        <form class="d-flex justify-content-center align-items-center m-0 p-4 rounded" style="width: 100%" sec:authorize="!isAuthenticated()" th:action="@{/login}" th:method="post">
+          <div class="card m-0" style="width: 100%;">
             <div class="card-body m-0">
               <div class="card-text">
                 <div class="mb-3">
@@ -129,9 +135,6 @@
             </div>
           </div>
         </form>
-      </div>
-      <div class="col-8 p-4">
-        <img src="/img/lift.webp" class="rounded" style="width: 100%">
       </div>
     </div>
   </div>

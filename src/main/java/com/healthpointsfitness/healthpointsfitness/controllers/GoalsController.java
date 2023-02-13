@@ -19,7 +19,7 @@ public class GoalsController {
     @Autowired
     GoalsService service;
 
-    @GetMapping("/user/goals")
+    @GetMapping("user/goals")
     private String getGoalsView(Model model){
         List<Goal> myGoals = new ArrayList<>();
         try {
@@ -27,17 +27,17 @@ public class GoalsController {
             myGoals = service.getGoalsForUser(loggedInUser);
             model.addAttribute("goals",myGoals);
 
-            return "/users/goals";
+            return "users/goals";
         }catch(Exception e){
             e.printStackTrace();
         }
 
-        return "/users/goals";
+        return "users/goals";
     }
 
 
 
-    @PostMapping("/user/saveGoal")
+    @PostMapping("user/saveGoal")
     private String postGoals(@ModelAttribute("goal") Goal goal) {
         try{ //Try to
             //Grab the logged in user
@@ -53,6 +53,6 @@ public class GoalsController {
         }
 
         //Redirect back to the goals page
-        return "redirect:/users/goals";
+        return "redirect:users/goals";
     }
 }

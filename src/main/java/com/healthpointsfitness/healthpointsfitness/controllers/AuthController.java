@@ -46,18 +46,18 @@ public class AuthController {
     PathsService pathServ;
 
 
-    @GetMapping("/login")
+    @GetMapping("login")
     private String login(){
         return "login"; //Return the login view
     }
 
-    @GetMapping("/register")
+    @GetMapping("register")
     private String registerGet(Model model){
         model.addAttribute("user",new User()); //Bind an empty user entity
         return "register"; //Return the registration view
     }
 
-    @PostMapping("/register")
+    @PostMapping("register")
     private String registerPost(@ModelAttribute("user") User user, HttpServletRequest request, Model model) {
         try { //Try to
             String clearPass = user.getPassword();
@@ -66,14 +66,14 @@ public class AuthController {
             userDao.save(user); //Save the user to the database
             request.login(user.getUsername(),clearPass);
             if(request.isUserInRole("ROLE_ADMIN")){
-                return "redirect:/admin/index";
+                return "redirect:admin/index";
             }else if(request.isUserInRole("ROLE_CLIENT")){
                 model = userDetailsLoader.getUserData(model);
-                return "/users/index";
+                return "users/index";
             }
         }catch(DataIntegrityViolationException e) { //Catch any exceptions
             e.printStackTrace();
-            return "redirect:/register?exists=true";
+            return "redirect:register?exists=true";
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -82,7 +82,7 @@ public class AuthController {
         return "index";
     }
 
-    @GetMapping("/admin/index")
+    @GetMapping("admin/index")
     private String adminIndexGet(
             Model model,
             @PageableDefault(value = 2) Pageable pageable
@@ -114,7 +114,7 @@ public class AuthController {
                 .boxed()
                 .collect(Collectors.toList());
         model.addAttribute("pageNumbers",pageNumbers);
-        return "/admin/index";
+        return "admin/index";
     }
 
     @GetMapping("/")
@@ -128,24 +128,24 @@ public class AuthController {
                 principal.getAuthorities().forEach(auth -> System.out.println(auth.getAuthority()));
                 if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
                     System.out.println("Sending to admin index page");
-                    return "redirect:/admin/index";
+                    return "redirect:admin/index";
                 } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
                     model.addAttribute("user", user);
                     System.out.println("Sending to " + user.getUsername() + "'s profile");
-                    return "redirect:/profile/" + user.getUsername();
+                    return "redirect:profile/" + user.getUsername();
                 } else {
                     System.out.println("Sending to landing");
-                    return "/landing";
+                    return "landing";
                 }
             }else{
                 System.out.println("No user signed in. Principal is null.");
-                return "/landing";
+                return "landing";
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
 
         System.out.println("Sending to login");
-        return "/login";
+        return "login";
     }
 }

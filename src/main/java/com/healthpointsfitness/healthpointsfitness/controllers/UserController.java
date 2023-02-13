@@ -1,7 +1,6 @@
 package com.healthpointsfitness.healthpointsfitness.controllers;
 
 import com.healthpointsfitness.healthpointsfitness.models.User;
-import com.healthpointsfitness.healthpointsfitness.models.UserWithRoles;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
 import com.healthpointsfitness.healthpointsfitness.services.UserDetailsLoader;
@@ -15,10 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Base64;
-import java.util.Objects;
-import java.util.Optional;
 
 /*
     Currently exists to allow basic view swapping with a navbar
@@ -72,7 +68,7 @@ public class UserController {
 
     @GetMapping("/fsearch")
     public String UserController_UniqueName_02(){
-        return "/users/friendsSearch";
+        return "friends";
     }
 
     @GetMapping("/profile/settings")

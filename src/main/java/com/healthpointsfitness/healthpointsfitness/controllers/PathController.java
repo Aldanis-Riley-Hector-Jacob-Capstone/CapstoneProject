@@ -29,18 +29,18 @@ public class PathController {
     @Autowired
     private PathsService pathService;
 
-    @GetMapping("/admin/path/create")
+    @GetMapping("admin/path/create")
     private String createPathGetRequest(Model model){
         model.addAttribute("newPath",new Path());
-        return "/admin/path/create";
+        return "admin/path/create";
     }
 
-    @GetMapping("/admin/path/createapitest")
+    @GetMapping("admin/path/createapitest")
     private String createApiTest(){
-        return "/admin/path/createapitest";
+        return "admin/path/createapitest";
     }
 
-    @PostMapping("/admin/path/create")
+    @PostMapping("admin/path/create")
     private String createPathPostRequest(@ModelAttribute("newPath") Path path,
                                   @RequestParam("pathImage") MultipartFile pathImage){
         try{
@@ -71,7 +71,7 @@ public class PathController {
             Optional<User> user = userRepository.findById(principal.getId());
 
             //Set the admin of the path to the currently logged in user
-            path.setAdmin(user.get());
+            user.ifPresent(path::setAdmin);
 
             //Save the new path with the image to the db
             pathRepository.save(path);
@@ -87,7 +87,7 @@ public class PathController {
     /*
      * GET Mapping for edit/update path
      */
-    @GetMapping("/admin/path/edit/{id}")
+    @GetMapping("admin/path/edit/{id}")
     public String editPathGet(@PathVariable("id") Long pathId, Model model){
         try {
             //Grab the path using the path service
@@ -123,13 +123,13 @@ public class PathController {
             e.printStackTrace();
         }
         //Return the model and view
-        return "/admin/path/edit";
+        return "admin/path/edit";
     }
 
     /*
      * Handle DELETE Mapping for paths
      */
-    @GetMapping("/admin/path/delete/{id}")
+    @GetMapping("admin/path/delete/{id}")
     public String deletePath(@PathVariable("id") Long pathId){
         try { //This might cause some whales
             //Grab the path and delete it using the path service
@@ -138,6 +138,6 @@ public class PathController {
             e.printStackTrace();
         }
 
-        return "redirect:/admin/index";
+        return "redirect:admin/index";
     }
 }

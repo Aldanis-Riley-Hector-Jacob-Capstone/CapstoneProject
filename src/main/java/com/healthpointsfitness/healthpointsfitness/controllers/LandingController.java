@@ -17,7 +17,7 @@ public class LandingController {
     @Autowired
     PathsService pathsService;
 
-    @GetMapping("/landing")
+    @GetMapping("landing")
     public String welcome(Model model) {
         List<Path> paths = pathsService.getAllPaths();
         for (Path path : paths) {

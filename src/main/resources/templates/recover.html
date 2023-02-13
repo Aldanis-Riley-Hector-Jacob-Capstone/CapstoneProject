@@ -4,23 +4,36 @@
     <meta charset="UTF-8">
     <title>Recover Account</title>
     <th:block th:replace="~{/fragments/header.html :: header}"/>
+    <style>
+        /*.logo{*/
+        /*    background-size: contain;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    background: url('/img/logo.svg') no-repeat;*/
+        /*}*/
+    </style>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
   <th:block th:replace="~{/fragments/navbar.html :: navbar}"/>
   <div class="container d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
-      <div class="text-center">
-          <img src="/img/logo.svg" class="mb-4"/>
-          <div style="display: grid; grid-template-columns: 3fr 1fr; text-align: left;">
-              <div class="form-group me-3">
-                  <input type="email" class="w-100 form-control" placeholder="Enter your email" />
+      <div class="">
+          <img src="/img/logo.svg" class="mb-4 img-fluid"/>
+          <div class="logo"></div>
+          <form th:action="@{/recover}" th:method="POST">
+              <div class="row">
+                  <div class="col-md-6 mb-4">
+                      <input type="email" class="form-control w-100" placeholder="Enter your email" name="email"/>
+                  </div>
+                  <div class="col-12 col-md-6 d-flex flex-row mb-4 justify-content-center" >
+                      <button type="submit" class="btn btn-primary me-2">Send Recovery</button>
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoModal">
+                          <i class="bi bi-patch-question-fill"></i>
+                      </button>
+                  </div>
               </div>
-              <div class="form-group">
-                  <button type="button" class="btn btn-primary">Send Recovery</button>
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoModal">
-                      <i class="bi bi-patch-question-fill"></i>
-                  </button>
-              </div>
-          </div>
+          </form>
           <!-- Modal -->
           <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog">
@@ -40,6 +53,45 @@
           </div>
       </div>
   </div>
-  <th:block th:replace="~{/fragments/footer.html :: footer}"
+  <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
+  <script>
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const params = Object.fromEntries(urlSearchParams.entries());
+      const checkCode = async (enteredCode,email) => {
+          const token = document.getElementsByName("_csrf")[0].getAttribute("content")
+
+          const request = await fetch("http://localhost:8080/user/api/v1/recoveryCodeCheck",{
+              method : 'POST',
+              headers : {
+                  "Content-Type" : "application/json",
+                  "X-CSRF-TOKEN" : token
+              },
+              credentials : "include",
+              body : JSON.stringify({
+                  code : enteredCode,
+                  email : email
+              })
+          })
+
+          const response = await request.json()
+
+          console.log(response);
+          return response
+      }
+
+      (async ()=>{
+          if('sent' in params){
+              const code = prompt("We have sent your a code to your email, please enter it here to continue.")
+              const codeCheck = await checkCode(code,params.email)
+              console.log(codeCheck)
+
+              if('valid' in codeCheck){
+                  if(codeCheck.valid == 'true'){
+                    location.href = "/changePassword?code=" + encodeURI(code) + "&email=" + encodeURI(params.email);
+                  }
+              }
+          }
+      })()
+  </script>
 </body>
 </html>

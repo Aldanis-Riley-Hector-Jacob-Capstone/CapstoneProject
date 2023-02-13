@@ -47,6 +47,10 @@ public class User {
     @Column(nullable = false, unique = false, name = "totalPoints", length = 255)
     private Long totalPoints;
 
+    @Column (name = "completedExerciseId", unique = false, nullable = true)
+    @ManyToMany()
+    private List<Exercise> completedExerciseIds;
+
     public User(String username, String password, List<Role> roles){
         this.username = username;
         this.password = password;

@@ -11,8 +11,12 @@ import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
 import com.healthpointsfitness.healthpointsfitness.services.ExercisesService;
 import com.healthpointsfitness.healthpointsfitness.services.PathsService;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -315,5 +319,52 @@ public class PathsApi {
         return "";
     }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    private static class CompleteExerciseRequest{
+        Long exerciseId;
+        Boolean completed;
+    }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    private static class CompleteExerciseResponse{
+        Boolean success;
+        String message;
+    }
+
+    @RequestMapping(name = "completeExercise",
+            path = "/completeExercise",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            method = RequestMethod.POST
+    )
+    public CompleteExerciseResponse completed(@RequestBody CompleteExerciseRequest request){
+        try {
+            User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Optional<User> currentUserOpt = userRepository.findById(currentUser.getId());
+            if (currentUserOpt.isPresent()) {
+                currentUser = currentUserOpt.get();
+            }
+            Optional<Exercise> exerciseOpt = exerciseRepository.findById(request.exerciseId);
+            if (exerciseOpt.isPresent()) {
+                Exercise myExercise = exerciseOpt.get();
+                if (request.completed) {
+                    currentUser.getCompletedExerciseIds().add(myExercise);
+                    userRepository.save(currentUser);
+                } else {
+                    currentUser.getCompletedExerciseIds().remove(myExercise);
+                    userRepository.save(currentUser);
+                }
+            }
+            return new CompleteExerciseResponse(true, "Exercise marked " + String.valueOf(request.completed ?
+                    "complete" :
+                    "incomplete"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return new CompleteExerciseResponse(false,"There was an error completing challenge");
+    }
 }

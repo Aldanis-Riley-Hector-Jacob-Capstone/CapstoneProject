@@ -79,9 +79,4 @@ public class PathsService {
         }
         return base64Encoded;
     }
-
-    public boolean isEnrolled(User user, Path path){
-        return user.getFollowed_paths().contains(path);
-    }
-
 }

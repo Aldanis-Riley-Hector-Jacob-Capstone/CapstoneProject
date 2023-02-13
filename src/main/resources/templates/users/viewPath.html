@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>View Path</title>
     <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
@@ -47,17 +49,55 @@
                             <div th:text="${challenge.getDescription()}"/>
 
                             <div th:each="exercise : ${challenge.getExercises()}">
-                                <input type="checkbox" name="exercises[]" th:text="${exercise.getName()}" th:checked="${exercise.isComplete()}">
+                                <input type="checkbox" name="exercises[]" th:text="${exercise.getName()}" class="exerciseBox" th:exercise="${exercise.id}" th:checked="${enrolled.contains(exercise.id)}">
                             </div>
                         </div>
                 </div>
-                <input type="submit">
                 </form>
 
 
             </div>
         </div>
 </div>
+<input type="hidden" th:value="${me.id}" id="myId"/>
+<script>
+    const myId = document.getElementById("myId").value;
+    const exerciseBoxes = document.getElementsByClassName("exerciseBox");
+    Array.from(exerciseBoxes).forEach(box => {
+        box.onchange = e => {
+            const exerciseId = box.getAttribute("exercise");
+            const sendRequest = async () => {
+                try {
+                    const token = document.getElementsByName("_csrf")[0].getAttribute("content");
+                    const request = await fetch('http://localhost:8080/admin/api/v1/completeExercise', {
+                        method: "POST",
+                        credentials: "include", //Send the SpringSec credentials
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN" : token
+                        },
+                        body: JSON.stringify({
+                            exerciseId:exerciseId,
+                            completed:e.target.checked
+                        })
+                    })
+                    const response = await request.json()
+                    console.log(response);
+                }catch(err){
+                    //Display errors on the console
+                    console.error(err)
+                }
+            }
+            if (e.target.checked) {
+                sendRequest();
+            }
+            console.log(myId);
+            console.log(exerciseId);
+        }
+
+    })
+</script>
+
 
 <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
 </body>

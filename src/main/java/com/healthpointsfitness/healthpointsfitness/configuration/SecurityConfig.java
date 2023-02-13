@@ -49,7 +49,8 @@ class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/users/**",
-                        "/users"
+                        "/users",
+                        "/admin/api/v1/completeExercise"
                 ).hasAuthority("ROLE_CLIENT")
 
                 //Lock down admin routes

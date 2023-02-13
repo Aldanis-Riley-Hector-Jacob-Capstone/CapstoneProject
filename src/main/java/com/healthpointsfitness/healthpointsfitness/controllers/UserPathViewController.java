@@ -4,6 +4,7 @@ import com.healthpointsfitness.healthpointsfitness.models.Challenge;
 import com.healthpointsfitness.healthpointsfitness.models.Exercise;
 import com.healthpointsfitness.healthpointsfitness.models.Path;
 import com.healthpointsfitness.healthpointsfitness.models.User;
+import com.healthpointsfitness.healthpointsfitness.repositories.ExerciseRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
 import com.healthpointsfitness.healthpointsfitness.services.PathsService;
@@ -12,10 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,6 +26,9 @@ public class UserPathViewController {
     PathsService pathServ;
     @Autowired
     private UserRepository userDao;
+    @Autowired
+    private ExerciseRepository exRepo;
+
     private Authentication auth;
     private User curUser;
 
@@ -81,16 +84,43 @@ public class UserPathViewController {
         return "redirect:/profile";
     }
 
-    @PostMapping("/paths/update/{pathNumber}")
-    public String updatePath(@PathVariable Long pathNumber, Model model){
+//    The form has at least one checkbox that have been clicked on
+    @PostMapping(value = "/paths/update/{pathNumber}", params = {"exercises[]"})
+    public String updatePath(@PathVariable Long pathNumber, @RequestParam("exercises[]") List<String> exercises){
         Path path = pathRepo.getReferenceById(pathNumber);
         curUser = getUser();
+        List<Boolean> state = new ArrayList<Boolean>();
 
+//        exercises.forEach(exercise -> System.out.println(exercise));
+        int count = 0;
         for (Challenge challenge : path.getChallenges()){
             for (Exercise exercise : challenge.getExercises()){
-                System.out.println(model.getAttribute(exercise.getName()));
+                    exercise.setComplete(Boolean.valueOf(exercises.get(count)));
+                    exRepo.save(exercise);
+            }
+            count++;
+        }
+
+        pathRepo.save(path);
+
+        return "redirect:/paths/{pathNumber}";
+    }
+//    The form has no checkboxes clicked on -> springboot doesn't send anything at all (Form is 'null')
+    @PostMapping(value = "/paths/update/{pathNumber}", params = {})
+    public String updatePath(@PathVariable Long pathNumber){
+        Path path = pathRepo.getReferenceById(pathNumber);
+        curUser = getUser();
+        List<Boolean> state = new ArrayList<Boolean>();
+
+//        exercises.forEach(exercise -> System.out.println(exercise));
+        for (Challenge challenge : path.getChallenges()){
+            for (Exercise exercise : challenge.getExercises()){
+                exercise.setComplete(false);
+                exRepo.save(exercise);
             }
         }
+
+        pathRepo.save(path);
 
         return "redirect:/paths/{pathNumber}";
     }

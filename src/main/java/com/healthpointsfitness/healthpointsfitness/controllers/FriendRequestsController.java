@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Controller
 public class FriendRequestsController {
@@ -25,23 +24,27 @@ public class FriendRequestsController {
     @Autowired
     private FriendRequestsRepository friendRequestsRepository;
 
-    @GetMapping("/user/friend_requests")
+    @GetMapping("user/friend_requests")
     public String friendRequestsGET(Model model){
+
+        //Get the logged in user
         User me = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // Grab all the friend requests
         List<FriendRequest> allRequest = friendRequestsRepository.findAll();
 
         // Approved sent and received requests
         List<FriendRequest> approvedRequests = allRequest.stream().filter(friendRequest -> {
-            //Check if the request was approved
+            // Check if the request was approved
             Boolean approved = friendRequest.getRequestApproved();
 
-            //Get the user the request was sent to
+            // Get the user the request was sent to
             User to = friendRequest.getTo();
 
-            //Get the user the request was sent by
+            // Get the user the request was sent by
             User from = friendRequest.getFrom();
 
-            //Any approved requests sent or received by me
+            // Any approved requests sent or received by me
             return approved && (Objects.equals(to.getId(), me.getId())) || (Objects.equals(from.getId(), me.getId()));
         }).toList();
 
@@ -49,16 +52,17 @@ public class FriendRequestsController {
 
         // Denied Sent Requests
         List<FriendRequest> sentDeniedRequests = allRequest.stream().filter(friendRequest -> {
-            //Check if the request was approved
+            // Check if the request was approved
             Boolean approved = friendRequest.getRequestApproved();
 
-            //Get the user the request was sent by
+            // Get the user the request was sent by
             User from = friendRequest.getFrom();
 
-            //Any denied requests sent by me
+            // Any denied requests sent by me
             return !approved &&  (Objects.equals(from.getId(), me.getId()));
         }).toList();
 
+        //Attach the sent denied requests to the model
         model.addAttribute("sent_denied", sentDeniedRequests);
 
         // Denied Received Requests
@@ -73,16 +77,19 @@ public class FriendRequestsController {
             return !approved &&  (Objects.equals(to.getId(), me.getId()));
         }).toList();
 
-        //Received denied request
+        // Received denied request
         model.addAttribute("received_denied", receivedDeniedRequests);
 
+        // Pass the currently logged in user
         model.addAttribute("me",me);
 
-        return "/users/friendsSearch";
+        //Return the friendsSearch view
+        return "users/friends";
     }
 
-    @PostMapping("/user/friend_request")
+    @PostMapping("user/friend_request")
     public String friendRequestPost(@RequestParam("from") String from,@RequestParam("to") String to){
+
         try {
             //Get the users based on their usernames
             User userFrom = userService.findUserByUsername(from);
@@ -98,11 +105,13 @@ public class FriendRequestsController {
             friendRequestsRepository.save(fr);
 
             //Send the user back to the friends search page
-            return "/users/friendsSearch";
+            return "users/friends";
         }catch(Exception e){
+            //Return the stack trace on the terminal
             e.printStackTrace();
 
-            return "/users/friendsSearch";
+            //Send the user back to the friends search page
+            return "users/friends";
         }
     }
 }

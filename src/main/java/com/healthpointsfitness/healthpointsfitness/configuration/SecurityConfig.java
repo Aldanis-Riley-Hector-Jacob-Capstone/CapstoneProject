@@ -48,7 +48,11 @@ class SecurityConfig {
                         "/css/**",
                         "/static/**",
                         "/freechat",
-                        "/chat"
+                        "/chat",
+                        "/",
+                        "/user/api/v1/recoveryCodeCheck",
+                        "/user/api/v1/changePassword",
+                        "/changePassword"
 
                 )
                 .permitAll()
@@ -59,7 +63,8 @@ class SecurityConfig {
                 .requestMatchers(
                         "/users/**",
                         "/users",
-                        "/profile"
+                        "/profile",
+                        "/user/api/v1/**"
                 ).hasAuthority("ROLE_CLIENT")
 
                 //Lock down admin routes

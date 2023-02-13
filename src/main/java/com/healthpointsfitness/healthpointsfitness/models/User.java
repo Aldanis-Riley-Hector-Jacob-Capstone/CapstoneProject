@@ -85,14 +85,6 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Path> followed_paths;
 
-    //User <> User
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<User> friends;
-
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<FriendRequest> friend_requests;
-
     public User(User copy) {
         id = copy.id; // This line is SUPER important! Many things won't work if it's absent
         email = copy.email;
@@ -107,7 +99,5 @@ public class User {
         goals = copy.goals;
         created_paths = copy.created_paths;
         followed_paths = copy.followed_paths;
-        friends = copy.friends;
-        friend_requests = copy.friend_requests;
     }
 }

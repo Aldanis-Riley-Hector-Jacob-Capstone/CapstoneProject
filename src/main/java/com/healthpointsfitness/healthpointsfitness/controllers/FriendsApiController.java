@@ -154,8 +154,16 @@ public class FriendsApiController {
                     // Get the user the request was sent by
                     User from = friendRequest.getFrom();
 
+                    System.out.println("approved = " + approved);
+                    System.out.println("appDenDate = " + appDenDate);
+                    System.out.println("to.getUsername() = " + to.getUsername());
+                    System.out.println("from.getUsername() = " + from.getUsername());
+
+                    Boolean fullyApproved = approved && appDenDate != null;
+                    System.out.println(fullyApproved);
+
                     // Any approved requests sent or received by me
-                    return approved && appDenDate != null && (Objects.equals(to.getId(), me.getId())) || (Objects.equals(from.getId(), me.getId()));
+                    return fullyApproved && ((Objects.equals(to.getId(), me.getId())) || (Objects.equals(from.getId(), me.getId())));
                 }).toList().stream().peek(item -> {
                     //Clear all sensitive data
                     item.getTo().setPassword(null);
@@ -506,6 +514,8 @@ public class FriendsApiController {
     )
     private UnfriendRequestResponse unfriendRequest(@RequestBody String username) {
         try {
+
+            System.out.println("Hitting unfriend route.");
             //Get user from spring security
             User me = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -519,10 +529,13 @@ public class FriendsApiController {
             User friend = userRepository.findUserByUsername(username);
 
             //Grab the friend request
-            List<FriendRequest> requests = repository.findFriendRequestByFromAndTo(friend, me);
+            List<FriendRequest> incomingRequests = repository.findFriendRequestByFromAndTo(friend, me);
+            List<FriendRequest> outgoingRequests = repository.findFriendRequestByFromAndTo(me, friend);
+
+            List<FriendRequest> allFriendRequests = ListUtils.sum(incomingRequests,outgoingRequests);
 
             //Iterate through each request
-            requests.forEach(req -> {
+            allFriendRequests.forEach(req -> {
                 //Set the timestamp for when it was accepted
                 req.setDate_approved_or_denied(null);
 

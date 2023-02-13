@@ -44,7 +44,7 @@
                             <!-- FOR EVERY EXERCISE UNDER CHALLENGES -->
                             <div th:text="${challenge.getDescription()}"/>
                             <div th:each="exercise : ${challenge.getExercises()}">
-                                <input type="checkbox" th:name="${exercise}" th:text="${exercise.getName()}">
+                                <input type="checkbox" th:id="${exercise.getName()}" th:text="${exercise.getName()}" th:checked="${exercise.isComplete()}">
                             </div>
                         </div>
                 </div>

@@ -1,5 +1,7 @@
 package com.healthpointsfitness.healthpointsfitness.controllers;
 
+import com.healthpointsfitness.healthpointsfitness.models.Challenge;
+import com.healthpointsfitness.healthpointsfitness.models.Exercise;
 import com.healthpointsfitness.healthpointsfitness.models.Path;
 import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
@@ -80,11 +82,16 @@ public class UserPathViewController {
     }
 
     @PostMapping("/paths/update/{pathNumber}")
-    public String updatePath(@PathVariable Long pathNumber){
+    public String updatePath(@PathVariable Long pathNumber, Model model){
         Path path = pathRepo.getReferenceById(pathNumber);
         curUser = getUser();
 
-        System.out.println(path.getTitle());
+        for (Challenge challenge : path.getChallenges()){
+            for (Exercise exercise : challenge.getExercises()){
+                System.out.println(model.getAttribute(exercise.getName()));
+            }
+        }
+
         return "redirect:/paths/{pathNumber}";
     }
 

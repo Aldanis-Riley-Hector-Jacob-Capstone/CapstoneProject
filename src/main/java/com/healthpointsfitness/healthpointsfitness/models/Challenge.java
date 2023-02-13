@@ -53,4 +53,14 @@ public class Challenge implements Serializable {
                 + icon
                 + "\"}";
     }
+
+    public boolean isDone(){
+        for (Exercise execise : exercises){
+            if (!execise.isComplete()){
+                break;
+            }
+            return true;
+        }
+        return false;
+    }
 }

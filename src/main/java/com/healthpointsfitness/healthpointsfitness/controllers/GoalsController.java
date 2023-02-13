@@ -2,14 +2,13 @@ package com.healthpointsfitness.healthpointsfitness.controllers;
 
 import com.healthpointsfitness.healthpointsfitness.models.Goal;
 import com.healthpointsfitness.healthpointsfitness.models.User;
+import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
 import com.healthpointsfitness.healthpointsfitness.services.GoalsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +18,9 @@ public class GoalsController {
     @Autowired
     GoalsService service;
 
+    @Autowired
+    UserRepository userRepository;
+
     @GetMapping("user/goals")
     private String getGoalsView(Model model){
         List<Goal> myGoals = new ArrayList<>();
@@ -26,6 +28,7 @@ public class GoalsController {
             User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             myGoals = service.getGoalsForUser(loggedInUser);
             model.addAttribute("goals",myGoals);
+            model.addAttribute("goal", new Goal());
 
             return "users/goals";
         }catch(Exception e){
@@ -36,8 +39,7 @@ public class GoalsController {
     }
 
 
-
-    @PostMapping("user/saveGoal")
+    @PostMapping("/users/goals/add")
     private String postGoals(@ModelAttribute("goal") Goal goal) {
         try{ //Try to
             //Grab the logged in user
@@ -51,8 +53,30 @@ public class GoalsController {
         }catch(Exception e){ //If there's an error, print it out
             e.printStackTrace();
         }
-
         //Redirect back to the goals page
-        return "redirect:users/goals";
+        return "redirect:/user/goals";
+    }
+
+    @PostMapping ("/users/goals/delete/{id}")
+    private String deleteGoal(@PathVariable("id") Long goalId) {
+        try {
+            service.deleteGoal(goalId);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/user/goals";
+    }
+
+    @PostMapping("/users/goals/update")
+    private String updateGoal(@ModelAttribute("goal") Goal goal) {
+        try {
+            User me = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            me = userRepository.findUserById(me.getId());
+            goal.setUser(me);
+            service.saveGoal(goal);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/user/goals";
     }
 }

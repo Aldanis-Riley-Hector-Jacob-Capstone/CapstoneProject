@@ -80,7 +80,6 @@
                                 Add Challenge
                             </button>
                         </div>
-
                         <hr>
 
                         <!--List of Challenges-->
@@ -88,6 +87,7 @@
                             No Challenges...
                         </div>
                     </div>
+
                     <div class="card-footer">
                         <!--Button to Save Path-->
                         <div class="navbar">
@@ -144,13 +144,16 @@
             </div>
         </div>
 
+        <!-- Exercise Modal -->
         <div id="add_exercise_modal" class="modal">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
+
                     <div class="modal-header">
                         <h5 class="modal-title">Add Exercise</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" data-bs-target="#add_exercise_modal" aria-label="Close" id="closeExerciseModal"></button>
                     </div>
+
                     <div class="modal-body">
                         <label for="muscle">Muscle:
                             <select id="muscle">
@@ -176,10 +179,9 @@
                             Search
                             <input type="search" id="searchExercise" placeholder="Filter Exercise by Name"/>
                         </label>
-                        <div id="list_of_exercises">
-
-                        </div>
+                        <div id="list_of_exercises"></div>
                     </div>
+
                     <div class="modal-footer">
                         <button id="close_exercise_button">Close</button>
                     </div>

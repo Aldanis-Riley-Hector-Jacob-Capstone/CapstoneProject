@@ -31,4 +31,14 @@ public class GoalsService {
             return false;
         }
     }
+
+    public Boolean deleteGoal(Long goalId) {
+        try {
+            goalRepository.deleteById(goalId);
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

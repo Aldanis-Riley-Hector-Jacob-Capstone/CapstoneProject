@@ -85,7 +85,7 @@
 <body style="background-color: #3c5aa6">
 <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 
-<div class="container mt-5">
+<div class="container my-5">
   <div class="column" style="border-radius: 10px;">
     <div class="row d-flex justify-content-center" th:text="${param.error != null ? 'Oops. There was an error logging in.' : ''}"/>
     <div class="row d-flex justify-content-center" th:text="${param.logout != null ? 'You have logged out.' : ''}"/>

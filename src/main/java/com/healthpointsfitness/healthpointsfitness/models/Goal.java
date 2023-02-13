@@ -19,6 +19,9 @@ public class Goal {
     @Column(name = "completed", nullable = false, unique = false)
     private Boolean completed;
 
+    @Column(name = "title", nullable = false, unique = false)
+    private String title;
+
     @Column(name = "description", nullable = false, unique = false)
     private String description;
 
@@ -28,6 +31,7 @@ public class Goal {
 
     public Goal(Goal copy) {
         id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        title = copy.title;
         description = copy.description;
         completed = copy.completed;
         user = copy.user;

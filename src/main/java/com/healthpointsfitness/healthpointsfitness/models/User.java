@@ -47,7 +47,7 @@ public class User {
     @Column(nullable = false, unique = false, name = "totalPoints", length = 255)
     private Long totalPoints;
 
-    @Column (name = "completedExerciseId", unique = false, nullable = true)
+    @Column (name = "completedExerciseId", unique = false, nullable = false)
     @ManyToMany()
     private List<Exercise> completedExerciseIds;
 

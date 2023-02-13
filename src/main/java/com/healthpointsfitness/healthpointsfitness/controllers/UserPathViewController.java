@@ -46,21 +46,27 @@ public class UserPathViewController {
 //            IF THE PATH EXISTS
             if (pathnumber != null) {
                 Path myPath = pathRepo.getReferenceById(pathnumber);
-//                List<Challenge> challenge = myPath.getChallenges();
-//                challenge.forEach(
-//                        challenge1 -> {
-//                            List<Exercise> exercises = challenge1.getExercises();
-//                        }
-//
-//                );
                 myPath.setImageDataUrl(pathServ.getPathImage(myPath));
                 curUser = getUser();
 
+                List<Long> completedExercises = new ArrayList<Long>();
+                for (Challenge challenge : myPath.getChallenges()){
+                    for (Exercise exercise : challenge.getExercises()){
+                        for (Exercise exercise123 : curUser.getCompletedExerciseIds()){
+                            if (exercise123.getId() == exercise.getId()){
+                                completedExercises.add(exercise.getId());
+                            }
+                        }
+//                        if (curUser.getCompletedExerciseIds().contains(exercise.getId())){
+//                            completedExercises.add(exercise.getId());
+//                        }
+                    }
+                }
+
                 model.addAttribute("me", curUser);
-                model.addAttribute("enrolled", curUser.getCompletedExerciseIds());
+                model.addAttribute("enrolled", completedExercises);
                 model.addAttribute("path", myPath);
                 model.addAttribute("points", pathServ.getTotalPathPoints(myPath));
-//                IF ENROLLED IN PATH
             } else {
                 return "/users/index";
             }
@@ -80,15 +86,11 @@ public class UserPathViewController {
 //        USER IS ENROLLED
 //        if (pathServ.isEnrolled(curUser, path)) {
         if (curUser.getFollowed_paths().contains(path)) {
-            List<Path> followedPaths = curUser.getFollowed_paths();
-            followedPaths.remove(path);
-            curUser.setFollowed_paths(followedPaths);
+            curUser.getFollowed_paths().remove(path);
 //            TODO: CONFIRM USER WANTS TO DELETE PATH (AND PROGRESS) (JJ)
 //        USER IS NOT ENROLLED
         } else {
-            List<Path> followedPaths = curUser.getFollowed_paths();
-            followedPaths.add(path);
-            curUser.setFollowed_paths(followedPaths);
+            curUser.getFollowed_paths().add(path);
         }
         userDao.save(curUser);
 

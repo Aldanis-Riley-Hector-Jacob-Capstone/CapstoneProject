@@ -18,7 +18,7 @@
             <div class="col-6"></div>
             <div class="col-2">
                 <form action="#" th:action="@{/paths/enroll/} + ${path.getId()}" method="post">
-                    <input type="submit" th:attr="class=${enrolled ? 'btn btn-danger' : 'btn btn-success'}">
+                    <input type="submit" th:attr="class=${me.getFollowed_paths().contains(path) ? 'btn btn-danger' : 'btn btn-success'}">
 <!--                    th:attr="value=${enrolled ? 'abandon' : 'enroll'}" -->
                 </form>
             </div>
@@ -49,7 +49,7 @@
                             <div th:text="${challenge.getDescription()}"/>
 
                             <div th:each="exercise : ${challenge.getExercises()}">
-                                <input type="checkbox" name="exercises[]" th:text="${exercise.getName()}" class="exerciseBox" th:exercise="${exercise.id}" th:checked="${enrolled.contains(exercise.id)}">
+                                <input type="checkbox" name="exercises[]" th:text="${exercise.getName()}" class="exerciseBox" th:exercise="${exercise.id}" th:checked="${enrolled.contains(exercise.getId())}">
                             </div>
                         </div>
                 </div>

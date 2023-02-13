@@ -5,48 +5,71 @@
     <meta charset="UTF-8">
     <title>View Path</title>
     <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        .bannerDivs {
+            background-color: rgba(255,255,255,.6);
+            color: black;
+            font-size: 20px;
+            width: auto;
+        }
+        .hexDiv {
+            border: #01295f 2px;
+            background-image: url("/img/hex.png");
+            color: black;
+        }
+        .cardOpacity {
+            background-color: rgba(245, 245, 245, .6);
+            opacity: .75;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
-<body>
+<body style="background-color: #3c5aa6">
 <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
-<div class="container">
-    <div class="container">
-        <div class="row">
-            <div class="col-4">
-                <h1 th:text="${path.getTitle()}"></h1>
-            </div>
-            <hr class="thicker_hr"/>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="256px"
-                     height="256px" th:attr="class=${enrolled ? 'path_image_green' : 'path_image_red'}">
-            </div>
-            <div class="col-9">
-                <div th:text="${path.getDescription()}"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <div th:text="'Total Points for this path= ' + ${points}"/>
-            </div>
-            <!--            FOR EVERY CHALLENGE IN PATH -->
-            <div th:each="challenge : ${path.getChallenges()}">
-                <div class="col-3">
-                    <div class="challengeTitle" th:text="${challenge.getTitle()}" />
-                    <!--                    FOR EVERY EXERCISE UNDER CHALLENGES -->
-                    <div th:text="${challenge.getDescription()}" />
-                    <ul>
-                        <div th:each="exercise : ${challenge.getExercises()}">
-                            <li th:text="${exercise.getName()}" />
+<div class="container hexDiv ">
+    <div class="d-flex justify-content-center">
+        <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="256px"
+             height="256px" th:attr="class=${enrolled ? 'path_image_green' : 'path_image_red'}">
+    </div>
+    <div class="row align-items-start">
+        <div class="card cardOpacity" style="width: 40% ">
+            <div class="card-body">
+                <h1 class="card-title text-center" th:text="${path.getTitle()}"></h1>
+                    <div class="col bannerDivs" >
+                        <div class="col-3 ">
+                            <div th:text="'Total Points for this path= ' + ${points}"/>
                         </div>
-                    </ul>
+                        <!--            FOR EVERY CHALLENGE IN PATH -->
+                            <div th:each="challenge : ${path.getChallenges()}">
+                                <div class="col-3">
+                                    <div class="challengeTitle" th:text="${challenge.getTitle()}" />
+                                    <!--                    FOR EVERY EXERCISE UNDER CHALLENGES -->
+                                    <div th:text="${challenge.getDescription()}" />
+                                    <ul>
+                                        <div th:each="exercise : ${challenge.getExercises()}">
+                                            <li th:text="${exercise.getName()}" />
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                    </div>
                 </div>
-            </div>
+
+
+                            </div>
+        <div class="col-3">
+            <div class="card cardOpacity">
+                <div class="card-body">
+                    <div class="col-9 align-self-center">
+                        <div th:text="${path.getDescription()}"/>
+                        </div>
+                    </div>
+
+
         </div>
     </div>
-</div>
-</div>
-</div>
 
 
 <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>

@@ -9,7 +9,7 @@
             background-image: url("/img/hex.png");
         }
         .transBg {
-            background-color: rgba(255,255,255,.5);
+            background-color: rgba(255,255,255,.65);
         }
     </style>
 </head>
@@ -21,7 +21,7 @@
 <div class="container">
 
     <div class="d-flex justify-content-center row hexBg rounded my-5 p-3">
-        <h2 class="text-center transBg mb-0 rounded-top">Welcome to Paths</h2>
+        <h2 class="text-center transBg mb-0 pt-2 rounded-top">Welcome to Paths</h2>
         <div th:each="path : ${paths}" class="d-flex transBg justify-content-center col-lg-3 col-md-4 col-sm-6 p-3">
             <a th:href="@{/paths/{id} (id=${path.id})}">
                 <div class="card text-center" style="width: 12rem;">

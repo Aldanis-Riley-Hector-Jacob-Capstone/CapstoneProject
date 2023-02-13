@@ -14,7 +14,7 @@
                 <ul class="dropdown-menu">
                     <li>
                         <a class="dropdown-item" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/index}">
-                            <button type="button">Add Paths</button>
+                            <i class="bi bi-diagram-3-fill"></i><button type="button" class="btn w-100">Create Paths</button>
                         </a>
                     </li>
                     <li>
@@ -23,13 +23,13 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/allPaths}">
-                            <i class="bi bi-diagram-3-fill"></i><button type="button" class="btn w-100">Paths</button>
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/user/friend_requests}">
+                            <i class="bi bi-people-fill"></i><button type="button" class="btn w-100">Buddies</button>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/user/friend_requests}">
-                            <i class="bi bi-search"></i><button type="button" class="btn w-100">Buddies</button>
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/allPaths}">
+                            <i class="bi bi-diagram-3-fill"></i><button type="button" class="btn w-100">Paths</button>
                         </a>
                     </li>
                     <li>

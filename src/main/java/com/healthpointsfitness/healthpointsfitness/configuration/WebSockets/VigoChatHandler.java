@@ -58,8 +58,8 @@ public class VigoChatHandler extends TextWebSocketHandler {
             String lastName = user.get().getLastName();
 
             //Create a welcome message
-            broadcastMessage("[ADMIN]==>" + firstName + " " + lastName + " has joined the chat. Say hello everybody!!",-1L);
-            broadcastMessage("[ADMIN]==> Hey, " + firstName + " " + lastName + " make sure to check out one of our many paths to greatness. Complete the challenges and earn all the badges like a pro!",-1L);
+            broadcastMessage( firstName + " " + lastName + " has joined the chat. Say hello everybody!!",-1L);
+            broadcastMessage("Hey, " + firstName + " " + lastName + " make sure to check out one of our many paths to greatness. Complete the challenges and earn all the badges like a pro!",-1L);
 
             //If there's less than 100 messages, then send all of them
             if(messages.size() <= maxMessages) {
@@ -67,7 +67,7 @@ public class VigoChatHandler extends TextWebSocketHandler {
                 List<String> msgsCpy = new ArrayList<String>(messages.stream().toList());
 
                 //Flip the list
-                Collections.reverse(msgsCpy);
+//                Collections.reverse(msgsCpy);
 
                 //Send them out
                 msgsCpy.forEach(message->{

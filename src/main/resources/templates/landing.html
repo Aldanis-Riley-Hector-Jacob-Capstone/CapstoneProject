@@ -137,26 +137,40 @@
         </div>
     </div>
 
-    <button class="btn btn-primary" data-bs-target="#howTo1" data-bs-toggle="modal">Open first modal</button>
+    <!-- Tutorial Trigger -->
+    <button class="btn btn-primary" data-bs-target="#howTo1" data-bs-toggle="modal">Click Here for Tutorial</button>
 
     <!-- Paths Examples -->
     <h3 class="text-center">Paths</h3>
     <hr class="p-1 rounded" style="color: black;">
-    <div class="row d-flex justify-content-evenly align-items-center mb-5 redirect">
-        <a th:each="path : ${paths}" href="#/login" class="d-flex col-2 p-0 shadowAnimation">
-            <div class="text-center border border-primary border-1 card p-0">
-                <div class="card-img-top">
-                    <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" class="rounded" style="width: 100%">
+<!--    <div class="row d-flex justify-content-evenly align-items-center mb-5 redirect">-->
+<!--        <a th:each="path : ${paths}" href="#/login" class="d-flex col-lg-2 col-md-3 col-sm-6 p-0 m-1 my-2 shadowAnimation">-->
+<!--            <div class="text-center border border-primary border-1 card p-0">-->
+<!--                <div class="card-img-top">-->
+<!--                    <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" class="rounded img-fluid" style="width: 100%; height: 100%;">-->
+<!--                </div>-->
+<!--                <div th:text="${path.getTitle()}" class="card-title">-->
+<!--                    Path #1-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </a>-->
+<!--    </div>-->
+
+    <div class="d-flex justify-content-center row">
+        <div th:each="path : ${paths}" class="d-flex justify-content-center col-lg-3 col-md-4 col-sm-6 p-0 my-2">
+            <a th:href="@{/paths/{id} (id=${path.id})}">
+                <div class="card text-center" style="width: 12rem;">
+                    <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" class="card-img-top" alt="Achievement Badge" width="128px" height="128px">
+                    <div class="card-body">
+                        <div th:text="${path.getTitle()}" class="card-title"></div>
+                    </div>
                 </div>
-                <div th:text="${path.getTitle()}" class="card-title">
-                    Path #1
-                </div>
-            </div>
-        </a>
+            </a>
+        </div>
     </div>
 
-
-    <h4 class="leaderboard text-center">High Scores!</h4>
+    <!-- High Score Section -->
+    <h4 class="leaderboard text-center mt-5">High Scores!</h4>
     <hr class="p-1 rounded" style="color: black;">
     <div class="row mb-5">
         <!-- Week High Score -->
@@ -215,6 +229,7 @@
         </div>
     </div>
 
+    <!-- Tutorial Modals -->
     <div class="modal" id="howTo1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
@@ -249,7 +264,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal" id="howTo2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
@@ -258,7 +272,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img src="/img/exercises.drawio%20(1).png" style="width: 100%">
+                    <img src="/img/exerciseReal.png" style="width: 100%">
                     <!-- Dot Nav -->
                     <div class="row">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="col bi bi-circle" viewBox="0 0 16 16">
@@ -288,7 +302,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal" id="howTo3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
@@ -326,7 +339,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal" id="howTo4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">

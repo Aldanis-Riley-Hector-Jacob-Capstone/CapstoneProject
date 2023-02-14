@@ -31,8 +31,10 @@ public class Exercise implements Serializable {
 
     private String instructions;
 
+
     @Column
     private Boolean complete;
+
 
     @ManyToOne
     @JoinColumn(name = "challenge_id")
@@ -40,6 +42,9 @@ public class Exercise implements Serializable {
 
     @Transient
     private String challengeid;
+
+    @Transient
+    private Boolean completed = false;
 
     //Required by GSON
     public String toString() {

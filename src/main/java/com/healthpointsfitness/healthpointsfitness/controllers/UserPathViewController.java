@@ -1,6 +1,5 @@
 package com.healthpointsfitness.healthpointsfitness.controllers;
 
-import com.healthpointsfitness.healthpointsfitness.models.Challenge;
 import com.healthpointsfitness.healthpointsfitness.models.Exercise;
 import com.healthpointsfitness.healthpointsfitness.models.Path;
 import com.healthpointsfitness.healthpointsfitness.models.User;
@@ -80,7 +79,7 @@ public class UserPathViewController {
                 model.addAttribute("points", pathServ.getTotalPathPoints(myPath));
             } else {
                 System.out.println("Path id was null.");
-                return "/users/index";
+                return "landing";
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -121,6 +120,6 @@ public class UserPathViewController {
             e.printStackTrace();
         }
 
-        return "/users/index";
+        return "landing";
     }
 }

@@ -32,11 +32,8 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/profile/{username}")
+    @GetMapping("profile/{username}")
     public String getProfileView(@PathVariable("username") String username, Model model){
-        System.out.println("Controller is being hit");
-        System.out.println(username);
-
         try {
             User user = userService.findUserByUsername(username);
             if(user != null) {
@@ -58,27 +55,28 @@ public class UserController {
                 });
 
                 model.addAttribute("user", user);
-                return "/users/index";
+
+                return "users/landing";
             }else{
-                return "redirect:/users/profilenotfound";
+                return "redirect:users/profilenotfound";
             }
         }catch(Exception e){
             e.printStackTrace();
         }
-        return "redirect:/users/profilenotfound";
+        return "redirect:users/profilenotfound";
     }
 
-    @GetMapping("/users/profilenotfound")
+    @GetMapping("users/profilenotfound")
     public String profileNotFoundView(){
-        return "/users/profilenotfound";
+        return "users/profilenotfound";
     }
 
-    @GetMapping("/fsearch")
+    @GetMapping("fsearch")
     public String UserController_UniqueName_02(){
-        return "friends";
+        return "users/friends";
     }
 
-    @GetMapping("/profile/settings")
+    @GetMapping("profile/settings")
     private String getProfileSettingsView(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User userFromRepo = userService.findUserByUsername(user.getUsername());
@@ -104,11 +102,11 @@ public class UserController {
         }else{
             System.out.println("User not found by id");
         }
-        return "/users/settings";
+        return "users/settings";
 
     }
 
-    @PostMapping("/profile/settings/update")
+    @PostMapping("profile/settings/update")
     private String postProfileSettingsUpdate(
             @RequestParam(required = false) MultipartFile newImage,
             @ModelAttribute("me") User me
@@ -148,13 +146,13 @@ public class UserController {
             userRepository.save(currentProfile);
 
 //            model.addAttribute("profile_image",currentProfile.getProfileImageDataUrl());
-            return "redirect:/profile/settings";
+            return "redirect:profile/settings";
         }catch(Exception e){
             e.printStackTrace();
         }
 
         //Redirect back to the settings page
-        return "/users/settings";
+        return "users/settings";
 //        return "/landing";
     }
 }

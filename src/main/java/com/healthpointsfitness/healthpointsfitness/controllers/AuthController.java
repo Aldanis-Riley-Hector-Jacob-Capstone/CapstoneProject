@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -66,10 +64,10 @@ public class AuthController {
             userDao.save(user); //Save the user to the database
             request.login(user.getUsername(),clearPass);
             if(request.isUserInRole("ROLE_ADMIN")){
-                return "redirect:/admin/index";
+                return "redirect:admin/landing";
             }else if(request.isUserInRole("ROLE_CLIENT")){
                 model = userDetailsLoader.getUserData(model);
-                return "/users/index";
+                return "landing";
             }
         }catch(DataIntegrityViolationException e) { //Catch any exceptions
             e.printStackTrace();
@@ -82,7 +80,7 @@ public class AuthController {
         return "index";
     }
 
-    @GetMapping("admin/index")
+    @GetMapping("admin/landing")
     private String adminIndexGet(
             Model model,
             @PageableDefault(value = 2) Pageable pageable
@@ -114,7 +112,7 @@ public class AuthController {
                 .boxed()
                 .collect(Collectors.toList());
         model.addAttribute("pageNumbers",pageNumbers);
-        return "admin/index";
+        return "landing";
     }
 
     @GetMapping("/")
@@ -128,7 +126,7 @@ public class AuthController {
                 principal.getAuthorities().forEach(auth -> System.out.println(auth.getAuthority()));
                 if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
                     System.out.println("Sending to admin index page");
-                    return "redirect:admin/index";
+                    return "redirect:admin/landing";
                 } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
                     model.addAttribute("user", user);
                     System.out.println("Sending to " + user.getUsername() + "'s profile");

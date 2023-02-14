@@ -8,30 +8,18 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <style>
-        .dots {
-            background-image: url("/img/dots.png");
-        }
-        .submitBtn {
-            background-color: #01295f;
-            border: none;
-            transition: .5s;
-        }
-        .submitBtn:hover {
-            color: #01295f;
-            border: none;
-            background-color: #ffcb05;
-        }
+
     </style>
 </head>
 
-<body style="background-color: #3c5aa6">
+<body>
 
     <!-- Navbar -->
     <th:block th:replace="~{/fragments/navbar.html :: navbar}"/>
 
     <div class="container">
 
-        <div class="row p-4 dots rounded my-5">
+        <div class="row p-4 bg-light rounded my-5">
 
             <!-- Img Side -->
             <div class="col col-md-12 col-lg-6 d-flex justify-content-center align-items-center">

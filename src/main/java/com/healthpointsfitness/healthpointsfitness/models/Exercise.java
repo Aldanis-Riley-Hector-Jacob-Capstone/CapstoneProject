@@ -71,5 +71,6 @@ public class Exercise implements Serializable {
         instructions = copy.instructions;
         challenge = copy.challenge;
         challengeid = copy.challengeid;
+        completed = copy.completed;
     }
 }

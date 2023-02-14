@@ -66,7 +66,7 @@ class SecurityConfig {
                         "/users/api/v1/**",
                         "/users/api/v1/search_friends",
                         "/admin/api/v1/completeExercise"
-                ).hasAuthority("ROLE_CLIENT")
+                ).hasAnyAuthority("ROLE_CLIENT","ROLE_ADMIN")
 
                 //Lock down admin routes
                 .and()
@@ -74,8 +74,9 @@ class SecurityConfig {
                 .requestMatchers(
                         "/admin/**",
                         "/admin/api/v1/**",
+                        "admin/path/delete/{id}",
                         "/admin/api/v1/findExerciseByMuscle"
-                ).hasAuthority("ROLE_ADMIN")
+                        ).hasAuthority("ROLE_ADMIN")
 
                 //Block all other requests
                 .and()

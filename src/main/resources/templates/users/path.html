@@ -10,15 +10,15 @@
 </head>
 <body>
 <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
-<div class="container bg-light">
+<div class="container bg-light rounded my-5 pt-3">
     <div class="row">
         <div class="col-4">
             <h1 th:text="${path.getTitle()}"></h1>
         </div>
         <div class="col-6"></div>
         <div class="col-2">
-            <form action="#" th:action="@{/paths/enroll/{id}(id=${path.id})}" method="post">
-                <input type="submit" th:attr="class=${me.getFollowed_paths().contains(path) ? 'btn btn-danger' : 'btn btn-success'}">
+            <form th:action="@{/paths/enroll/{id}(id=${path.id})}" method="post">
+                    <button type="submit" th:text="${me.followed_paths.contains(path) ? 'Drop Path' : 'Follow Path'}" th:attr="class=${me.followed_paths.contains(path) ? 'btn btn-danger' : 'btn btn-success'}">
             </form>
         </div>
         <hr class="thicker_hr"/>

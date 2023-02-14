@@ -169,10 +169,20 @@ public class FriendsApiController {
                     item.getTo().setPassword(null);
                     item.getTo().setIsAdmin(null);
                     item.getTo().setEmail(null);
+                    item.getTo().setProfileImage(null);
+                    item.getTo().setCompletedExercises(null);
+                    item.getTo().setCreated_paths(null);
+                    item.getTo().setFollowed_paths(null);
+                    item.getTo().setGoals(null);
 
                     item.getFrom().setPassword(null);
                     item.getFrom().setIsAdmin(null);
                     item.getFrom().setEmail(null);
+                    item.getFrom().setProfileImage(null);
+                    item.getFrom().setCompletedExercises(null);
+                    item.getFrom().setCreated_paths(null);
+                    item.getFrom().setFollowed_paths(null);
+                    item.getFrom().setGoals(null);
 
                 }).toList();
 
@@ -196,11 +206,20 @@ public class FriendsApiController {
                     item.getTo().setPassword(null);
                     item.getTo().setIsAdmin(null);
                     item.getTo().setEmail(null);
+                    item.getTo().setProfileImage(null);
+                    item.getTo().setCompletedExercises(null);
+                    item.getTo().setCreated_paths(null);
+                    item.getTo().setFollowed_paths(null);
+                    item.getTo().setGoals(null);
 
                     item.getFrom().setPassword(null);
                     item.getFrom().setIsAdmin(null);
                     item.getFrom().setEmail(null);
-
+                    item.getFrom().setProfileImage(null);
+                    item.getFrom().setCompletedExercises(null);
+                    item.getFrom().setCreated_paths(null);
+                    item.getFrom().setFollowed_paths(null);
+                    item.getFrom().setGoals(null);
                 }).toList();
 
         // List of denied sent / received requests
@@ -263,10 +282,20 @@ public class FriendsApiController {
                     item.getTo().setPassword(null);
                     item.getTo().setIsAdmin(null);
                     item.getTo().setEmail(null);
+                    item.getTo().setProfileImage(null);
+                    item.getTo().setCompletedExercises(null);
+                    item.getTo().setCreated_paths(null);
+                    item.getTo().setFollowed_paths(null);
+                    item.getTo().setGoals(null);
 
                     item.getFrom().setPassword(null);
                     item.getFrom().setIsAdmin(null);
                     item.getFrom().setEmail(null);
+                    item.getFrom().setProfileImage(null);
+                    item.getFrom().setCompletedExercises(null);
+                    item.getFrom().setCreated_paths(null);
+                    item.getFrom().setFollowed_paths(null);
+                    item.getFrom().setGoals(null);
 
                 }).toList();
 
@@ -320,14 +349,18 @@ public class FriendsApiController {
                 .toList()
                 .stream()
                 .peek(item -> {
+
                     //Clear all sensitive data
                     item.setPassword(null);
                     item.setIsAdmin(null);
                     item.setEmail(null);
+                    item.setProfileImage(null);
+                    item.setCompletedExercises(null);
+                    item.setCreated_paths(null);
+                    item.setFollowed_paths(null);
+                    item.setGoals(null);
 
-                    item.setPassword(null);
-                    item.setIsAdmin(null);
-                    item.setEmail(null);
+
                 }).toList();
 
         //Return a new friend search response to the client

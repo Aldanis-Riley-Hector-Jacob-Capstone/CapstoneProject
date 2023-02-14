@@ -102,5 +102,8 @@ public class User {
         goals = copy.goals;
         created_paths = copy.created_paths;
         followed_paths = copy.followed_paths;
+        completedExercises = copy.completedExercises;
+        isAdmin = copy.isAdmin;
+        profileImageDataUrl = copy.profileImageDataUrl;
     }
 }

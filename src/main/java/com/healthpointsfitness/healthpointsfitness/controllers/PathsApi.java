@@ -293,18 +293,6 @@ public class PathsApi {
         ;    return null;
     }
 
-    @GetMapping(
-            name = "test",
-            path = "/test",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public String test(){
-        return "I work";
-    }
-
-
-
     /*
      * Post Mapping for editing/updating a path
      */

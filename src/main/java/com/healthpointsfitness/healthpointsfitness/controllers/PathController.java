@@ -138,6 +138,6 @@ public class PathController {
             e.printStackTrace();
         }
 
-        return "redirect:admin/index";
+        return "redirect:/admin/index";
     }
 }

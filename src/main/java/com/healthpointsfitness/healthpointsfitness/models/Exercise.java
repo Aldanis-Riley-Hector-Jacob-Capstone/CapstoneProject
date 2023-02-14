@@ -31,15 +31,15 @@ public class Exercise implements Serializable {
 
     private String instructions;
 
-    @Column
-    private boolean complete;
-
     @ManyToOne
     @JoinColumn(name = "challenge_id")
     private Challenge challenge;
 
     @Transient
     private String challengeid;
+
+    @Transient
+    private Boolean completed = false;
 
     //Required by GSON
     public String toString() {

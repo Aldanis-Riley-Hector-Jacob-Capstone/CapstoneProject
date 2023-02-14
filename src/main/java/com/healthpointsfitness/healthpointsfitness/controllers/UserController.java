@@ -50,6 +50,13 @@ public class UserController {
                     user.setProfileImageDataUrl(defaultProfileImage);
                 }
 
+                //Set the imageDataUrl for user followed paths
+                user.getFollowed_paths().forEach(path->{
+                    byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
+                    String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
+                    path.setImageDataUrl(base64Encoded);
+                });
+
                 model.addAttribute("user", user);
                 return "/users/index";
             }else{

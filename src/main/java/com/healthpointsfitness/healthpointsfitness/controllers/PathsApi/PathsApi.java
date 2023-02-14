@@ -352,10 +352,10 @@ public class PathsApi {
             if (exerciseOpt.isPresent()) {
                 Exercise myExercise = exerciseOpt.get();
                 if (request.completed) {
-                    currentUser.getCompletedExerciseIds().add(myExercise);
+                    currentUser.getCompletedExercises().add(myExercise);
                     userRepository.save(currentUser);
                 } else {
-                    currentUser.getCompletedExerciseIds().remove(myExercise);
+                    currentUser.getCompletedExercises().remove(myExercise);
                     userRepository.save(currentUser);
                 }
             }

@@ -57,9 +57,6 @@ public class User {
     @Column(nullable = false, unique = false, name = "total_points", length = 255)
     private Long totalPoints;
 
-    @Column (name = "completedExerciseId", unique = false, nullable = false)
-    @ManyToMany()
-    private List<Exercise> completedExerciseIds;
 
     public User(String username, String password, List<Role> roles){
         this.username = username;
@@ -84,10 +81,12 @@ public class User {
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
     private List<Path> created_paths;
 
-
     //User(Regular User) <> Path
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Path> followed_paths;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Exercise> completedExercises;
 
     public User(User copy) {
         id = copy.id; // This line is SUPER important! Many things won't work if it's absent

@@ -15,8 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class UserPathViewController {
@@ -30,44 +29,57 @@ public class UserPathViewController {
     private ExerciseRepository exRepo;
 
     private Authentication auth;
-    private User curUser;
 
-//    Moved to function to use multiple times
-    private User getUser(){
-        auth = SecurityContextHolder.getContext().getAuthentication();
-        curUser = userDao.findUserByUsername(auth.getName());
-
-        return curUser;
-    }
-
-    @GetMapping("/paths/{pathnumber}")
-    public String paths02(@PathVariable Long pathnumber, Model model){
+    /*
+     * Retrieve a path in the path view based on the path number
+     */
+    @GetMapping("/paths/{id}")
+    public String getPath(@PathVariable("id") Long pathid, Model model){
+        System.out.println(pathid);
         try {
-//            IF THE PATH EXISTS
-            if (pathnumber != null) {
-                Path myPath = pathRepo.getReferenceById(pathnumber);
+            if (pathid != null) {
+
+                //Get the path using the path id
+                Path myPath = pathRepo.getReferenceById(pathid);
+
+                //Set the image data url
                 myPath.setImageDataUrl(pathServ.getPathImage(myPath));
-                curUser = getUser();
 
-                List<Long> completedExercises = new ArrayList<Long>();
-                for (Challenge challenge : myPath.getChallenges()){
-                    for (Exercise exercise : challenge.getExercises()){
-                        for (Exercise exercise123 : curUser.getCompletedExerciseIds()){
-                            if (exercise123.getId() == exercise.getId()){
-                                completedExercises.add(exercise.getId());
-                            }
-                        }
-//                        if (curUser.getCompletedExerciseIds().contains(exercise.getId())){
-//                            completedExercises.add(exercise.getId());
-//                        }
-                    }
-                }
+                //Get the user
+                User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                User finalUser = userDao.findUserByUsername(user.getUsername());
 
-                model.addAttribute("me", curUser);
+                //Create temp completed exercises array
+                List<Exercise> completedExercises = new ArrayList<>();
+
+                //Iterate through all challenges
+                myPath.getChallenges().forEach(challenge -> {
+                    //And then all exercises in each challenge
+                    challenge.getExercises().forEach(exercise -> {
+                        //Grab any exercises that the user has completed
+                        List<Exercise> matches = finalUser.getCompletedExercises();
+
+                        //Mark matches completed
+                        matches.forEach(match-> match.setCompleted(true));
+
+                        //And add them to the completed exercises array
+                        completedExercises.addAll(matches);
+                    });
+                });
+
+//                //Convert list of completed excersises into a map to remove duplicates
+//                Map<Long,Exercise> exerciseMap = new HashMap<>();
+//                completedExercises.forEach(ex->exerciseMap.put(com));
+
+                System.out.println("You have completed " + completedExercises.size() + " exercises.");
+
+                //Add all the model attributes for the front end
+                model.addAttribute("me", finalUser);
                 model.addAttribute("enrolled", completedExercises);
                 model.addAttribute("path", myPath);
                 model.addAttribute("points", pathServ.getTotalPathPoints(myPath));
             } else {
+                System.out.println("Path id was null.");
                 return "/users/index";
             }
         } catch (Exception e){
@@ -78,23 +90,18 @@ public class UserPathViewController {
     }
 
     @PostMapping("/paths/enroll/{pathNumber}")
-//    TODO: Prevent user from repreatedly enrolling in the same path forever (JJ)
     public String enrollInPath(@PathVariable Long pathNumber) {
         Path path = pathRepo.getReferenceById(pathNumber);
-        curUser = getUser();
-
-//        USER IS ENROLLED
-//        if (pathServ.isEnrolled(curUser, path)) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User curUser = userDao.findUserByUsername(user.getUsername());
         if (curUser.getFollowed_paths().contains(path)) {
             curUser.getFollowed_paths().remove(path);
-//            TODO: CONFIRM USER WANTS TO DELETE PATH (AND PROGRESS) (JJ)
-//        USER IS NOT ENROLLED
         } else {
             curUser.getFollowed_paths().add(path);
         }
         userDao.save(curUser);
 
-        return "redirect:/profile";
+        return "redirect:/profile/" + curUser.getUsername();
     }
 
     @GetMapping("/allPaths")

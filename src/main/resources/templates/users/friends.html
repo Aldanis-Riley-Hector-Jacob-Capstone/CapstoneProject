@@ -261,6 +261,19 @@
 
                     friends_list.appendChild(listItem);
                 })
+            }else{
+                console.log("No friends yet")
+
+                const listItem = document.createElement('li')
+                listItem.classList.add('list-group-item', 'friend_item')
+                listItem.style.cursor = "pointer"
+
+                const icon = document.createElement('i')
+                icon.classList.add('bi','bi-info-square','me-2')
+
+                listItem.appendChild(icon)
+                listItem.append("You have not connected with any buddies yet. Send out some friend requests to get the ball rolling.")
+                friends_list.appendChild(listItem)
             }
         }
 
@@ -346,6 +359,10 @@
                 const listItem = document.createElement('li')
                 listItem.classList.add('list-group-item', 'friend_item')
                 listItem.style.cursor = "pointer"
+                const icon = document.createElement('i')
+                icon.classList.add('bi','bi-info-square','me-2')
+
+                listItem.appendChild(icon)
                 listItem.append("No pending outgoing friend requests at this time.")
                 sent_pending_list.appendChild(listItem);
             }
@@ -463,6 +480,10 @@
                 const listItem = document.createElement('li')
                 listItem.classList.add('list-group-item', 'friend_item')
                 listItem.style.cursor = "pointer"
+                const icon = document.createElement('i')
+                icon.classList.add('bi','bi-info-square','me-2')
+
+                listItem.appendChild(icon)
                 listItem.append("No pending incoming friend requests at this time.")
                 received_pending_list.appendChild(listItem);
             }

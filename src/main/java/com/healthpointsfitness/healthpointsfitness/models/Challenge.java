@@ -54,7 +54,8 @@ public class Challenge implements Serializable {
                 + "\"}";
     }
 
-    public Challenge(Challenge copy){
+
+    public Challenge(Challenge copy) {
         id = copy.id;
         title = copy.title;
         description = copy.description;

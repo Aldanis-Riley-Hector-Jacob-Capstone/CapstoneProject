@@ -80,9 +80,4 @@ public class PathsService {
         }
         return null;
     }
-
-    public boolean isEnrolled(User user, Path path){
-        return user.getFollowed_paths().contains(path);
-    }
-
 }

@@ -1,54 +1,109 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/html">
+      xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>View Path</title>
     <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
 <div class="container">
-    <div class="container">
-        <div class="row">
-            <div class="col-4">
-                <h1 th:text="${path.getTitle()}"></h1>
-            </div>
-            <hr class="thicker_hr"/>
+    <div class="row">
+        <div class="col-4">
+            <h1 th:text="${path.getTitle()}"></h1>
         </div>
-        <div class="row">
-            <div class="col-3">
-                <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="256px"
-                     height="256px" th:attr="class=${enrolled ? 'path_image_green' : 'path_image_red'}">
-            </div>
-            <div class="col-9">
-                <div th:text="${path.getDescription()}"/>
-            </div>
+        <div class="col-6"></div>
+        <div class="col-2">
+            <form action="#" th:action="@{/paths/enroll/} + ${path.getId()}" method="post">
+                <input type="submit"
+                       th:attr="class=${me.getFollowed_paths().contains(path) ? 'btn btn-danger' : 'btn btn-success'}">
+                <!--                    th:attr="value=${enrolled ? 'abandon' : 'enroll'}" -->
+            </form>
         </div>
-        <div class="row">
-            <div class="col-3">
-                <div th:text="'Total Points for this path= ' + ${points}"/>
-            </div>
-            <!--            FOR EVERY CHALLENGE IN PATH -->
-            <div th:each="challenge : ${path.getChallenges()}">
-                <div class="col-3">
-                    <div class="challengeTitle" th:text="${challenge.getTitle()}" />
-                    <!--                    FOR EVERY EXERCISE UNDER CHALLENGES -->
-                    <div th:text="${challenge.getDescription()}" />
-                    <ul>
-                        <div th:each="exercise : ${challenge.getExercises()}">
-                            <li th:text="${exercise.getName()}" />
-                        </div>
-                    </ul>
-                </div>
-            </div>
+        <hr class="thicker_hr"/>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <img src="#" th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge"
+                 width="256px" height="256px" class="path_image">
+            <!--                th:attr="class=${enrolled ? 'path_image_green' : 'path_image_red'}" -->
+        </div>
+        <div class="col-9">
+            <div th:text="${path.getDescription()}"/>
         </div>
     </div>
-</div>
-</div>
-</div>
-
-
-<th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
+    <div class="row">
+        <div class="col-3">
+            <div th:text="'Total Points for this path= ' + ${points}"/>
+        </div>
+        <!--            FOR EVERY CHALLENGE IN PATH -->
+        <div th:each="challenge : ${path.getChallenges()}">
+            <div class="col-3">
+                <div class="challengeTitle" th:text="${challenge.getTitle()}"/>
+                <!--                    FOR EVERY EXERCISE UNDER CHALLENGES -->
+                <div th:text="${challenge.getDescription()}"/>
+                <ul>
+                    <div th:each="exercise : ${challenge.getExercises()}">
+                        <li th:text="${exercise.getName()}"/>
+                        <!--            FOR EVERY CHALLENGE IN PATH -->
+                        <div class="row">
+                            <div th:each="challenge : ${path.getChallenges()}">
+                                <form action="#" th:action="@{/paths/update/} + ${path.getId()}" method="post"
+                                      th:object="${challenges}">
+                                    <div class="card">
+                                        <div class="challengeTitle" th:text="${challenge.getTitle()}"/>
+                                        <!-- FOR EVERY EXERCISE UNDER CHALLENGES -->
+                                        <div th:text="${challenge.getDescription()}"/>
+                                        <div th:each="exercise : ${challenge.getExercises()}">
+                                            <input type="checkbox" name="exercises[]" th:text="${exercise.getName()}"
+                                                   class="exerciseBox" th:exercise="${exercise.id}"
+                                                   th:checked="${enrolled.contains(exercise.getId())}">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" th:value="${me.id}" id="myId"/>
+                    <script>
+                        const myId = document.getElementById("myId").value;
+                        const exerciseBoxes = document.getElementsByClassName("exerciseBox");
+                        Array.from(exerciseBoxes).forEach(box => {
+                            box.onchange = e => {
+                                const exerciseId = box.getAttribute("exercise");
+                                const sendRequest = async () => {
+                                    try {
+                                        const token = document.getElementsByName("_csrf")[0].getAttribute("content");
+                                        const request = await fetch('http://localhost:8080/admin/api/v1/completeExercise', {
+                                            method: "POST",
+                                            credentials: "include", //Send the SpringSec credentials
+                                            headers: {
+                                                "Content-Type": "application/json",
+                                                "X-CSRF-TOKEN": token
+                                            },
+                                            body: JSON.stringify({
+                                                exerciseId: exerciseId,
+                                                completed: e.target.checked
+                                            })
+                                        })
+                                        const response = await request.json()
+                                        console.log(response);
+                                    } catch (err) {
+                                        //Display errors on the console
+                                        console.error(err)
+                                    }
+                                }
+                                if (e.target.checked) {
+                                    sendRequest();
+                                }
+                                console.log(myId);
+                                console.log(exerciseId);
+                            }
+                        })
+                    </script>
+                    <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
 </body>
 </html>

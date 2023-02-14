@@ -62,27 +62,12 @@
   <th:block th:replace="~{fragments/header.html :: header}"></th:block>
 
   <style>
-    .hexBg {
-      background-image: url("/img/lateral.png");
-      border-radius: 20px;
-    }
-    .submitBtn {
-      color: white;
-      /*border-color: #ffcb05;*/
-      /*border-width: 2px;*/
-      background-color: #2a75bb;
-      transition: .3s;
-    }
-    .submitBtn:hover {
-      background-color: #ffcb05;
-      color: #2a75bb
-    }
 
   </style>
 
 </head>
 
-<body style="background-color: #3c5aa6">
+<body>
 <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 
 <div class="container my-5">
@@ -93,14 +78,14 @@
     </div>
     <a href="/admin/index" sec:authorize="isAuthenticated()"><button>Go To Profile</button></a>
 
-    <div class="row hexBg my-3 p-4">
+    <div class="row bg-light rounded my-3 p-4">
       <!-- Img Side -->
       <div class="col col-md-12 col-lg-6 d-flex justify-content-center align-items-center">
         <img src="/img/login.webp" class="rounded" style="width: 100%">
       </div>
 
       <!-- Form Side -->
-      <div class="col-lg-6 m-0 shadow d-flex justify-content-center align-items-center">
+      <div class="col-lg-6 m-0 d-flex justify-content-center align-items-center">
         <form class="d-flex justify-content-center align-items-center m-0 p-4 rounded" style="width: 100%" sec:authorize="!isAuthenticated()" th:action="@{/login}" th:method="post">
           <div class="card m-0" style="width: 100%;">
             <div class="card-body m-0">
@@ -115,10 +100,10 @@
                 </div>
               </div>
               <div class="text-center">
-                <button type="submit" class="btn submitBtn" style="width: 100%;">Login</button>
+                <button type="submit" class="btn btn-primary submitBtn" style="width: 100%;">Login</button>
               </div>
               <div class="text-center mt-2">
-                <a href="/recover"><button type="button" class="btn submitBtn" style="width: 100%;">Recover Account</button></a>
+                <a href="/recover"><button type="button" class="btn btn-primary submitBtn" style="width: 100%;">Recover Account</button></a>
               </div>
               <br>
               <div class="row mt-5">
@@ -128,7 +113,7 @@
                     <div class="col px-0">or</div>
                     <div class="col ps-0"><hr></div>
                   </div>
-                  <button id="regBtn" type="submit" class="btn submitBtn" style="width: 100%;">Register</button>
+                  <button id="regBtn" type="submit" class="btn btn-primary submitBtn" style="width: 100%;">Register</button>
                   <!--                                    <a href="/recover">Register</a>-->
                 </div>
               </div>

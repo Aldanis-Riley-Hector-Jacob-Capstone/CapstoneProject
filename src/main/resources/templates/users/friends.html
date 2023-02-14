@@ -11,35 +11,33 @@
 </head>
 <body>
 <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
-<div class="container">
+<div class="container p-3 text-black rounded my-5 bg-white">
     <input type="hidden" id="myUsername" th:value="${me.username}">
-    <div class="navbar bg-body-tertiary d-flex justify-content-end pe-3">
-        <span class="h2 me-auto ms-3">Manage Friends</span>
-<!--        <a href="/admin/path/createapitest" class="btn btn-light" style="float: right;">-->
-<!--            <i class="bi bi-plus-square"></i>&nbsp;&nbsp;Add Go-->
+    <div class="navbar d-flex justify-content-end pe-3">
+        <span class="h2 me-auto ms-3"><i class="bi bi-people-fill me-3"></i>Manage Buddies</span>
+<!--        <a href="/profile/settings" class="btn btn-light" style="float: right;">-->
+<!--            <i class="bi bi-gear me-3"></i>Profile Settings-->
 <!--        </a>-->
     </div>
     <div class="row mt-4">
-        <div class="form-container col-12 col-md-7">
-<!--            <from th:action="@{/users/api/v1/search_friends}" th:method="POST">-->
-                <div class="input-group mb-3">
-                    <input class="form-control" id="search_term" placeholder="Search by Name, Points, Path Name" aria-label="Search for friends">
-                    <button class="btn btn-outline-secondary" type="button">Search</button>
-                </div>
-                <br>
-                <ul id="results" class="list-group mt-3">
+        <div class="form-container col-12 col-md-8">
+            <div class="input-group mb-3">
+                <input class="form-control" id="search_term" placeholder="Search by Name, Points, Path Name"
+                       aria-label="Search for friends">
+                <button class="btn btn-outline-secondary" type="button">Search</button>
+            </div>
+            <br>
+            <ul id="results" class="list-group mt-3">
 
-                </ul>
-<!--            </from>-->
+            </ul>
         </div>
-        <div class="friends-list col-12 col-md-5">
-            <!--            Filter for point counts-->
+        <div class="friends-list col-12 col-md-4">
             <fieldset class="mb-3">
                 <legend>Filter by Points</legend>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
                     <label class="form-check-label" for="flexRadioDefault1">
-                       Under or at 100pts
+                        Under or at 100pts
                     </label>
                 </div>
                 <div class="form-check">
@@ -55,66 +53,20 @@
                     </label>
                 </div>
             </fieldset>
-<!--            <button type="submit">Search for friends</button>-->
 
             <!-- List of names searched to add -->
             <strong class="mt-5">Friends List</strong>
             <ul class="list-group mt-3 mb-3" id="friends_list" style="clear: both;">
-<!--                <li class="list-group-item friend_item" style="cursor: pointer;" th:each="item : ${friends}">-->
-<!--                    <img style="border-radius: 50%;" width="40px" height="40px" alt="path_image" src=""-->
-<!--                         th:src="${item.from.profileImageDataUrl}"/>-->
-<!--                    <span class="me-auto friend_username">-->
-<!--                        <strong th:if="${item.from.username} != ${me.username}"-->
-<!--                                th:text="${item.from.username}"></strong>-->
-<!--                        <strong th:if="${item.to.username} != ${me.username}"-->
-<!--                                th:text="${item.to.username}"></strong>-->
-<!--                    </span>-->
-<!--                    <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto" th:item="${item.getId()}"></i>-->
-<!--&lt;!&ndash;                    <i class="bi bi-pencil-fill editBtn btn btn-light me-2 ms-auto" th:item="${item.getId()}"></i>&ndash;&gt;-->
-<!--                </li>-->
-<!--                <li class="list-group-item" th:if="${friends.isEmpty()}">-->
-<!--                    No friends yet, feel free to search for new friends and send them friend requests.-->
-<!--                </li>-->
             </ul>
 
             <!-- List of pending sent requests -->
             <strong class="mt-5">Incoming Pending</strong>
             <ul class="list-group mt-3 mb-3" id="incoming_pending_list" style="clear: both;">
-<!--                <li class="list-group-item friend_item" style="cursor: pointer;" th:each="item : ${received_denied}">-->
-<!--                    <img style="border-radius: 50%;" width="40px" height="40px" alt="path_image" src=""-->
-<!--                         th:src="${item.from.profileImageDataUrl}"/>-->
-<!--                    <span class="me-auto friend_username">-->
-<!--                        <strong th:if="${item.from.username} != ${me.username}"-->
-<!--                                th:text="${item.from.username}"></strong>-->
-<!--                        <strong th:if="${item.to.username} != ${me.username}"-->
-<!--                                th:text="${item.to.username}"></strong>-->
-<!--                    </span>-->
-<!--                    <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto" th:item="${item.getId()}"></i>-->
-<!--                    &lt;!&ndash;                    <i class="bi bi-pencil-fill editBtn btn btn-light me-2 ms-auto" th:item="${item.getId()}"></i>&ndash;&gt;-->
-<!--                </li>-->
-<!--                <li class="list-group-item" th:if="${received_denied.isEmpty()}">-->
-<!--                    No pending incoming friend requests at this time.-->
-<!--                </li>-->
             </ul>
 
             <!-- List of names searched to add -->
             <strong class="mt-5">Outgoing Pending</strong>
             <ul class="list-group mt-3" id="outgoing_pending_list" style="clear: both;">
-<!--                <li class="list-group-item friend_item" style="cursor: pointer;" th:each="item : ${sent_denied}">-->
-<!--                    <img style="border-radius: 50%;" width="40px" height="40px" alt="path_image" src=""-->
-<!--                         th:src="${item.from.profileImageDataUrl}"/>-->
-<!--                    <span class="me-auto friend_username">-->
-<!--                        <strong th:if="${item.from.username} != ${me.username}"-->
-<!--                                th:text="${item.from.username}"></strong>-->
-<!--                        <strong th:if="${item.to.username} != ${me.username}"-->
-<!--                                th:text="${item.to.username}"></strong>-->
-<!--                    </span>-->
-<!--                    <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto" th:item="${item.getId()}"></i>-->
-<!--                    &lt;!&ndash;                    <i class="bi bi-pencil-fill editBtn btn btn-light me-2 ms-auto" th:item="${item.getId()}"></i>&ndash;&gt;-->
-<!--                </li>-->
-<!--                <li class="list-group-item" th:if="${sent_denied.isEmpty()}">-->
-<!--                    No pending outgoing friend requests at this time.-->
-<!--                </li>-->
             </ul>
         </div>
     </div>
@@ -138,7 +90,7 @@
 
     const friendItems = document.getElementsByClassName('friend_item');
 
-    Array.from(friendItems).forEach(item=>item.onclick = e => {
+    Array.from(friendItems).forEach(item => item.onclick = e => {
         const username = item.children.item(1).innerText
         window.location.href = '/profile/' + username
     })
@@ -154,11 +106,11 @@
         const token = document.getElementsByName("_csrf")[0].getAttribute("content")
 
         const points = () => {
-            if(zeroToOneHundred.checked){
+            if (zeroToOneHundred.checked) {
                 return 100
-            }else if(oneHundredToTwoHundred.checked){
+            } else if (oneHundredToTwoHundred.checked) {
                 return 200
-            }else{
+            } else {
                 return 300
             }
         }
@@ -167,16 +119,16 @@
         console.log(endpoint)
         console.log(token)
         //Create a post request to the backend
-        const request = await fetch(endpoint,{
-            method : "POST",
+        const request = await fetch(endpoint, {
+            method: "POST",
             credentials: "include", //Send the SpringSec credentials
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRF-TOKEN" : token
+                "X-CSRF-TOKEN": token
             },
-            body : JSON.stringify({
-                points : points(),
-                searchTerm : document.getElementById("search_term").value
+            body: JSON.stringify({
+                points: points(),
+                searchTerm: document.getElementById("search_term").value
             })
         })
 
@@ -194,10 +146,10 @@
 
         //List of friends
         const friends_list = document.getElementById("friends_list")
-        if('friends' in response){
+        if ('friends' in response) {
             friends_list.innerHTML = ""
-            if(response.friends.length > 0){
-                response.friends.forEach(friend=>{
+            if (response.friends.length > 0) {
+                response.friends.forEach(friend => {
                     const listItem = document.createElement('li')
                     listItem.classList.add('list-group-item', 'friend_item')
                     listItem.style.cursor = 'pointer'
@@ -219,7 +171,7 @@
                         itemUsername = friend['to'].username
                         username.innerText = itemUsername
                         img.src = friend['to'].profileImageDataUrl ?? defaultProfileImage;
-                    } else if(friend['to'].username === myUsername.value) {
+                    } else if (friend['to'].username === myUsername.value) {
                         itemUsername = friend['from'].username
                         username.innerText = itemUsername
                         img.src = friend['from'].profileImageDataUrl ?? defaultProfileImage;
@@ -242,14 +194,14 @@
                         console.log("Unfriend request for " + username.innerText)
 
                         //Fetch request to the unfriend route
-                        const request = await fetch("http://" + location.host + "/users/api/v1/unfriend_request",{
-                            method : "POST",
-                            credentials : "include",
-                            headers : {
-                                "Content-Type" : "application/json",
-                                "X-CSRF-TOKEN" : token
+                        const request = await fetch("http://" + location.host + "/users/api/v1/unfriend_request", {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": token
                             },
-                            body : username.innerText
+                            body: username.innerText
                         })
 
                         const response = await request.json()
@@ -261,7 +213,7 @@
 
                     friends_list.appendChild(listItem);
                 })
-            }else{
+            } else {
                 console.log("No friends yet")
 
                 const listItem = document.createElement('li')
@@ -269,7 +221,7 @@
                 listItem.style.cursor = "pointer"
 
                 const icon = document.createElement('i')
-                icon.classList.add('bi','bi-info-square','me-2')
+                icon.classList.add('bi', 'bi-info-square', 'me-2')
 
                 listItem.appendChild(icon)
                 listItem.append("You have not connected with any buddies yet. Send out some friend requests to get the ball rolling.")
@@ -281,9 +233,9 @@
         const sent_pending_list = document.getElementById('outgoing_pending_list')
 
         //Redreaw the pending request list
-        if('sent_pending' in response){
+        if ('sent_pending' in response) {
             sent_pending_list.innerHTML = ""
-            if(response.sent_pending.length > 0) {
+            if (response.sent_pending.length > 0) {
                 response.sent_pending.forEach(item => {
                     const listItem = document.createElement('li')
                     listItem.classList.add('list-group-item', 'sent_pending_friend_item')
@@ -309,7 +261,7 @@
                         itemUsername = item['to'].username
                         username.innerText = itemUsername
                         img.src = item['to'].profileImageDataUrl ?? defaultProfileImage;
-                    } else if(item['to'].username === myUsername.value) {
+                    } else if (item['to'].username === myUsername.value) {
                         itemUsername = item['from'].username
                         username.innerText = itemUsername
                         img.src = item['from'].profileImageDataUrl ?? defaultProfileImage;
@@ -335,14 +287,14 @@
                         e.preventDefault();
                         console.log("Deleting pending sent friend request for " + username.innerText)
 
-                        const request = await fetch("http://" + location.host + "/users/api/v1/delete_friend_request",{
-                            method : "POST",
-                            credentials : "include",
-                            headers : {
-                                "Content-Type" : "application/json",
-                                "X-CSRF-TOKEN" : token
+                        const request = await fetch("http://" + location.host + "/users/api/v1/delete_friend_request", {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": token
                             },
-                            body : username.innerText
+                            body: username.innerText
                         })
 
                         const response = await request.json()
@@ -354,13 +306,13 @@
 
                     sent_pending_list.appendChild(listItem);
                 })
-            }else{
+            } else {
                 console.log("No sent requests pending")
                 const listItem = document.createElement('li')
                 listItem.classList.add('list-group-item', 'friend_item')
                 listItem.style.cursor = "pointer"
                 const icon = document.createElement('i')
-                icon.classList.add('bi','bi-info-square','me-2')
+                icon.classList.add('bi', 'bi-info-square', 'me-2')
 
                 listItem.appendChild(icon)
                 listItem.append("No pending outgoing friend requests at this time.")
@@ -372,9 +324,9 @@
         const received_pending_list = document.getElementById('incoming_pending_list')
 
         //Re-dreaw the pending request list
-        if('received_pending' in response){
+        if ('received_pending' in response) {
             received_pending_list.innerHTML = ""
-            if(response.received_pending.length > 0) {
+            if (response.received_pending.length > 0) {
                 response.received_pending.forEach(item => {
                     const listItem = document.createElement('li')
 
@@ -401,7 +353,7 @@
                         itemUsername = item['to'].username
                         username.innerText = itemUsername
                         img.src = item['to'].profileImageDataUrl ?? defaultProfileImage;
-                    } else if(item['to'].username === myUsername.value) {
+                    } else if (item['to'].username === myUsername.value) {
                         itemUsername = item['from'].username
                         username.innerText = itemUsername
                         img.src = item['from'].profileImageDataUrl ?? defaultProfileImage;
@@ -422,17 +374,17 @@
                         //TODO: Send post request to backend to add friend
                         e.stopPropagation();
                         e.preventDefault();
-                        console.log("Accepting friend request from " +  username.innerText)
+                        console.log("Accepting friend request from " + username.innerText)
 
                         //Create a request to accept the friend request
-                        const request = await fetch("http://" + location.host + "/users/api/v1/accept_friend_request",{
-                            method : "POST",
-                            credentials : "include",
-                            headers : {
-                                "Content-Type" : "application/json",
-                                "X-CSRF-TOKEN" : token
+                        const request = await fetch("http://" + location.host + "/users/api/v1/accept_friend_request", {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": token
                             },
-                            body : username.innerText
+                            body: username.innerText
                         })
 
                         const response = await request.json()
@@ -445,7 +397,7 @@
                     listItem.appendChild(acceptBtn)
 
                     const denyBtn = document.createElement('i')
-                    denyBtn.classList.add('bi','bi-person-x','delBtn', 'btn', 'btn-danger','ms-2')
+                    denyBtn.classList.add('bi', 'bi-person-x', 'delBtn', 'btn', 'btn-danger', 'ms-2')
                     denyBtn.onclick = async e => {
                         //TODO: Send post request to deny the friend request
                         e.stopPropagation();
@@ -453,14 +405,14 @@
                         console.log("Denying friend request from " + username.innerText)
 
                         //Create a request to deny the friend request
-                        const request = await fetch("http://" + location.host + "/users/api/v1/deny_friend_request",{
-                            method : "POST",
-                            credentials : "include",
-                            headers : {
-                                "Content-Type" : "application/json",
-                                "X-CSRF-TOKEN" : token
+                        const request = await fetch("http://" + location.host + "/users/api/v1/deny_friend_request", {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": token
                             },
-                            body : username.innerText
+                            body: username.innerText
                         })
 
                         const response = await request.json()
@@ -475,13 +427,13 @@
 
                     received_pending_list.appendChild(listItem);
                 })
-            }else{
+            } else {
                 console.log("No incoming requests pending")
                 const listItem = document.createElement('li')
                 listItem.classList.add('list-group-item', 'friend_item')
                 listItem.style.cursor = "pointer"
                 const icon = document.createElement('i')
-                icon.classList.add('bi','bi-info-square','me-2')
+                icon.classList.add('bi', 'bi-info-square', 'me-2')
 
                 listItem.appendChild(icon)
                 listItem.append("No pending incoming friend requests at this time.")
@@ -490,7 +442,7 @@
         }
 
         //Show new results
-        if('results' in response) { //If there's matches in the response
+        if ('results' in response) { //If there's matches in the response
             response.results.forEach(user => {
                 //Create a list item
                 const item = document.createElement('li')
@@ -512,10 +464,10 @@
                 username.innerText = user.username;
 
                 const requestIcon = document.createElement('i')
-                requestIcon.classList.add("bi","bi-person-plus-fill")
+                requestIcon.classList.add("bi", "bi-person-plus-fill")
 
                 const requestButton = document.createElement('button')
-                requestButton.classList.add('btn','btn-primary')
+                requestButton.classList.add('btn', 'btn-primary')
                 requestButton.appendChild(requestIcon)
                 requestButton.onclick = async e => {
                     e.stopPropagation();
@@ -524,22 +476,22 @@
                     const sendFriendRequest = async u => {
                         const endp = "http://" + location.host + "/users/api/v1/add_friend"
 
-                        const request = await fetch(endp,{
-                            method : "POST",
-                            credentials : "include",
-                            headers : {
-                                "Content-Type" : "application/json",
-                                "X-CSRF-TOKEN" : token
+                        const request = await fetch(endp, {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": token
                             },
-                            body : user["username"]
+                            body: user["username"]
                         })
 
                         const response = await request.json()
 
-                        if('success' in response){
-                            if(response.success){
+                        if ('success' in response) {
+                            if (response.success) {
                                 alert(response.message)
-                            }else{
+                            } else {
                                 console.error(response.message)
                                 alert("There was an error while sending your friend request.")
                             }
@@ -563,34 +515,34 @@
                 //Return a bool if the request is pending approval
                 const requestPendingApproval = () => {
                     const pendingApprovalSent = response['sent_pending']
-                    const sentPending = pendingApprovalSent.filter(req=>req['to'].id === user.id).length > 0
+                    const sentPending = pendingApprovalSent.filter(req => req['to'].id === user.id).length > 0
 
                     const pendingApprovalReceived = response['received_pending']
-                    const receivedPending = pendingApprovalReceived.filter(req=>req['from'].id === user.id).length > 0
+                    const receivedPending = pendingApprovalReceived.filter(req => req['from'].id === user.id).length > 0
 
                     return sentPending || receivedPending
                 }
 
                 const requestDenied = () => {
-                    return response['denied_requests'].filter(item=>{
+                    return response['denied_requests'].filter(item => {
                         return item.from.id === user.id || item.to.id === user.id
                     }).length > 0
                 }
 
                 const userIsFriend = () => {
-                    return response['friends'].filter(item=>{
+                    return response['friends'].filter(item => {
                         return item.from.id === user.id || item.to.id === user.id
                     }).length > 0
                 }
 
                 // console.log(requestPendingApproval())
-                if(!requestPendingApproval() && !requestDenied() && !userIsFriend()) {
+                if (!requestPendingApproval() && !requestDenied() && !userIsFriend()) {
                     //Add the add friend button to the list item
                     item.appendChild(requestButton)
-                }else if (!requestPendingApproval() && requestDenied()) {
+                } else if (!requestPendingApproval() && requestDenied()) {
                     //If this request was denied
                     const deniedIcon = document.createElement('i')
-                    deniedIcon.classList.add('bi','bi-person-fill-slash','me-3')
+                    deniedIcon.classList.add('bi', 'bi-person-fill-slash', 'me-3')
 
                     const deniedLabel = document.createElement('span')
                     deniedLabel.appendChild(deniedIcon);
@@ -601,7 +553,7 @@
 
                     // Unblock icon
                     const unblockIcon = document.createElement('i')
-                    unblockIcon.classList.add('bi','bi-person-check', 'me-3')
+                    unblockIcon.classList.add('bi', 'bi-person-check', 'me-3')
 
                     //Unblock Label
                     const unblockLabel = document.createElement('span')
@@ -609,20 +561,20 @@
 
                     //Unblock button
                     const unblockButton = document.createElement('button')
-                    unblockButton.classList.add('btn','btn-success','ms-3')
+                    unblockButton.classList.add('btn', 'btn-success', 'ms-3')
                     unblockButton.appendChild(unblockIcon)
                     unblockButton.appendChild(unblockLabel)
                     unblockButton.onclick = async e => {
                         e.stopPropagation();
                         e.preventDefault();
-                        const request = await fetch("http://" + location.host + "/users/api/v1/unblock_request",{
-                            method : "POST",
-                            credentials : "include",
-                            headers : {
-                                "Content-Type" : "application/json",
-                                "X-CSRF-TOKEN" : token
+                        const request = await fetch("http://" + location.host + "/users/api/v1/unblock_request", {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": token
                             },
-                            body : user["username"]
+                            body: user["username"]
                         })
 
                         const response = await request.json()
@@ -635,7 +587,7 @@
 
                     item.appendChild(unblockButton)
                     item.appendChild(deniedLabel)
-                } else if(userIsFriend()) {
+                } else if (userIsFriend()) {
                     const friendIcon = document.createElement('i')
                     friendIcon.classList.add('bi', 'bi-person-check', 'me-3')
 
@@ -649,11 +601,11 @@
 
                     //Unfriend Icon
                     const unfriendIcon = document.createElement('i')
-                    unfriendIcon.classList.add('bi','bi-person-slash')
+                    unfriendIcon.classList.add('bi', 'bi-person-slash')
 
                     //Unfriend Button
                     const unfriendButton = document.createElement('button')
-                    unfriendButton.classList.add('btn','btn-danger','me-3')
+                    unfriendButton.classList.add('btn', 'btn-danger', 'me-3')
                     unfriendButton.style.float = 'right'
                     unfriendButton.appendChild(unfriendIcon)
                     unfriendButton.onclick = async e => {
@@ -663,14 +615,14 @@
                         //TODO: Send unfriend request
                         console.log("Unfriending " + username.innerText);
 
-                        const request = await fetch("http://" + location.host + "/users/api/v1/unfriend_request",{
-                            method : "POST",
-                            credentials : "include",
-                            headers : {
-                                "Content-Type" : "application/json",
-                                "X-CSRF-TOKEN" : token
+                        const request = await fetch("http://" + location.host + "/users/api/v1/unfriend_request", {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": token
                             },
-                            body : user["username"]
+                            body: user["username"]
                         })
 
                         const response = await request.json()
@@ -681,9 +633,9 @@
 
                     }
                     item.appendChild(unfriendButton)
-                } else{
+                } else {
                     const pendingIcon = document.createElement('i')
-                    pendingIcon.classList.add('bi','bi-hourglass','me-3')
+                    pendingIcon.classList.add('bi', 'bi-hourglass', 'me-3')
 
                     const pendingLabel = document.createElement('span')
                     pendingLabel.appendChild(pendingIcon);
@@ -707,7 +659,7 @@
         await search(e.target.value)
     }
 
-    (async ()=>{
+    (async () => {
         await search("")
     })()
 

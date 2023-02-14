@@ -3,3 +3,21 @@ footer{
     bottom: 0px;
     width: 100%;
 }
+
+body {
+    /*background-image: url("/img/hex.png");*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: 100% 100%;*/
+    /*background-attachment: fixed;*/
+
+    background:
+            radial-gradient(circle farthest-side at 0% 50%,#2c4263 23.5%,#0000 0)33.6px 48px,
+            radial-gradient(circle farthest-side at 0% 50%,#d7ba4e 24%,#0000 0)30.4px 48px,
+            linear-gradient(#2c4263 14%,#0000 0, #0000 85%,#2c4263 0)0 0,
+            linear-gradient(150deg,#2c4263 24%,#d7ba4e 0,#d7ba4e 26%,#0000 0,#0000 74%,#d7ba4e 0,#d7ba4e 76%,#2c4263 0)0 0,
+            linear-gradient(30deg,#2c4263 24%,#d7ba4e 0,#d7ba4e 26%,#0000 0,#0000 74%,#d7ba4e 0,#d7ba4e 76%,#2c4263 0)0 0,
+            linear-gradient(90deg,#d7ba4e 2%,#2c4263 0,#2c4263 98%,#d7ba4e 0%)0 0 #2c4263;
+    background-size: 64px 96px;
+    background-color: #2c4263;
+    background-repeat: repeat;
+}

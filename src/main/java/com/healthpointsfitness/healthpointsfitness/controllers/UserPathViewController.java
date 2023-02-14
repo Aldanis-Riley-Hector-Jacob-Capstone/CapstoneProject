@@ -74,7 +74,7 @@ public class UserPathViewController {
             e.printStackTrace();
         }
 
-        return "/users/viewPath";
+        return "users/path";
     }
 
     @PostMapping("/paths/enroll/{pathNumber}")
@@ -109,11 +109,11 @@ public class UserPathViewController {
 
             model.addAttribute("paths", paths);
 
-            return "/users/allPaths";
+            return "users/paths";
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        return "/profile";
+        return "/users/index";
     }
 }

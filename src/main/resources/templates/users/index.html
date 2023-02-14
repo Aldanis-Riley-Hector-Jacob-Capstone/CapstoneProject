@@ -5,17 +5,12 @@
     <meta charset="UTF-8">
     <title>Users Panel</title>
     <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
-    <style>
-        .hexBg {
-            background-image: url("/img/hex.png");
-        }
-    </style>
 </head>
-<body class="hexBg">
+<body>
 <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
 
 
-<div class="container p-3 text-white rounded my-5" style="background-color: #3c5aa6">
+<div class="container p-3 text-black rounded my-5 bg-white">
     <div class="navbar d-flex justify-content-end pe-3">
         <span class="h2 me-auto ms-3"><i class="bi bi-person-badge me-3"></i>Profile</span>
         <a href="/profile/settings" class="btn btn-light" style="float: right;">
@@ -51,7 +46,7 @@
         </div>
     </div>
 
-    <div class="container text-white" th:if="${user.followed_paths != null}">
+    <div class="container" th:if="${user.followed_paths != null}">
         <ul class="list-group mt-3" style="clear: both;">
             <li class="list-group-item" th:each="item : ${user.followed_paths}">
                 <img style="border-radius: 50%;" width="40px" height="40px" th:src="'data:image/jpeg;base64,'+${item.imageDataUrl}"/>

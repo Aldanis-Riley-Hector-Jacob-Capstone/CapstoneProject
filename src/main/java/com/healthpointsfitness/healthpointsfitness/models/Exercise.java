@@ -32,7 +32,7 @@ public class Exercise implements Serializable {
     private String instructions;
 
     @Column
-    private boolean complete;
+    private Boolean complete;
 
     @ManyToOne
     @JoinColumn(name = "challenge_id")

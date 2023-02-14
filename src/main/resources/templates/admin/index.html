@@ -6,30 +6,30 @@
     <title>Admin Panel</title>
     <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
     <style>
-        .hexBg {
-            background-image: url("/img/hex.png");
-        }
+
     </style>
 </head>
 
-    <body class="hexBg p-3">
+    <body>
     <!-- Navbar -->
         <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
 
         <div class="container bg-light p-3 rounded my-5">
             <div class="navbar bg-body-tertiary d-flex justify-content-end pe-3">
-                <span class="h2 me-auto ms-3" style="color: #3c5aa6">Manage Paths</span>
+                <span class="h2 me-auto ms-3">Manage Paths</span>
                 <a href="/admin/path/createapitest" class="btn btn-light" style="float: right;">
                     <i class="bi bi-plus-square"></i>&nbsp;&nbsp;Add Path
                 </a>
             </div>
 
             <ul class="list-group mt-3" style="clear: both;">
-                <li class="list-group-item" th:each="item : ${paths}">
-                    <img style="border-radius: 50%;" width="40px" height="40px" alt="path_image" src="" th:src="'data:image/jpeg;base64,'+${item.getImageDataUrl()}"/>
+                <li class="list-group-item d-flex justify-content-between align-items-center" th:each="item : ${paths}">
+                    <img class="me-3" style="border-radius: 50%;" width="50px" height="50px" alt="path_image" src="" th:src="'data:image/jpeg;base64,'+${item.getImageDataUrl()}"/>
                     <span class="me-auto"><strong th:text="${item.getTitle()}"></strong></span>
-                    <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto" th:item="${item.getId()}"></i>
-                    <i class="bi bi-pencil-fill editBtn btn btn-light me-2 ms-auto" th:item="${item.getId()}"></i>
+                    <div>
+                        <i class="bi bi-pencil-fill editBtn btn btn-warning me-2 ms-auto" th:item="${item.getId()}"></i>
+                        <i class="bi bi-trash3-fill deleteBtn btn btn-danger ms-auto" th:item="${item.getId()}"></i>
+                    </div>
                 </li>
             </ul>
 

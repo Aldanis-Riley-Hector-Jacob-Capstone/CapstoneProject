@@ -44,18 +44,18 @@ public class AuthController {
     PathsService pathServ;
 
 
-    @GetMapping("login")
+    @GetMapping("/login")
     private String login(){
         return "login"; //Return the login view
     }
 
-    @GetMapping("register")
+    @GetMapping("/register")
     private String registerGet(Model model){
         model.addAttribute("user",new User()); //Bind an empty user entity
-        return "register"; //Return the registration view
+        return "/register"; //Return the registration view
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     private String registerPost(@ModelAttribute("user") User user, HttpServletRequest request, Model model) {
         try { //Try to
             String clearPass = user.getPassword();
@@ -64,23 +64,23 @@ public class AuthController {
             userDao.save(user); //Save the user to the database
             request.login(user.getUsername(),clearPass);
             if(request.isUserInRole("ROLE_ADMIN")){
-                return "redirect:admin/landing";
+                return "redirect:/admin/landing";
             }else if(request.isUserInRole("ROLE_CLIENT")){
                 model = userDetailsLoader.getUserData(model);
-                return "landing";
+                return "/landing";
             }
         }catch(DataIntegrityViolationException e) { //Catch any exceptions
             e.printStackTrace();
-            return "redirect:register?exists=true";
+            return "redirect:/register?exists=true";
         }catch(Exception e){
             e.printStackTrace();
         }
 
         //Return the index view
-        return "index";
+        return "/index";
     }
 
-    @GetMapping("admin/landing")
+    @GetMapping("/admin/landing")
     private String adminIndexGet(
             Model model,
             @PageableDefault(value = 2) Pageable pageable
@@ -112,38 +112,32 @@ public class AuthController {
                 .boxed()
                 .collect(Collectors.toList());
         model.addAttribute("pageNumbers",pageNumbers);
-        return "landing";
+        return "/landing";
     }
 
     @GetMapping("/")
     private String rootMapping(Model model) {
         try {
             var principal = (UserWithRoles) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
             if(principal != null) {
                 var user = userDao.findUserByUsername(principal.getUsername());
                 var roles = AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRoles());
                 principal.getAuthorities().forEach(auth -> System.out.println(auth.getAuthority()));
                 if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-                    System.out.println("Sending to admin index page");
-                    return "redirect:admin/landing";
+                    return "redirect:/admin/landing";
                 } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
                     model.addAttribute("user", user);
-                    System.out.println("Sending to " + user.getUsername() + "'s profile");
-                    return "redirect:profile/" + user.getUsername();
+                    return "redirect:/profile/" + user.getUsername();
                 } else {
-                    System.out.println("Sending to landing");
-                    return "landing";
+                    return "/landing";
                 }
             }else{
-                System.out.println("No user signed in. Principal is null.");
-                return "landing";
+                return "/landing";
             }
         }catch(Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
-        System.out.println("Sending to login");
         return "login";
     }
 }

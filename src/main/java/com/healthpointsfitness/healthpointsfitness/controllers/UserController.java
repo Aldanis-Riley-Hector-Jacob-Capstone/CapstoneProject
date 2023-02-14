@@ -32,7 +32,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("profile/{username}")
+    @GetMapping("/profile/{username}")
     public String getProfileView(@PathVariable("username") String username, Model model){
         try {
             User user = userService.findUserByUsername(username);
@@ -56,61 +56,56 @@ public class UserController {
 
                 model.addAttribute("user", user);
 
-                return "users/landing";
+                return "/users/landing";
             }else{
-                return "redirect:users/profilenotfound";
+                return "redirect:/users/profilenotfound";
             }
         }catch(Exception e){
             e.printStackTrace();
         }
-        return "redirect:users/profilenotfound";
+        return "redirect:/users/profilenotfound";
     }
 
-    @GetMapping("users/profilenotfound")
+    @GetMapping("/users/profilenotfound")
     public String profileNotFoundView(){
-        return "users/profilenotfound";
+        return "/users/profilenotfound";
     }
 
     @GetMapping("fsearch")
     public String UserController_UniqueName_02(){
-        return "users/friends";
+        return "/users/friends";
     }
 
-    @GetMapping("profile/settings")
+    @GetMapping("/profile/settings")
     private String getProfileSettingsView(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User userFromRepo = userService.findUserByUsername(user.getUsername());
         System.out.println(userFromRepo.getFirstName());
-        if(userFromRepo != null){
-            System.out.println(user.getId());
-            System.out.println(user.getUsername());
-            model.addAttribute("username",userFromRepo.getUsername());
-            model.addAttribute("user_id",userFromRepo.getId());
-            model.addAttribute("firstName",userFromRepo.getFirstName());
-            model.addAttribute("lastName",userFromRepo.getLastName());
-            model.addAttribute("bio",userFromRepo.getBio());
-            byte[] profileImage = userFromRepo.getProfileImage();
-            if(profileImage != null) {
-                byte[] encodeBase64 = Base64.getEncoder().encode(profileImage);
-                String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
-                model.addAttribute("profile_image", base64Encoded);
-            }else{
-                System.out.println("Profile image is null.");
-                model.addAttribute("profile_image",defaultProfileImage);
-            }
-            model.addAttribute("me",userFromRepo);
+        System.out.println(user.getId());
+        System.out.println(user.getUsername());
+        model.addAttribute("username",userFromRepo.getUsername());
+        model.addAttribute("user_id",userFromRepo.getId());
+        model.addAttribute("firstName",userFromRepo.getFirstName());
+        model.addAttribute("lastName",userFromRepo.getLastName());
+        model.addAttribute("bio",userFromRepo.getBio());
+        byte[] profileImage = userFromRepo.getProfileImage();
+        if(profileImage != null) {
+            byte[] encodeBase64 = Base64.getEncoder().encode(profileImage);
+            String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
+            model.addAttribute("profile_image", base64Encoded);
         }else{
-            System.out.println("User not found by id");
+            System.out.println("Profile image is null.");
+            model.addAttribute("profile_image",defaultProfileImage);
         }
+        model.addAttribute("me",userFromRepo);
         return "users/settings";
 
     }
 
-    @PostMapping("profile/settings/update")
+    @PostMapping("/profile/settings/update")
     private String postProfileSettingsUpdate(
             @RequestParam(required = false) MultipartFile newImage,
             @ModelAttribute("me") User me
-//            Model model
     ) throws IOException {
         try{
             User currentProfile = userRepository.findUserByUsername(me.getUsername());
@@ -123,36 +118,16 @@ public class UserController {
                 String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
                 currentProfile.setProfileImageDataUrl(base64Encoded);
             }
-//            }else{
-//                String url = me.getProfileImageDataUrl();
-//                if(!url.isEmpty()) {
-//                    System.out.println("Setting the existing profile image url.");
-//                    currentProfile.setProfileImageDataUrl(me.getProfileImageDataUrl());
-//                }else if(!me.getProfileImageDataUrl().isEmpty()) {
-//                    System.out.println("Setting passed profile image url.");
-//                    System.out.println(me.getProfileImageDataUrl());
-//                    currentProfile.setProfileImageDataUrl(me.getProfileImageDataUrl());
-//                }else{
-//                    System.out.println("Setting default profile image url.");
-//                    currentProfile.setProfileImageDataUrl(defaultProfileImage);
-//                }
-//            }
-
             currentProfile.setBio(me.getBio());
             currentProfile.setFirstName(me.getFirstName());
             currentProfile.setLastName(me.getLastName());
-//            model.addAttribute("me",currentProfile);
-
             userRepository.save(currentProfile);
-
-//            model.addAttribute("profile_image",currentProfile.getProfileImageDataUrl());
-            return "redirect:profile/settings";
+            return "redirect:/profile/settings";
         }catch(Exception e){
             e.printStackTrace();
         }
 
         //Redirect back to the settings page
-        return "users/settings";
-//        return "/landing";
+        return "/users/settings";
     }
 }

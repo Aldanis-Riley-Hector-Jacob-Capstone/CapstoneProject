@@ -37,12 +37,12 @@ public class RecoveryController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @GetMapping("recover")
+    @GetMapping("/recover")
     private String getRecoveryView(){
-        return "recover";
+        return "/recover";
     }
 
-    @PostMapping("recover")
+    @PostMapping("/recover")
     private String postRecovery(@RequestParam("email") String email, Model model){
         try { // Try to recover the account
             User user = userRepository.findUserByEmail(email);
@@ -62,10 +62,10 @@ public class RecoveryController {
                 emailService.prepareAndSend(email,"Here's your recovery code.","Your recovery code is: " + code + " please enter it in the page you were at.");
 
                 // Send back to the recovery page
-                return "redirect:recover?sent=true&email=" + URLEncoder.encode(email, StandardCharsets.UTF_8);
+                return "redirect:/recover?sent=true&email=" + URLEncoder.encode(email, StandardCharsets.UTF_8);
             }else{
                 // Return to the recover
-                return "redirect:recover?error=no_account_found";
+                return "redirect:/recover?error=no_account_found";
             }
         }catch(Exception e){ // If there's any exception
 
@@ -73,16 +73,16 @@ public class RecoveryController {
             e.printStackTrace();
 
             // Redirect to the recover
-            return "redirect:recover?error=error_try_again";
+            return "redirect:/recover?error=error_try_again";
         }
     }
 
-    @GetMapping("changePassword")
+    @GetMapping("/changePassword")
     private String changePasswordView(){
-        return "changePassword";
+        return "/changePassword";
     }
 
-    @PostMapping("changePass")
+    @PostMapping("/changePass")
     private String changePass(
             @RequestParam("password") String password,
             @RequestParam("email") String email,
@@ -102,14 +102,14 @@ public class RecoveryController {
             recoveryRequestRepository.delete(recoveryRequestRepository.findRecoveryRequestByCode(code));
 
             //Get the user by username
-            return "redirect:login";
+            return "redirect:/login";
         }catch(Exception e){ //If there's an exception
 
             //Print the stack trace to the terminal
             e.printStackTrace();
         }
 
-        //Otheriwse show an error page
-        return "redirect:login";
+        //Otherwise show an error page
+        return "redirect:/login";
     }
 }

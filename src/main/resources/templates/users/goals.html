@@ -30,7 +30,7 @@
 
     <div class="container p-4 my-5 rounded bg-light" >
       <div class="navbar bg-body-tertiary">
-          <span class="h2 me-auto ms-3"><i class="bi bi-person-badge me-3"></i>Manage Goals</span>
+          <span class="h2 me-auto ms-3"><i class="bi bi-list-task me-3"></i>Manage Goals</span>
           <!-- Button trigger modal -->
           <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#createGoalModal">
               <i class="bi bi-plus-square"></i>&nbsp;&nbsp;
@@ -87,17 +87,12 @@
                         </div>
 
                         <!--Goal Description-->
-                        <div class="input-group">
+                        <div class="input-group mb-3">
                             <span class="input-group-text">Description</span>
                             <textarea th:field="*{description}" class="form-control" aria-label="Path description" placeholder="Goal Description" id="createDescription"></textarea>
                         </div>
 
                         <!-- Is Complete? -->
-<!--                        <div class="form-check form-switch">-->
-<!--                            <input th:field="*{completed}" class="form-check-input" type="checkbox" role="switch" id="createCompleteSwitch">-->
-<!--                            <label class="form-check-label" for="createCompleteSwitch">Mark as complete</label>-->
-<!--                        </div>-->
-
                         <div class="form-check">
                             <input th:field="*{completed}" class="form-check-input" type="checkbox" id="createCompleteSwitch">
                             <label class="form-check-label" for="createCompleteSwitch">

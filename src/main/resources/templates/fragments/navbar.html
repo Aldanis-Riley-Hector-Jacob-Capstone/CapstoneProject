@@ -43,7 +43,7 @@
                 </ul>
             </div>
             <div sec:authorize="isAuthenticated">
-                <form th:action="@{logout}" method="post" class="logout-button-form">
+                <form th:action="@{/logout}" method="post" class="logout-button-form">
                     <button class="btn btn-primary" type="submit">LOGOUT</button>
                 </form>
             </div>

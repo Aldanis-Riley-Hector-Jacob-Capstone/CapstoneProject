@@ -34,11 +34,11 @@
             </ul>
 
             <ul class="pagination mt-2 text-center" th:if="page_count != 0">
-                <li th:if="${pageNumber != 0}" class="page-item"><a rel=".prev" th:href="@{/admin/index(size=${pageSize}, page=${pageNumber - 1})}" class="page-link" href="#">Previous</a></li>
+                <li th:if="${pageNumber != 0}" class="page-item"><a rel=".prev" th:href="@{/admin/landing(size=${pageSize}, page=${pageNumber - 1})}" class="page-link" href="#">Previous</a></li>
                 <li class="page-item" th:each="pageNum : ${pageNumbers}">
-                    <a th:class="${pageNum==pageNumber + 1 ? 'active page-link' : 'page-link'}" th:href="@{/admin/index(size=${pageSize}, page=${pageNum - 1})}" th:text="${pageNum}"/>
+                    <a th:class="${pageNum==pageNumber + 1 ? 'active page-link' : 'page-link'}" th:href="@{/admin/landing(size=${pageSize}, page=${pageNum - 1})}" th:text="${pageNum}"/>
                 </li>
-                <li th:if="${pageNumber != totalPages - 1}" class="page-item"><a rel=".next" th:href="@{/admin/index(size=${pageSize}, page=${pageNumber + 1})}"  class="page-link">Next</a></li>
+                <li th:if="${pageNumber != totalPages - 1}" class="page-item"><a rel=".next" th:href="@{/admin/landing(size=${pageSize}, page=${pageNumber + 1})}"  class="page-link">Next</a></li>
             </ul>
 <!--            <th:block th:replace="~{fragments/chat.html :: main_chat}"/>-->
         </div>

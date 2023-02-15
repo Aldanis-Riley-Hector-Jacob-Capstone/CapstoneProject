@@ -118,16 +118,16 @@ public class AuthController {
     @GetMapping("/")
     private String rootMapping(Model model) {
         try {
-            var principal = (UserWithRoles) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if(principal != null) {
-                var user = userDao.findUserByUsername(principal.getUsername());
-                var roles = AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRoles());
+            UserWithRoles principal = (UserWithRoles) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            var user = userDao.findById(principal.getId());
+            if(user.isPresent()) {
+                var roles = AuthorityUtils.commaSeparatedStringToAuthorityList(user.get().getRoles());
                 principal.getAuthorities().forEach(auth -> System.out.println(auth.getAuthority()));
                 if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
                     return "redirect:/admin/landing";
                 } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
                     model.addAttribute("user", user);
-                    return "redirect:/profile/" + user.getUsername();
+                    return "redirect:/profile/" + user.get().getUsername();
                 } else {
                     return "/landing";
                 }

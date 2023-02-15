@@ -2,72 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/html">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <th:block th:replace="~{fragments/header.html :: header}"></th:block>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <th:block th:replace="~{fragments/header.html :: header}"></th:block>
+    <style>
+        .hexBg {
+            background-image: url("/img/hex.png");
+        }
+    </style>
 </head>
 
-<style>
-  .hexBg {
-    background-image: url("/img/hex.png");
-  }
-</style>
-
 <body style="background-color: #3c5aa6">
-
 <!-- Navbar -->
 <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
-
 <div class="container mt-5">
-
-  <div class="row hexBg p-5 rounded my-5 d-flex justify-content-center">
-    <div class="col-lg-6 d-flex justify-content-center align-items-center">
-      <img src="/img/register.webp" class="rounded" style="width: 100%">
-    </div>
-    <div class="col-6">
-      <form class="d-flex justify-content-center" th:action="@{/register}" th:method="POST" th:object="${user}">
-        <div class="card" style="width: 100%;">
-          <div class="card-body">
-            <h5 class="card-title mb-0" style="color: #3c5aa6">Register</h5>
-            <hr class="mt-0 p-1" style="color: #3c5aa6">
-            <div class="card-text">
-              <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" placeholder="Username" name="username" id="username" od="username" th:field="*{username}"/>
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" placeholder="Password" name="password" id="password" th:field="*{password}"/>
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" placeholder="Email" id="email" name="email" th:field="*{email}"/>
-              </div>
-              <div class="mb-3">
-                <label for="firstName" class="form-label">First Name</label>
-                <input type="text" class="form-control" placeholder="First Name" id="firstName" name="firstName" th:field="*{firstName}"/>
-              </div>
-              <div class="mb-3">
-                <label for="lastName" class="form-label">Last Name</label>
-                <input type="text" class="form-control" placeholder="Last Name" id="lastName" name="lastName" th:field="*{lastName}"/>
-              </div>
-              <div class="mb-3">
-                <label for="bio" class="form-label">Bio</label>
-                <textarea type="text" class=form-control" placeholder="Tell us about you.." id="bio" name="bio" th:field="*{bio}"></textarea>
-              </div>
-              <input type="hidden" name="roles" id="roles" value="ROLE_USER" th:field="*{roles}"/>
-            </div>
-            <div class="d-flex justify-content-evenly">
-              <a href="/login" class="btn btn-secondary">Cancel</a>
-              <button type="submit" class="btn btn-primary">Register</button>
-            </div>
-          </div>
+    <div class="row hexBg p-5 rounded my-5 d-flex justify-content-center">
+        <div class="col-lg-6 d-flex justify-content-center align-items-center">
+            <img src="/img/register.webp" class="rounded" style="width: 100%">
         </div>
-      </form>
+        <div class="col-6">
+            <form class="d-flex justify-content-center" th:action="@{/register}" th:method="POST" th:object="${user}">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title mb-0" style="color: #3c5aa6">Register</h5>
+                        <hr class="mt-0 p-1" style="color: #3c5aa6">
+                        <div class="card-text">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" placeholder="Username" name="username"
+                                       id="username" od="username" th:field="*{username}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" placeholder="Password" name="password"
+                                       id="password" th:field="*{password}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" placeholder="Email" id="email" name="email"
+                                       th:field="*{email}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" placeholder="First Name" id="firstName"
+                                       name="firstName" th:field="*{firstName}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" placeholder="Last Name" id="lastName"
+                                       name="lastName" th:field="*{lastName}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="bio" class="form-label">Bio</label>
+                                <textarea type="text" class=form-control" placeholder="Tell us about you.." id="bio"
+                                          name="bio" th:field="*{bio}"></textarea>
+                            </div>
+                            <input type="hidden" name="roles" id="roles" value="ROLE_USER" th:field="*{roles}"/>
+                        </div>
+                        <div class="d-flex justify-content-evenly">
+                            <a href="/login" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
 </body>
 </html>

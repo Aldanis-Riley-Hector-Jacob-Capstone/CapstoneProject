@@ -18,36 +18,41 @@
         <div class="col-6"></div>
         <div class="col-2">
             <form th:action="@{/paths/enroll/{id}(id=${path.id})}" method="post">
-                    <button type="submit" th:attr="class=${me.followed_paths.contains(path) ? 'btn btn-danger' : 'btn btn-success'}">
-                        <i class="bi bi-plus-square" th:if="${!me.followed_paths.contains(path)}"></i>
-                        <i class="bi bi-trash3-fill" th:if="${me.followed_paths.contains(path)}"></i>
-                    </button>
+                <button type="submit"
+                        th:attr="class=${me.followed_paths.contains(path) ? 'btn btn-danger' : 'btn btn-success'}">
+                    <i class="bi bi-plus-square" th:if="${!me.followed_paths.contains(path)}"></i>
+                    <i class="bi bi-trash3-fill" th:if="${me.followed_paths.contains(path)}"></i>
+                </button>
             </form>
         </div>
         <hr class="thicker_hr"/>
     </div>
     <div class="row p-2">
-        <div class="col-3">
+        <div class="col-4">
             <img src="#" th:src="'data:image/jpeg;base64,'+${path.imageDataUrl}" alt="Achievement Badge" width="256px" height="256px" class="path_image img img-thumbnail">
         </div>
-        <div class="col-9">
+        <div class="col-8">
             <div th:text="${path.description}"/>
         </div>
     </div>
     <div class="row p-2" th:if="${me.followed_paths.contains(path)}">
-        <div class="col-3">
-            <div th:text="'Total Points for this path= ' + ${points}"/>
+        <div class="row">
+            <div th:text="'Earn up to ' + ${points} + ' by completing this path.'"/>
         </div>
-        <div th:each="challenge : ${path.challenges}">
-            <div class="col-3">
-                <div class="challengeTitle" th:text="${challenge.title}"/>
-                <div th:text="${challenge.description}"/>
-                <ul th:each="item : ${challenge.exercises}">
-                    <li>
-                        <input type="checkbox" th:checked="${item.completed}" name="exercises[]" class="exerciseBox" th:text="${item.name}" th:exercise="${item.id}"/>
-                    </li>
-                </ul>
-            </div>
+        <div th:each="challenge : ${path.challenges}" class="row">
+            <div class="challengeTitle" th:text="${challenge.title}"/>
+            <div th:text="${challenge.description}"/>
+            <!--                <ul th:each="item : ${challenge.exercises}">-->
+            <!--                    <li>-->
+            <!--                        <input type="checkbox" th:checked="${item.completed}" name="exercises[]" class="exerciseBox" th:text="${item.name}" th:exercise="${item.id}"/>-->
+            <!--                    </li>-->
+            <!--                </ul>-->
+            <ul class="list-group" th:each="item : ${challenge.exercises}">
+                <li class="list-group-item">
+                    <input type="checkbox" th:checked="${item.completed}" name="exercises[]" class="exerciseBox"
+                           th:text="${item.name}" th:exercise="${item.id}"/>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

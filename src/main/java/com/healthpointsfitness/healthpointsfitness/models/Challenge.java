@@ -39,6 +39,9 @@ public class Challenge implements Serializable {
     @OneToMany(mappedBy = "challenge",cascade = {CascadeType.MERGE, CascadeType.ALL})
     List<Exercise> exercises;
 
+    @Transient
+    Integer challengeNumber;
+
     //GSON Required function for serialization
     public String toString() {
         return "{\"title\":\""

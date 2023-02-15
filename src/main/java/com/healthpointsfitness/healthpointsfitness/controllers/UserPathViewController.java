@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
 public class UserPathViewController {
@@ -51,8 +52,16 @@ public class UserPathViewController {
                 //Create temp completed exercises array
                 List<Exercise> completedExercises = new ArrayList<>();
 
+                AtomicInteger challengeCounter = null;
+                challengeCounter.set(1);
                 //Iterate through all challenges
                 myPath.getChallenges().forEach(challenge -> {
+                    //Set the number of this challenge
+                    challenge.setChallengeNumber(challengeCounter.get());
+
+                    //Add one to the challenge counter
+                    challengeCounter.set(challengeCounter.get() + 1);
+
                     //And then all exercises in each challenge
                     challenge.getExercises().forEach(exercise -> {
                         //Grab any exercises that the user has completed

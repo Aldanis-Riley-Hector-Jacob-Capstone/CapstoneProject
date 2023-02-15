@@ -43,7 +43,7 @@
             <div th:text="'Earn up to ' + ${points} + ' health points by completing this path.'"/>
         </div>
         <div th:each="challenge : ${path.challenges}" class="row mb-3">
-            <div class="challengeTitle m-2" th:text="${'Challenge ' + challenge.challengeNumber  + ' - '}${challenge.title}"/>
+            <div class="challengeTitle m-2" th:text="'Challenge ' + ${challenge.challengeNumber}   + ' - ' + ${challenge.title}"/>
             <div class="m-2" th:text="${challenge.description}"/>
             <!--                <ul th:each="item : ${challenge.exercises}">-->
             <!--                    <li>-->

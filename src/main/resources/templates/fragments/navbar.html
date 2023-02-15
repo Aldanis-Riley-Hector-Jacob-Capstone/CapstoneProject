@@ -31,12 +31,12 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{allPaths}">
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/allPaths}">
                             <i class="bi bi-diagram-3-fill"></i><button type="button" class="btn w-100">Paths</button>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{user/goals}">
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/user/goals}">
                             <i class="bi bi-list-task"></i><button type="button" class="btn w-100">Goals</button>
                         </a>
                     </li>

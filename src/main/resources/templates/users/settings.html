@@ -17,7 +17,7 @@
           </a>
           <div class="h2 ms-1 me-auto">Edit Profile</div>
       </div>
-      <form th:action="@{profile/settings/update}" th:method="POST" th:object="${me}" enctype="multipart/form-data">
+      <form th:action="@{/profile/settings/update}" th:method="POST" th:object="${me}" enctype="multipart/form-data">
           <div class="row">
               <div class="col">
                   <img id="profile_image_preview" class="img-thumbnail m-2" name="profileImage" width="200px" th:src="'data:image/jpeg;base64,' + ${profile_image}"/>

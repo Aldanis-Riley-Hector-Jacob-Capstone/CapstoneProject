@@ -13,34 +13,34 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/index}">
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{admin/index}">
                             <i class="bi bi-diagram-3-fill"></i><button type="button" class="btn w-100">Create Paths</button>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/profile/} + ${#authentication.principal.username}">
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{profile/{username}(username=${#authentication.principal.username}}">
                             <i class="bi bi-person-fill"></i><button type="button" class="btn w-100">Profile</button>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT') || hasRole('ROLE_ADMIN')" th:href="@{/user/friend_requests}">
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT') || hasRole('ROLE_ADMIN')" th:href="@{user/friend_requests}">
                             <i class="bi bi-people-fill"></i><button type="button" class="btn w-100">Buddies</button>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/allPaths}">
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{allPaths}">
                             <i class="bi bi-diagram-3-fill"></i><button type="button" class="btn w-100">Paths</button>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/user/goals}">
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{user/goals}">
                             <i class="bi bi-list-task"></i><button type="button" class="btn w-100">Goals</button>
                         </a>
                     </li>
                 </ul>
             </div>
             <div sec:authorize="isAuthenticated()">
-                <form th:action="@{/logout}" method="post" class="logout-button-form">
+                <form th:action="@{logout}" method="post" class="logout-button-form">
                     <button class="btn btn-primary" type="submit">LOGOUT</button>
                 </form>
             </div>

@@ -31,7 +31,7 @@
             <div th:text="${path.description}"/>
         </div>
     </div>
-    <div class="row">
+    <div class="row" th:if="${me.followed_paths.contains(path)}">
         <div class="col-3">
             <div th:text="'Total Points for this path= ' + ${points}"/>
         </div>

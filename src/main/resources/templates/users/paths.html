@@ -20,7 +20,7 @@
              th:if="${!me.followed_paths.contains(path)}">
             <a th:href="@{paths/{id} (id=${path.id})}">
                 <div class="card text-center" style="width: 12rem;">
-                    <img th:src="'data:image/jpeg;base64,'+${path.imageDataUrl}" class="card-img-top"
+                    <img th:src="'data:image/jpeg;base64,'+${path.imageDataUrl}" class="card-img-top img-thumbnail"
                          alt="Achievement Badge" width="128px" height="128px">
                     <div class="card-body">
                         <div th:text="${path.title}" class="card-title"></div>
@@ -35,7 +35,7 @@
         <div th:each="path : ${me.followed_paths}" class="d-flex justify-content-center col-lg-3 col-md-4 col-sm-6 p-3">
             <a th:href="@{paths/{id} (id=${path.id})}">
                 <div class="card text-center" style="width: 12rem;">
-                    <img th:src="'data:image/jpeg;base64,'+${path.imageDataUrl}" class="card-img-top"
+                    <img th:src="'data:image/jpeg;base64,'+${path.imageDataUrl}" class="card-img-top img-thumbnail"
                          alt="Achievement Badge" width="128px" height="128px">
                     <div class="card-body">
                         <div th:text="${path.title}" class="card-title"></div>

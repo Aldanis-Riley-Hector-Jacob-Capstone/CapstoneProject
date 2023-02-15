@@ -91,7 +91,7 @@
     <div class="row d-flex justify-content-center" th:text="${param.logout != null ? 'You have logged out.' : ''}"/>
     <div class="row d-flex justify-content-center" sec:authorize="isAuthenticated()" th:text="${param.logout == null && param.error == null ? 'You are logged in.' : ''}">
     </div>
-    <a href="/admin/index" sec:authorize="isAuthenticated()"><button>Go To Profile</button></a>
+    <a href="/admin/landing" sec:authorize="isAuthenticated()"><button>Go To Profile</button></a>
 
     <div class="row hexBg my-3 p-4">
       <!-- Img Side -->

@@ -60,7 +60,7 @@
       const checkCode = async (enteredCode,email) => {
           const token = document.getElementsByName("_csrf")[0].getAttribute("content")
 
-          const request = await fetch("http://localhost:8080/user/api/v1/recoveryCodeCheck",{
+          const request = await fetch("/user/api/v1/recoveryCodeCheck",{
               method : 'POST',
               headers : {
                   "Content-Type" : "application/json",

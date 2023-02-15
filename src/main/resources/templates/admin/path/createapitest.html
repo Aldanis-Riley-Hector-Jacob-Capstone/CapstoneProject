@@ -289,7 +289,7 @@
 
 
                 //Send a fetch request to the backend for the list of exercises
-                const request = await fetch(location.host + '/admin/api/v1/findExerciseByMuscle', {
+                const request = await fetch('admin/api/v1/findExerciseByMuscle', {
                     method: "POST",
                     credentials: "include", //Send the SpringSec credentials
                     headers: {

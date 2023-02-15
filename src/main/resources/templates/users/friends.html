@@ -15,22 +15,9 @@
     <input type="hidden" id="myUsername" th:value="${me.username}">
     <div class="navbar d-flex justify-content-end pe-3">
         <span class="h2 me-auto ms-3"><i class="bi bi-people-fill me-3"></i>Manage Buddies</span>
-<!--        <a href="/profile/settings" class="btn btn-light" style="float: right;">-->
-<!--            <i class="bi bi-gear me-3"></i>Profile Settings-->
-<!--        </a>-->
     </div>
     <div class="row mt-4">
-        <div class="form-container col-12 col-md-8">
-            <div class="input-group mb-3">
-                <input class="form-control" id="search_term" placeholder="Search by Name, Points, Path Name"
-                       aria-label="Search for friends">
-                <button class="btn btn-outline-secondary" type="button">Search</button>
-            </div>
-            <br>
-            <ul id="results" class="list-group mt-3">
-
-            </ul>
-        </div>
+        <!-- Filtering and Lists -->
         <div class="friends-list col-12 col-md-4">
             <fieldset class="mb-3">
                 <legend>Filter by Points</legend>
@@ -67,6 +54,19 @@
             <!-- List of names searched to add -->
             <strong class="mt-5">Outgoing Pending</strong>
             <ul class="list-group mt-3" id="outgoing_pending_list" style="clear: both;">
+            </ul>
+        </div>
+
+        <!-- Searching and Results -->
+        <div class="form-container col-12 col-md-8">
+            <div class="input-group mb-3">
+                <input class="form-control" id="search_term" placeholder="Search by Name, Points, Path Name"
+                       aria-label="Search for friends">
+                <button class="btn btn-outline-secondary" type="button">Search</button>
+            </div>
+            <br>
+            <ul id="results" class="list-group mt-3">
+
             </ul>
         </div>
     </div>

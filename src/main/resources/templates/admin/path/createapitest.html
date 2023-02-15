@@ -380,13 +380,17 @@
             listOfExercises.innerHTML = ""
 
             //Step 2: Iterate through the new list of exercises
-            exercises.forEach(exercise=>{
-                //And for each item, generate a list item
-                const currentItem = generateExerciseListItem(exercise)
+            console.log(exercises)
 
-                //And add the item to the list
-                listOfExercises.appendChild(currentItem)
-            })
+            if(Array.isArray(exercises)) {
+                exercises.forEach(exercise => {
+                    //And for each item, generate a list item
+                    const currentItem = generateExerciseListItem(exercise)
+
+                    //And add the item to the list
+                    listOfExercises.appendChild(currentItem)
+                })
+            }
             //Wallah!
         }
 

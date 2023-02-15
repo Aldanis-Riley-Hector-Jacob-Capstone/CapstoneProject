@@ -43,7 +43,7 @@
                 </li>
                 <li th:if="${pageNumber != totalPages - 1 && page_count != 0}" class="page-item"><a rel=".next" th:href="@{/admin/landing(size=${pageSize}, page=${pageNumber + 1})}"  class="page-link">Next</a></li>
             </ul>
-<!--            <th:block th:replace="~{fragments/chat.html :: main_chat}"/>-->
+            <th:block th:replace="~{fragments/chat.html :: main_chat}"/>
         </div>
         <th:block th:replace="~{fragments/footer.html :: footer}"></th:block>
 

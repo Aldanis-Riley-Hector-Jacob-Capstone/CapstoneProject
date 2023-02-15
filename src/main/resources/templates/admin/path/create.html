@@ -482,8 +482,14 @@
             if(selected_exercises.length === 0){
                 listOfSelectedExercises.innerHTML = ""
 
-                listOfSelectedExercises.append("<i class='bi bi-exclamation-diamond me-2'>")
-                listOfSelectedExercises.append("<span>You have not selected any exercises for this challenge.</span>")
+                // listOfSelectedExercises.append("<i class='bi bi-exclamation-diamond me-2'></i>")
+                const icon = document.createElement('i')
+                icon.classList.add('bi','bi-exclamation-diamond','me-2')
+
+                const s = document.createElement('span')
+                s.innerText = "You have not selected any exercises for this challenge."
+
+                listOfSelectedExercises.append(icon,s)
             }
         }
 

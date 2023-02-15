@@ -87,14 +87,14 @@ class SecurityConfig {
                 //Configure Login
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("login")
                 .permitAll()
                 .defaultSuccessUrl("/")
 
                 //Configure Logout
                 .and()
                 .logout()
-                .logoutSuccessUrl("/landing?logout")
+                .logoutSuccessUrl("landing?logout")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .permitAll()
                 .invalidateHttpSession(true)
@@ -104,7 +104,7 @@ class SecurityConfig {
                 //Configure session creation
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 
         return http.build();
     }

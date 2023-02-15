@@ -791,12 +791,8 @@
                     const token = document.getElementsByName("_csrf")[0].getAttribute("content")
 
                     //Generate request to create the new path in the database
-                    const request = await fetch(location.host + '/admin/api/v1/createPath',{
+                    const request = await fetch('/admin/api/v1/createPath',{
                         method : "POST",
-                        // headers : {
-                        //     "Content-Type" : "application/json"
-                        // },
-                        // body : JSON.stringify(pathModel)
                         credentials : "include",
                         headers : {
                             "X-CSRF-TOKEN" : token

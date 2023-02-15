@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Users Panel</title>
-  <th:block th:replace="~{fragments/header.html :: header}"></th:block>
+  <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
     <style>
         .hexBg {
             background-image: url("/img/hex.png");
@@ -26,7 +26,7 @@
 <body>
 
     <!-- Navbar -->
-    <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
+    <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
 
     <div class="container p-4 my-5 rounded bg-light" >
       <div class="navbar bg-body-tertiary">
@@ -48,7 +48,7 @@
                 <span class="col-sm-3 col-xs-12 ps-0"><strong th:text="${item.title}"></strong></span>
                 <span class="col-sm-7 col-xs-12 ps-0 mb-2"><em th:text="${item.description}"></em></span>
                 <div class="col-sm-2 col-xs-12 d-flex justify-content-between align-items-center p-0">
-                    <form th:action="@{users/goals/delete/{id}(id=${item.id})}" method="post">
+                    <form th:action="@{/users/goals/delete/{id}(id=${item.id})}" method="post">
                         <button type="submit" class="btn btn-danger m-1">
                             <i class="bi bi-trash3-fill deleteBtn" th:item="${item.getId()}"></i>
                         </button>
@@ -99,8 +99,10 @@
 <!--                        </div>-->
 
                         <div class="form-check">
-                            <input th:field="*{completed}" class="form-check-input" type="checkbox" id="createCompleteSwitch">
-                            <label class="form-check-label" for="createCompleteSwitch">
+<!--                            <input th:field="*{completed}" class="form-check-input" type="checkbox" id="createCompleteSwitch">-->
+                            <input style="float: right;" type="checkbox" th:checked="${goal.completed}" name="goal"
+                                   class="exerciseBox" th:goal="${goal.id}" id="comp"/>
+                            <label class="form-check-label" for="comp">
                                 Complete
                             </label>
                         </div>
@@ -145,7 +147,7 @@
 <!--                        </div>-->
 
                         <div class="form-check">
-                            <input th:field="*{completed}" th:value="${goal.completed}" name="goalCompleted" class="form-check-input" type="checkbox" id="editCompleted">
+                            <input th:field="*{completed}" th:value="${goal.completed}" class="form-check-input" type="checkbox" id="editCompleted">
                             <label class="form-check-label" for="editCompleted">
                                 Complete
                             </label>
@@ -162,7 +164,7 @@
     </div>
 
 
-    <th:block th:replace="~{fragments/footer.html :: footer}"></th:block>
+    <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
 
     <script>
         const editBtns = document.getElementsByClassName("editBtn");
@@ -204,6 +206,12 @@
             console.log(editComp);
             console.log(newComp);
 
+
+            // if(newComp) {
+            //     editComp.setAttribute("checked", "checked")
+            // } else {
+            //     editComp.setAttribute("checked", null);
+            // }
         })
 
     </script>

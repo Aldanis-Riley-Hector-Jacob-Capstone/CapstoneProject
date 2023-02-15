@@ -6,6 +6,7 @@ import com.healthpointsfitness.healthpointsfitness.repositories.GoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,7 +20,7 @@ public class GoalsService {
         }catch(Exception e){
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public Boolean saveGoal(Goal goal){

@@ -17,7 +17,7 @@ public class Goal {
     private Long id;
 
     @Column(name = "completed", nullable = false, unique = false)
-    private Boolean completed;
+    private Boolean completed = false;
 
     @Column(name = "title", nullable = false, unique = false)
     private String title;

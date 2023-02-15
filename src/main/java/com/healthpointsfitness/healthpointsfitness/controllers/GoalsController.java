@@ -2,6 +2,7 @@ package com.healthpointsfitness.healthpointsfitness.controllers;
 
 import com.healthpointsfitness.healthpointsfitness.models.Goal;
 import com.healthpointsfitness.healthpointsfitness.models.User;
+import com.healthpointsfitness.healthpointsfitness.repositories.GoalRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
 import com.healthpointsfitness.healthpointsfitness.services.GoalsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,16 @@ public class GoalsController {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private GoalRepository goalRepository;
 
     @GetMapping("user/goals")
     private String getGoalsView(Model model){
-        List<Goal> myGoals = new ArrayList<>();
         try {
             User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            myGoals = service.getGoalsForUser(loggedInUser);
+            List<Goal> myGoals = service.getGoalsForUser(loggedInUser);
+            myGoals.stream().forEach(goal->goal.setUser(null));
+            System.out.println("myGoals = " + myGoals);
             model.addAttribute("goals",myGoals);
             model.addAttribute("goal", new Goal());
 
@@ -40,8 +44,15 @@ public class GoalsController {
 
 
     @PostMapping("/users/goals/add")
-    private String postGoals(@ModelAttribute("goal") Goal goal) {
+    private String postGoals(@ModelAttribute("goal") Goal goal, @RequestParam(name = "goalCompleted", required = false) Boolean goalCompleted) {
         try{ //Try to
+
+//            goalCompleted.stream().forEach(System.out::println);
+            if(goalCompleted != null) {
+                System.out.println(goalCompleted);
+                goal.setCompleted(goalCompleted);
+            }
+
             //Grab the logged in user
             User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -68,9 +79,18 @@ public class GoalsController {
     }
 
     @PostMapping("/users/goals/update")
-    private String updateGoal(@ModelAttribute("goal") Goal goal) {
+    private String updateGoal(@ModelAttribute("goal") Goal goal,@RequestParam(name = "goalCompleted", required = false) boolean[] goalCompleted) {
         try {
-//            System.out.println(goalCompleted);
+            if(goalCompleted == null){
+                goal.setCompleted(false);
+            }else {
+                for (Boolean val : goalCompleted) {
+                    System.out.println(val);
+                }
+            }
+
+            goal.setCompleted(goalCompleted != null);
+
             User me = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             me = userRepository.findUserById(me.getId());
             goal.setUser(me);

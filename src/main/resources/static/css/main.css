@@ -21,3 +21,17 @@ body {
     background-color: #2c4263;
     background-repeat: repeat;
 }
+
+@media only screen and (min-width: 601px) {
+    input[type=checkbox]{
+        scale: 1.75;
+        transform: translateY(15%);
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    input[type=checkbox]{
+        scale: 2.5;
+        transform: translateY(15%);
+    }
+}

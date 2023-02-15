@@ -123,13 +123,13 @@
                         <p>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="inputGroup-sizing-default1"><span id="challengePointsDisplay"></span>&nbsp;Points</span>
-                            <input type="range" min="1" max="50" id="challengePoints" class="w-auto ms-2"/>
+                            <input type="range" th:default="10" step="5" min="1" max="50" id="challengePoints" class="w-auto ms-2"/>
                         </div>
                         </p>
                         <p>
                         <hr/>
                         <button id="add_exercise_button" class="btn btn-primary">
-                            <i class="bi bi-plus-square"></i>
+                            <i class="bi bi-plus-square me-2"></i>
                             Add Exercise
                         </button>
                         <hr/>
@@ -137,7 +137,9 @@
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <button id="saveChallengeButton">Save Challenge</button>
+                        <button class="btn btn-primary" id="saveChallengeButton">
+                            <i class="bi bi-save2 me-2"></i>Save Challenge
+                        </button>
                     </div>
                 </div>
             </div>

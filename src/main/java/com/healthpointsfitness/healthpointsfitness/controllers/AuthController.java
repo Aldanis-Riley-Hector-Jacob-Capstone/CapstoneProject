@@ -127,7 +127,7 @@ public class AuthController {
                     return "redirect:admin/landing";
                 } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
                     model.addAttribute("user", user);
-                    return "redirect:profile/" + user.get().getUsername();
+                    return "redirect:/profile/" + user.get().getUsername();
                 } else {
                     return "landing";
                 }
@@ -138,6 +138,6 @@ public class AuthController {
             e.printStackTrace();
         }
 
-        return "login";
+        return "landing";
     }
 }

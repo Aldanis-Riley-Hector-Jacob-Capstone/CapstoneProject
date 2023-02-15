@@ -43,7 +43,9 @@
             <div th:text="'Earn up to ' + ${points} + ' health points by completing this path.'"/>
         </div>
         <div th:each="challenge : ${path.challenges}" class="row mb-3">
-            <div class="challengeTitle m-2" th:text="${'Challenge ' + Integer.valueOf(path.challenges.indexOf(challenge) + 1) + ' - '}${challenge.title}"/>
+            <th:block th:with="challengenum=${path.challenges.indexOf(challenge) + 1}">
+                <div class="challengeTitle m-2" th:text="${'Challenge ' + challengenum  + ' - '}${challenge.title}"/>
+            </th:block>
             <div class="m-2" th:text="${challenge.description}"/>
             <!--                <ul th:each="item : ${challenge.exercises}">-->
             <!--                    <li>-->
@@ -56,7 +58,7 @@
                     <input style="float: right;" type="checkbox" th:checked="${item.completed}" name="exercises[]" class="exerciseBox" th:exercise="${item.id}"/>
                 </li>
             </ul>
-        </div>
+        </>
     </div>
 </div>
 <input type="hidden" th:value="${me.id}" id="myId"/>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Path</title>
-    <th:block th:replace="~{/fragments/header.html :: header}"/>
+    <th:block th:replace="~{fragments/header.html :: header}"/>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <style>
@@ -27,7 +27,7 @@
 <body style="background-color: #3c5aa6">
 
     <!-- Navbar -->
-    <th:block th:replace="~{/fragments/navbar.html :: navbar}"/>
+    <th:block th:replace="~{fragments/navbar.html :: navbar}"/>
 
     <div class="container">
 
@@ -208,7 +208,7 @@
 
 
     </div>
-    <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
+    <th:block th:replace="~{fragments/footer.html :: footer}"></th:block>
 
 
     <script defer>

@@ -4,20 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>View Path</title>
-    <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
+    <th:block th:replace="~{fragments/header.html :: header}"></th:block>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
-<th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
+<th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 <div class="container bg-light rounded my-5 pt-3">
     <div class="row">
         <div class="col-4">
-            <h1 th:text="${path.getTitle()}"></h1>
+            <h1 th:text="${path.title}"></h1>
         </div>
         <div class="col-6"></div>
         <div class="col-2">
-            <form th:action="@{/paths/enroll/{id}(id=${path.id})}" method="post">
+            <form th:action="@{paths/enroll/{id}(id=${path.id})}" method="post">
                     <button type="submit" th:text="${me.followed_paths.contains(path) ? 'Drop Path' : 'Follow Path'}" th:attr="class=${me.followed_paths.contains(path) ? 'btn btn-danger' : 'btn btn-success'}">
             </form>
         </div>
@@ -25,10 +25,10 @@
     </div>
     <div class="row">
         <div class="col-3">
-            <img src="#" th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" alt="Achievement Badge" width="256px" height="256px" class="path_image img img-thumbnail">
+            <img src="#" th:src="'data:image/jpeg;base64,'+${path.imageDataUrl}" alt="Achievement Badge" width="256px" height="256px" class="path_image img img-thumbnail">
         </div>
         <div class="col-9">
-            <div th:text="${path.getDescription()}"/>
+            <div th:text="${path.description}"/>
         </div>
     </div>
     <div class="row">
@@ -77,14 +77,10 @@
                     console.error(err)
                 }
             }
-            // if (e.target.checked) {
             sendRequest();
-            // }
-            // console.log(myId);
-            // console.log(exerciseId);
         }
     })
 </script>
-<th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
+<th:block th:replace="~{fragments/footer.html :: footer}"></th:block>
 </body>
 </html>

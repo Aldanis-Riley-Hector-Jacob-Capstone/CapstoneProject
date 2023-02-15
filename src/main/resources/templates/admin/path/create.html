@@ -28,7 +28,7 @@
                 <div class="card-title">
                     <h3>Create a new path</h3>
                 </div>
-                <form th:action="@{/admin/path/create}" th:method="POST" th:object="${newPath}" enctype="multipart/form-data">
+                <form th:action="@{admin/path/create}" th:method="POST" th:object="${newPath}" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="pathTitle" class="form-label">Title</label>
                         <input type="text" class="form-control" placeholder="Path Title" id="pathTitle" name="pathTitle" th:field="*{title}">

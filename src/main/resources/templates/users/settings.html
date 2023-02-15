@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>User Settings</title>
-    <th:block th:replace="~{/fragments/header.html :: header}"/>
+    <th:block th:replace="~{fragments/header.html :: header}"/>
 </head>
 
 <body>
-  <th:block th:replace="~{/fragments/navbar.html :: navbar}"/>
+  <th:block th:replace="~{fragments/navbar.html :: navbar}"/>
   <div class="container rounded my-5 px-5 py-3 bg-light">
       <div class="navbar bg-body-tertiary mb-3">
-          <a th:href="'/profile/' + ${me.username}">
+          <a th:href="'profile/' + ${me.username}">
               <button class="btn btn-light">
                   <i class="bi bi-arrow-left-square"></i>
               </button>
           </a>
           <div class="h2 ms-1 me-auto">Edit Profile</div>
       </div>
-      <form th:action="@{/profile/settings/update}" th:method="POST" th:object="${me}" enctype="multipart/form-data">
+      <form th:action="@{profile/settings/update}" th:method="POST" th:object="${me}" enctype="multipart/form-data">
           <div class="row">
               <div class="col">
                   <img id="profile_image_preview" class="img-thumbnail m-2" name="profileImage" width="200px" th:src="'data:image/jpeg;base64,' + ${profile_image}"/>
@@ -66,12 +66,8 @@
               reader.readAsDataURL(e.target.files[0])
           }
 
-          // const profileImageDataUrl = document.getElementById('profileImageDataUrl').value
-          // if(profileImageDataUrl) {
-          //     imagePreview.src = 'data:image/jpeg;base64,' + profileImageDataUrl
-          // }
       })()
   </script>
-  <th:block th:replace="~{/fragments/footer.html :: footer}"/>
+  <th:block th:replace="~{fragments/footer.html :: footer}"/>
 </body>
 </html>

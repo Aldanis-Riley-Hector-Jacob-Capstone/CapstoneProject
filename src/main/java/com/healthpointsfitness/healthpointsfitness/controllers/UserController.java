@@ -56,24 +56,24 @@ public class UserController {
 
                 model.addAttribute("user", user);
 
-                return "/users/landing";
+                return "users/landing";
             }else{
-                return "redirect:/users/profilenotfound";
+                return "redirect:users/profilenotfound";
             }
         }catch(Exception e){
             e.printStackTrace();
         }
-        return "redirect:/users/profilenotfound";
+        return "redirect:users/profilenotfound";
     }
 
     @GetMapping("/users/profilenotfound")
     public String profileNotFoundView(){
-        return "/users/profilenotfound";
+        return "users/profilenotfound";
     }
 
     @GetMapping("fsearch")
     public String UserController_UniqueName_02(){
-        return "/users/friends";
+        return "users/friends";
     }
 
     @GetMapping("/profile/settings")
@@ -122,12 +122,12 @@ public class UserController {
             currentProfile.setFirstName(me.getFirstName());
             currentProfile.setLastName(me.getLastName());
             userRepository.save(currentProfile);
-            return "redirect:/profile/settings";
+            return "redirect:profile/settings";
         }catch(Exception e){
             e.printStackTrace();
         }
 
         //Redirect back to the settings page
-        return "/users/settings";
+        return "users/settings";
     }
 }

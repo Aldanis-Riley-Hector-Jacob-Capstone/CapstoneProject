@@ -39,7 +39,7 @@ public class RecoveryController {
 
     @GetMapping("/recover")
     private String getRecoveryView(){
-        return "/recover";
+        return "recover";
     }
 
     @PostMapping("/recover")
@@ -62,10 +62,10 @@ public class RecoveryController {
                 emailService.prepareAndSend(email,"Here's your recovery code.","Your recovery code is: " + code + " please enter it in the page you were at.");
 
                 // Send back to the recovery page
-                return "redirect:/recover?sent=true&email=" + URLEncoder.encode(email, StandardCharsets.UTF_8);
+                return "redirect:recover?sent=true&email=" + URLEncoder.encode(email, StandardCharsets.UTF_8);
             }else{
                 // Return to the recover
-                return "redirect:/recover?error=no_account_found";
+                return "redirect:recover?error=no_account_found";
             }
         }catch(Exception e){ // If there's any exception
 
@@ -73,13 +73,13 @@ public class RecoveryController {
             e.printStackTrace();
 
             // Redirect to the recover
-            return "redirect:/recover?error=error_try_again";
+            return "redirect:recover?error=error_try_again";
         }
     }
 
     @GetMapping("/changePassword")
     private String changePasswordView(){
-        return "/changePassword";
+        return "changePassword";
     }
 
     @PostMapping("/changePass")
@@ -102,7 +102,7 @@ public class RecoveryController {
             recoveryRequestRepository.delete(recoveryRequestRepository.findRecoveryRequestByCode(code));
 
             //Get the user by username
-            return "redirect:/login";
+            return "redirect:login";
         }catch(Exception e){ //If there's an exception
 
             //Print the stack trace to the terminal
@@ -110,6 +110,6 @@ public class RecoveryController {
         }
 
         //Otherwise show an error page
-        return "redirect:/login";
+        return "redirect:login";
     }
 }

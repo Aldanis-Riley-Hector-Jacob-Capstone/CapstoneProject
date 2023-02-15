@@ -12,7 +12,12 @@
 <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 <div class="container bg-light rounded my-5 pt-3">
     <div class="row p-2">
-        <div class="col-9">
+        <a href="/allPaths" class="col-1">
+            <button class="btn btn-light">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+        </a>
+        <div class="col-8">
             <h1 th:text="${path.title}"></h1>
         </div>
         <div class="col-3 pe-2">
@@ -31,10 +36,13 @@
         <hr class="thicker_hr"/>
     </div>
     <div class="row p-2">
-        <div class="col-4">
-            <img src="#" th:src="'data:image/jpeg;base64,'+${path.imageDataUrl}" alt="Achievement Badge" width="256px" height="256px" class="path_image img img-thumbnail">
+        <div class="col-12 col-md-3 text-center">
+            <h4>Badge</h4>
+            <img src="#" th:src="'data:image/jpeg;base64,'+${path.imageDataUrl}" alt="Achievement Badge"
+                  class="path_image img img-thumbnail img-fluid m-4">
         </div>
-        <div class="col-8">
+        <div class="col-12 col-md-9 p-3">
+            <h4>Path Description</h4>
             <div th:text="${path.description}"/>
         </div>
     </div>
@@ -43,21 +51,21 @@
             <div th:text="'Earn up to ' + ${points} + ' health points by completing this path.'"/>
         </div>
         <div th:each="challenge : ${path.challenges}" class="row mb-3">
-<!--            <div class="challengeTitle m-2" th:text="'Challenge ' + ${challenge.challengeNumber}   + ' - ' + ${challenge.title}"/>-->
-            <div class="challengeTitle m-2" th:text="${challenge.title}">
-            <div class="m-2" th:text="${challenge.description}"/>
-            <!--                <ul th:each="item : ${challenge.exercises}">-->
-            <!--                    <li>-->
-            <!--                        <input type="checkbox" th:checked="${item.completed}" name="exercises[]" class="exerciseBox" th:text="${item.name}" th:exercise="${item.id}"/>-->
-            <!--                    </li>-->
-            <!--                </ul>-->
-            <ul class="list-group" th:each="item : ${challenge.exercises}">
-                <li class="list-group-item">
-                    <span th:text="' ' + ${item.name}"></span>
-                    <input style="float: right;" type="checkbox" th:checked="${item.completed}" name="exercises[]" class="exerciseBox" th:exercise="${item.id}"/>
-                </li>
-            </ul>
-        </>
+            <div class="card">
+                <div class="card-body">
+                    <div class="challengeTitle m-2" th:text="'Challenge:' + ${challenge.title}"/>
+                    <div class="m-2" th:text="'Description' + ${challenge.description}"/>
+                    <div class="m-2" th:text="'Points : ' + ${challenge.points}"/>
+                    <ul class="list-group">
+                        <li class="list-group-item" th:each="item : ${challenge.exercises}">
+                            <span th:text="' ' + ${item.name}"></span>
+                            <input style="float: right;" type="checkbox" th:checked="${item.completed}" name="exercises[]"
+                                   class="exerciseBox" th:exercise="${item.id}"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <input type="hidden" th:value="${me.id}" id="myId"/>

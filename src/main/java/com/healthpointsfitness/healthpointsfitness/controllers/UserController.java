@@ -1,5 +1,7 @@
 package com.healthpointsfitness.healthpointsfitness.controllers;
 
+import com.healthpointsfitness.healthpointsfitness.models.Exercise;
+import com.healthpointsfitness.healthpointsfitness.models.Path;
 import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
@@ -14,7 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashSet;
+import java.util.List;
 
 /*
     Currently exists to allow basic view swapping with a navbar
@@ -47,14 +52,44 @@ public class UserController {
                     user.setProfileImageDataUrl(defaultProfileImage);
                 }
 
-                //Set the imageDataUrl for user followed paths
-                user.getFollowed_paths().forEach(path->{
+                //TODO: Update the user model if they completed a path based on the exercises and give them the badge as well
+                List<Path> allPaths = pathRepo.findAll();
+                List<Path> completedPaths = allPaths.stream().filter(path->{
+                    List<Exercise> allExercisesForPath = new ArrayList<>();
+                    path.getChallenges().forEach(challenge -> {
+                        allExercisesForPath.addAll(challenge.getExercises());
+                    });
+                    List<Exercise> completed = user.getCompletedExercises().stream().filter(allExercisesForPath::contains).toList();
+                    return completed.containsAll(allExercisesForPath);
+                }).toList();
+
+                //Generate image for the completed paths
+                completedPaths.forEach(path->{
                     byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
                     String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
                     path.setImageDataUrl(base64Encoded);
                 });
 
+                //Set transient values for the path
+                user.getFollowed_paths().forEach(path->{
+                    //Set the image
+                    byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
+                    String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
+                    path.setImageDataUrl(base64Encoded);
+
+                    //Setting path percent done
+                    List<Exercise> allExercisesForPath = new ArrayList<>();
+                    path.getChallenges().forEach(challenge -> {
+                        allExercisesForPath.addAll(challenge.getExercises());
+                    });
+
+                    List<Exercise> completed = user.getCompletedExercises().stream().filter(allExercisesForPath::contains).toList();
+                    Double percent = Double.valueOf(completed.size()) / Double.valueOf(allExercisesForPath.size());
+                    path.setPercentDone(percent * 100);
+                });
+
                 model.addAttribute("user", user);
+                model.addAttribute("completed_paths", completedPaths);
 
                 return "users/landing";
             }else{

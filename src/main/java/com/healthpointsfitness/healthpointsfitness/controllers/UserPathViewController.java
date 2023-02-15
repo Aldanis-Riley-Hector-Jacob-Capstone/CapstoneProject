@@ -52,15 +52,11 @@ public class UserPathViewController {
                 //Create temp completed exercises array
                 List<Exercise> completedExercises = new ArrayList<>();
 
-                AtomicInteger challengeCounter = null;
-                challengeCounter.set(1);
+
                 //Iterate through all challenges
                 myPath.getChallenges().forEach(challenge -> {
                     //Set the number of this challenge
-                    challenge.setChallengeNumber(challengeCounter.get());
-
-                    //Add one to the challenge counter
-                    challengeCounter.set(challengeCounter.get() + 1);
+                    challenge.setChallengeNumber(myPath.getChallenges().indexOf(challenge) + 1);
 
                     //And then all exercises in each challenge
                     challenge.getExercises().forEach(exercise -> {
@@ -122,16 +118,21 @@ public class UserPathViewController {
             User me = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User finalMe = userDao.findUserById(me.getId());
 
-            //Set the path images for the user followed paths
-            finalMe.getFollowed_paths().forEach(path->{
-                path.setImageDataUrl(pathServ.getPathImage(path));
-            });
+            if(finalMe != null) {
+                //Set the path images for the user followed paths
+                finalMe.getFollowed_paths().forEach(path -> {
+                    path.setImageDataUrl(pathServ.getPathImage(path));
+                });
 
-            //Set the path images for all the other paths
-            paths.forEach(path->path.setImageDataUrl(pathServ.getPathImage(path)));
+                //Set the path images for all the other paths
+                paths.forEach(path -> path.setImageDataUrl(pathServ.getPathImage(path)));
 
-            //Add the paths and the user to the model
-            model.addAttribute("paths", paths);
+                //Add the paths and the user to the model
+                model.addAttribute("paths", paths);
+            }else{
+                return "redirect:/";
+            }
+
             model.addAttribute("me",finalMe);
 
             return "users/paths";

@@ -336,6 +336,7 @@ public class PathsApi {
             if (currentUserOpt.isPresent()) {
                 currentUser = currentUserOpt.get();
             }
+
             Optional<Exercise> exerciseOpt = exerciseRepository.findById(request.exerciseId);
             if (exerciseOpt.isPresent()) {
                 Exercise myExercise = exerciseOpt.get();
@@ -347,7 +348,8 @@ public class PathsApi {
                     userRepository.save(currentUser);
                 }
             }
-            return new CompleteExerciseResponse(true, "Exercise marked " + String.valueOf(request.completed ?
+
+            return new CompleteExerciseResponse(true, "Exercise marked " + (request.completed ?
                     "complete" :
                     "incomplete"));
         } catch (Exception e){

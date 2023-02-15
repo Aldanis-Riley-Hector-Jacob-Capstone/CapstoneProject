@@ -41,6 +41,12 @@ public class Path {
     @Transient
     String imageDataUrl;
 
+    @Transient
+    Boolean complete;
+
+    @Transient
+    Double percentDone;
+
     public Path(Path copy) {
         id = copy.id; // This line is SUPER important! Many things won't work if it's absent
         title = copy.title;

@@ -6,12 +6,10 @@ function setConnected(connected) {
     if(connected) {
         setTimeout(()=>{
             const userid = document.getElementById('userid')
-
             if(userid) {
                 const useridMsg = JSON.stringify({
                     'userid': userid.value
                 })
-
                 ws.send(useridMsg)
             }
         },1500)
@@ -19,17 +17,15 @@ function setConnected(connected) {
 }
 
 function connect() {
-    // console.log("Connecting to ws")
-
     ws = new WebSocket("ws://" + location.host + "/freechat")
 
     ws.onmessage = function(data) {
         incomingMessage(data.data)
     }
 
-    ws.onconnect = e => {
-        // console.log(e)
-    }
+    // ws.onconnect = e => {
+    //
+    // }
 
     ws.ondisconnect = e => {
         // console.log(e)
@@ -39,12 +35,29 @@ function connect() {
     setConnected(true)
 }
 
+//Disconnect from the chat.
 function disconnect() {
     if (ws != null) {
         ws.close();
     }
     setConnected(false);
     // console.log("Websocket is in disconnected state");
+}
+
+//When the window is closed disconnect
+window.onclose = e => {
+    disconnect();
+}
+
+//When the tab is out of focus disconnect from the chat
+window.onblur = e => {
+    disconnect()
+}
+
+
+//When the tab comes back into focus connect
+window.onfocus = e => {
+    connect()
 }
 
 function sendData() {
@@ -74,10 +87,7 @@ function incomingMessage(message) {
 }
 
 (() => {
-    // Array.from(document.getElementsByTagName("form")).forEach(form=>{
-    //     form.onsubmit = e => e.preventDefault()
-    // })
-
+    //Grab the send button
     document.getElementById('send').onclick = sendData
 
     //Connect to the chat socket
@@ -117,7 +127,6 @@ if(chat_icon) {
 if(message) {
     message.onkeyup = e => {
         const key = e.key
-        // console.log(e)
         if (key === 'Enter') {
             e.preventDefault();
             sendData()
@@ -125,7 +134,3 @@ if(message) {
         }
     }
 }
-
-// setInterval(()=>{
-//     //Every 10 seconds check the socket connection
-// },10000)

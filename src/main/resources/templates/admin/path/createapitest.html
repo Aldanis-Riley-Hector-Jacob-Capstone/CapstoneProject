@@ -608,8 +608,10 @@
                     //If the challenges is 0 then add a label with no challenges into the challenges list
                     //to indicate that there's no challenges
                     if(challenges.length === 0) {
+                        listOfChallenges.innerText = ""
+
                         const infoIcon = document.createElement('i')
-                        infoIcon.classList.add('bi','bi-exclamation-diamond-fill','me-2')
+                        infoIcon.classList.add('bi','bi-exclamation-diamond','me-2')
                         listOfChallenges.appendChild(infoIcon)
 
                         const tex = document.createElement('span')

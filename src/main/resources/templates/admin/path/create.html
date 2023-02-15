@@ -478,6 +478,13 @@
                 //Add it to the list
                 listOfSelectedExercises.appendChild(item)
             })
+
+            if(selected_exercises.length === 0){
+                listOfSelectedExercises.innerHTML = ""
+
+                listOfSelectedExercises.append("<i class='bi bi-exclamation-diamond me-2'>")
+                listOfSelectedExercises.append("<span>You have not selected any exercises for this challenge.</span>")
+            }
         }
 
         /*

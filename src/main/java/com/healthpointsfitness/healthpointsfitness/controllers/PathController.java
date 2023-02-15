@@ -26,11 +26,6 @@ public class PathController {
     @Autowired
     private PathsService pathService;
 
-    @GetMapping("admin/path/create")
-    private String createPathGetRequest(Model model){
-        model.addAttribute("newPath",new Path());
-        return "admin/path/create";
-    }
 
     @GetMapping("admin/path/createapitest")
     private String createApiTest(){

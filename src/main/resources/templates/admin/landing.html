@@ -31,14 +31,17 @@
                         <i class="bi bi-trash3-fill deleteBtn btn btn-danger ms-auto" th:item="${item.id}"></i>
                     </div>
                 </li>
+                <li th:if="page_count == 0" class="list-group-item d-flex justify-content-between align-items-center">
+                    <i class="bi bi-info-square me-3"></i> No paths have been added yet. Please add one.
+                </li>
             </ul>
 
             <ul class="pagination mt-2 text-center" th:if="page_count != 0">
-                <li th:if="${pageNumber != 0}" class="page-item"><a rel=".prev" th:href="@{/admin/landing(size=${pageSize}, page=${pageNumber - 1})}" class="page-link" href="#">Previous</a></li>
+                <li th:if="${pageNumber != 0 && page_count != 0}" class="page-item"><a rel=".prev" th:href="@{/admin/landing(size=${pageSize}, page=${pageNumber - 1})}" class="page-link" href="#">Previous</a></li>
                 <li class="page-item" th:each="pageNum : ${pageNumbers}">
                     <a th:class="${pageNum==pageNumber + 1 ? 'active page-link' : 'page-link'}" th:href="@{/admin/landing(size=${pageSize}, page=${pageNum - 1})}" th:text="${pageNum}"/>
                 </li>
-                <li th:if="${pageNumber != totalPages - 1}" class="page-item"><a rel=".next" th:href="@{/admin/landing(size=${pageSize}, page=${pageNumber + 1})}"  class="page-link">Next</a></li>
+                <li th:if="${pageNumber != totalPages - 1 && page_count != 0}" class="page-item"><a rel=".next" th:href="@{/admin/landing(size=${pageSize}, page=${pageNumber + 1})}"  class="page-link">Next</a></li>
             </ul>
 <!--            <th:block th:replace="~{fragments/chat.html :: main_chat}"/>-->
         </div>

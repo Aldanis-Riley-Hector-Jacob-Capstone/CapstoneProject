@@ -28,7 +28,7 @@ public class PathController {
 
 
     @GetMapping("admin/path/create")
-    private String createApiTest(){
+    private String createPath(){
         return "admin/path/create";
     }
 

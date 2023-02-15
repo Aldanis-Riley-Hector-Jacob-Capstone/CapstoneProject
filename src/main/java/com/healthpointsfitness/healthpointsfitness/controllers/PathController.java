@@ -135,6 +135,6 @@ public class PathController {
             e.printStackTrace();
         }
 
-        return "redirect:admin/landing";
+        return "redirect:/admin/landing";
     }
 }

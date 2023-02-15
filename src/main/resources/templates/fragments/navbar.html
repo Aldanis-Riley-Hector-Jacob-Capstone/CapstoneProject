@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
+
 <th:block th:fragment="navbar">
     <nav class="navbar bg-body-tertiary sticky-top fixed">
         <div class="container-fluid">
@@ -39,7 +42,7 @@
                     </li>
                 </ul>
             </div>
-            <div sec:authorize="isAuthenticated()">
+            <div sec:authorize="isAuthenticated">
                 <form th:action="@{logout}" method="post" class="logout-button-form">
                     <button class="btn btn-primary" type="submit">LOGOUT</button>
                 </form>
@@ -47,5 +50,6 @@
         </div>
     </nav>
 </th:block>
+
 </html>
 

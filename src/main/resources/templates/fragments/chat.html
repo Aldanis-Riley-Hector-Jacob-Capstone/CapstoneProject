@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/html">
+
   <th:block th:fragment="main_chat">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -22,4 +24,5 @@
     <i id="chat_icon" class="bi bi-chat-right-heart-fill"></i>
     <script src="/js/chat.js" type="module" defer></script>
   </th:block>
+
 </html>

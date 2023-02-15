@@ -12,14 +12,14 @@
 <div class="container p-3 text-black rounded my-5 bg-white">
     <div class="navbar d-flex justify-content-end pe-3">
         <span class="h2 me-auto ms-3"><i class="bi bi-person-badge me-3"></i>Profile</span>
-        <a href="/profile/settings" class="btn btn-light" style="float: right;">
+        <a href="profile/settings" class="btn btn-light" style="float: right;">
             <i class="bi bi-gear me-3"></i>Profile Settings
         </a>
     </div>
     <div class="row" style="padding-top: 50px">
         <div class="h6 ps-3">
             <span th:unless="${user.lastName == null or user.firstName == null}" th:text="${user.firstName + ' ' + user.lastName + ' (aka. ' + user.username + ')'}"/>
-            <span th:if="${user.lastName == null or user.firstName == null}">What's your name? <a href="/profile/settings">Set Now</a></span>
+            <span th:if="${user.lastName == null or user.firstName == null}">What's your name? <a href="profile/settings">Set Now</a></span>
 
             <!--If the user hasn't set their first and last name then display their username-->
             <span th:if="${user.lastName == null or user.firstName == null}" th:text="${user.username}"></span>
@@ -51,11 +51,11 @@
             <li class="list-group-item" th:each="item : ${user.followed_paths}" >
                 <img style="border-radius: 50%;" width="40px" height="40px" th:src="'data:image/jpeg;base64,'+${item.imageDataUrl}"/>
                 <span class="me-auto"><strong th:text="${item.title}"></strong></span>
-                <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto"   th:item="${item.getId()}" style="float: right;"></i>
+                <i class="bi bi-trash3-fill deleteBtn btn btn-warning ms-auto"   th:item="${item.id}" style="float: right;"></i>
             </li>
             <li class="list-group-item" th:if="${user.followed_paths == null}"><i class="bi bi-info-square me-3"></i>You can find paths to follow in the "All Paths" tab.</li>
         </ul>
-        <th:block th:if="${user.followed_paths.isEmpty()}">
+        <th:block th:if="${user.followed_paths.isEmpty}">
             <i class="bi bi-info-square me-4"></i>You are not following any paths, would you like to <a href="/allPaths">search</a> for one?
         </th:block>
     </div>

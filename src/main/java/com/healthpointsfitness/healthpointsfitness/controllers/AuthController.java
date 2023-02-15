@@ -118,21 +118,21 @@ public class AuthController {
     @GetMapping("/")
     private String rootMapping(Model model) {
         try {
-            UserWithRoles principal = (UserWithRoles) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            var user = userDao.findById(principal.getId());
-            if(user.isPresent()) {
-                var roles = AuthorityUtils.commaSeparatedStringToAuthorityList(user.get().getRoles());
-                principal.getAuthorities().forEach(auth -> System.out.println(auth.getAuthority()));
-                if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-                    return "redirect:/admin/landing";
-                } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
-                    model.addAttribute("user", user);
-                    return "redirect:/profile/" + user.get().getUsername();
-                } else {
-                    return "landing";
+            if(!SecurityContextHolder.getContext().getAuthentication().getPrincipal().getClass().equals(String.class)) {
+                UserWithRoles principal = (UserWithRoles) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                var user = userDao.findById(principal.getId());
+                if (user.isPresent()) {
+                    var roles = AuthorityUtils.commaSeparatedStringToAuthorityList(user.get().getRoles());
+                    principal.getAuthorities().forEach(auth -> System.out.println(auth.getAuthority()));
+                    if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+                        return "redirect:/admin/landing";
+                    } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
+                        model.addAttribute("user", user);
+                        return "redirect:/profile/" + user.get().getUsername();
+                    } else {
+                        return "landing";
+                    }
                 }
-            }else{
-                return "landing";
             }
         }catch(Exception e){
             e.printStackTrace();

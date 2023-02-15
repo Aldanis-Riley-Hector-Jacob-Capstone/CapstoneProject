@@ -14,13 +14,31 @@
 <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 
 <div class="container">
-
+    <h1>Available Paths</h1>
     <div class="d-flex justify-content-center row bg-light rounded my-5 p-3">
         <h2 class="mb-0 pt-2"><i class="bi bi-diagram-3-fill me-3"></i>Paths</h2>
         <div th:each="path : ${paths}" class="d-flex justify-content-center col-lg-3 col-md-4 col-sm-6 p-3">
+            <div th:if="${!me.followed_paths.contains(path)}">
+                <a th:href="@{paths/{id} (id=${path.id})}">
+                    <div class="card text-center" style="width: 12rem;">
+                        <img th:src="'data:image/jpeg;base64,'+${path.imageDataUrl}" class="card-img-top" alt="Achievement Badge" width="128px" height="128px">
+                        <div class="card-body">
+                            <div th:text="${path.title}" class="card-title"></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <h1>Your Chosen Paths</h1>
+    <div class="d-flex justify-content-center row bg-light rounded my-5 p-3">
+        <h2 class="mb-0 pt-2"><i class="bi bi-diagram-3-fill me-3"></i>Paths</h2>
+        <div th:each="path : ${me.followed_paths}" class="d-flex justify-content-center col-lg-3 col-md-4 col-sm-6 p-3">
             <a th:href="@{paths/{id} (id=${path.id})}">
                 <div class="card text-center" style="width: 12rem;">
-                    <img th:src="'data:image/jpeg;base64,'+${path.imageDataUrl}" class="card-img-top" alt="Achievement Badge" width="128px" height="128px">
+                    <img th:src="'data:image/jpeg;base64,'+${path.imageDataUrl}" class="card-img-top"
+                         alt="Achievement Badge" width="128px" height="128px">
                     <div class="card-body">
                         <div th:text="${path.title}" class="card-title"></div>
                     </div>
@@ -28,6 +46,7 @@
             </a>
         </div>
     </div>
+
 
 </div>
 <th:block th:replace="~{fragments/footer.html :: footer}"></th:block>

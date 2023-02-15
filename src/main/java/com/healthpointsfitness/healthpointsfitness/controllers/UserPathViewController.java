@@ -106,14 +106,24 @@ public class UserPathViewController {
     @GetMapping("/allPaths")
     public String allPaths(Model model){
         try {
+            //Get a list of all available paths
             List<Path> paths = pathRepo.findAll();
 
-            // Iterate through all path objects and assign image
-            for (Path path : paths){
-                path.setImageDataUrl(pathServ.getPathImage(path));
-            }
+            //Get the user
+            User me = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User finalMe = userDao.findUserById(me.getId());
 
+            //Set the path images for the user followed paths
+            finalMe.getFollowed_paths().forEach(path->{
+                path.setImageDataUrl(pathServ.getPathImage(path));
+            });
+
+            //Set the path images for all the other paths
+            paths.forEach(path->path.setImageDataUrl(pathServ.getPathImage(path)));
+
+            //Add the paths and the user to the model
             model.addAttribute("paths", paths);
+            model.addAttribute("me",finalMe);
 
             return "users/paths";
         }catch (Exception e){

@@ -117,7 +117,7 @@
     <!-- Edit Goal Modal -->
     <div class="modal fade" id="editGoalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form th:action="@{users/goals/update}" method="post" th:object="${goal}">
+            <form th:action="@{/users/goals/update}" method="post" th:object="${goal}">
                 <input id="editId" type="hidden" th:value="${goal.id}" th:field="*{id}">
                 <div class="modal-content">
                     <div class="modal-header">

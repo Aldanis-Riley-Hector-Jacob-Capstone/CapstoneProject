@@ -8,7 +8,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <div id="main-chat" class="shadow-lg border">
       <input type="hidden" id="userid" th:value="${userid}"/>
-      <th:block th:replace="~{/fragments/header.html :: header}"/>
+      <th:block th:replace="~{fragments/header.html :: header}"/>
       <div id="incoming_messages"></div>
       <div class="chat_controls d-flex mb-2 ms-2 me-2 mt-0">
         <div class="col-8 pe-3">

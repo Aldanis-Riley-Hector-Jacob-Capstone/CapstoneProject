@@ -9,12 +9,12 @@
             <a class="navbar-brand" href="#">
                 <img height="80px" src="/img/logo.gif">
             </a>
-            <div class="dropdown ms-auto me-3">
+            <div class="dropdown ms-auto me-3" sec:authorize="isAuthenticated">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                     Menu
                 </button>
-                <ul class="dropdown-menu" sec:authorize="isAuthenticated()">
+                <ul class="dropdown-menu">
                     <li>
                         <a class="dropdown-item" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/landing}">
                             <i class="bi bi-diagram-3-fill"></i><button type="button" class="btn w-100">Create Paths</button>

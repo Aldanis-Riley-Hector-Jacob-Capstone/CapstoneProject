@@ -70,6 +70,7 @@ public class GoalsController {
     @PostMapping("/users/goals/update")
     private String updateGoal(@ModelAttribute("goal") Goal goal) {
         try {
+//            System.out.println(goalCompleted);
             User me = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             me = userRepository.findUserById(me.getId());
             goal.setUser(me);

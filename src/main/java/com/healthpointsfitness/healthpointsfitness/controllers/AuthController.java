@@ -1,5 +1,6 @@
 package com.healthpointsfitness.healthpointsfitness.controllers;
 
+import com.healthpointsfitness.healthpointsfitness.models.Exercise;
 import com.healthpointsfitness.healthpointsfitness.models.Path;
 import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.models.UserWithRoles;
@@ -24,6 +25,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -67,6 +71,44 @@ public class AuthController {
                 return "redirect:/admin/landing";
             }else if(request.isUserInRole("ROLE_CLIENT")){
                 model = userDetailsLoader.getUserData(model);
+                //TODO: Update the user model if they completed a path based on the exercises and give them the badge as well
+                List<Path> allPaths = pathRepository.findAll();
+                List<Path> completedPaths = allPaths.stream().filter(path->{
+                    List<Exercise> allExercisesForPath = new ArrayList<>();
+                    path.getChallenges().forEach(challenge -> {
+                        allExercisesForPath.addAll(challenge.getExercises());
+                    });
+                    List<Exercise> completed = user.getCompletedExercises().stream().filter(allExercisesForPath::contains).toList();
+                    return completed.containsAll(allExercisesForPath);
+                }).toList();
+
+                //Generate image for the completed paths
+                completedPaths.forEach(path->{
+                    byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
+                    String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
+                    path.setImageDataUrl(base64Encoded);
+                });
+
+                //Set transient values for the path
+                user.getFollowed_paths().forEach(path->{
+                    //Set the image
+                    byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
+                    String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
+                    path.setImageDataUrl(base64Encoded);
+
+                    //Setting path percent done
+                    List<Exercise> allExercisesForPath = new ArrayList<>();
+                    path.getChallenges().forEach(challenge -> {
+                        allExercisesForPath.addAll(challenge.getExercises());
+                    });
+
+                    List<Exercise> completed = user.getCompletedExercises().stream().filter(allExercisesForPath::contains).toList();
+                    Double percent = Double.valueOf(completed.size()) / Double.valueOf(allExercisesForPath.size());
+                    path.setPercentDone(percent * 100);
+                });
+
+                model.addAttribute("user", user);
+                model.addAttribute("completed_paths", completedPaths);
                 return "users/landing";
             }
         }catch(DataIntegrityViolationException e) { //Catch any exceptions

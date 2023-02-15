@@ -26,7 +26,7 @@ public class Challenge implements Serializable {
     private String description;
 
     @Column(name="points", nullable = false)
-    private Integer points;
+    private Integer points = 5;
 
     @Column(name="icon", nullable = true, length = 255)
     private String icon;

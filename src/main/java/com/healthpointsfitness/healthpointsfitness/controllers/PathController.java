@@ -27,9 +27,9 @@ public class PathController {
     private PathsService pathService;
 
 
-    @GetMapping("admin/path/createapitest")
+    @GetMapping("admin/path/create")
     private String createApiTest(){
-        return "admin/path/createapitest";
+        return "admin/path/create";
     }
 
     @PostMapping("admin/path/create")

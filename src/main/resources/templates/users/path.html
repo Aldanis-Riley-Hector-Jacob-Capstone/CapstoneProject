@@ -17,7 +17,7 @@
         </div>
         <div class="col-6"></div>
         <div class="col-2">
-            <form th:action="@{paths/enroll/{id}(id=${path.id})}" method="post">
+            <form th:action="@{/paths/enroll/{id}(id=${path.id})}" method="post">
                     <button type="submit" th:text="${me.followed_paths.contains(path) ? 'Drop Path' : 'Follow Path'}" th:attr="class=${me.followed_paths.contains(path) ? 'btn btn-danger' : 'btn btn-success'}">
             </form>
         </div>

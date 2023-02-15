@@ -35,7 +35,7 @@ public class UserController {
     @GetMapping("/profile/{username}")
     public String getProfileView(@PathVariable("username") String username, Model model){
         try {
-            User user = userService.findUserByUsername(username);
+            User user = userRepository.findUserByUsername(username);
             if(user != null) {
                 model.addAttribute("userid", user.getId());
 
@@ -122,7 +122,7 @@ public class UserController {
             currentProfile.setFirstName(me.getFirstName());
             currentProfile.setLastName(me.getLastName());
             userRepository.save(currentProfile);
-            return "redirect:profile/settings";
+            return "redirect:/profile/settings";
         }catch(Exception e){
             e.printStackTrace();
         }

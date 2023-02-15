@@ -124,7 +124,7 @@ public class AuthController {
                 var roles = AuthorityUtils.commaSeparatedStringToAuthorityList(user.get().getRoles());
                 principal.getAuthorities().forEach(auth -> System.out.println(auth.getAuthority()));
                 if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-                    return "redirect:admin/landing";
+                    return "redirect:/admin/landing";
                 } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
                     model.addAttribute("user", user);
                     return "redirect:/profile/" + user.get().getUsername();

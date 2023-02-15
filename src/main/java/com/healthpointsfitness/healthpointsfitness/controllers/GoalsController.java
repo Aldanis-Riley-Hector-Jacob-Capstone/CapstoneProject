@@ -77,6 +77,6 @@ public class GoalsController {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/user/goals";
+        return "redirect:user/goals";
     }
 }

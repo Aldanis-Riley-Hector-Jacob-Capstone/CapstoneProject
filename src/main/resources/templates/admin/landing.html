@@ -33,7 +33,7 @@
                 </li>
             </ul>
 
-            <ul class="pagination mt-2 text-center" th:if="page_count > 0">
+            <ul class="pagination mt-2 text-center" th:if="page_count != 0">
                 <li th:if="${pageNumber != 0}" class="page-item"><a rel=".prev" th:href="@{/admin/index(size=${pageSize}, page=${pageNumber - 1})}" class="page-link" href="#">Previous</a></li>
                 <li class="page-item" th:each="pageNum : ${pageNumbers}">
                     <a th:class="${pageNum==pageNumber + 1 ? 'active page-link' : 'page-link'}" th:href="@{/admin/index(size=${pageSize}, page=${pageNum - 1})}" th:text="${pageNum}"/>

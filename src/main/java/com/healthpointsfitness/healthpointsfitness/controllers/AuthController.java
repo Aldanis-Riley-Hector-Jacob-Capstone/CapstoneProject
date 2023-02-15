@@ -67,7 +67,7 @@ public class AuthController {
                 return "redirect:admin/landing";
             }else if(request.isUserInRole("ROLE_CLIENT")){
                 model = userDetailsLoader.getUserData(model);
-                return "landing";
+                return "users/landing";
             }
         }catch(DataIntegrityViolationException e) { //Catch any exceptions
             e.printStackTrace();
@@ -77,7 +77,7 @@ public class AuthController {
         }
 
         //Return the index view
-        return "index";
+        return "landing";
     }
 
     @GetMapping("/admin/landing")

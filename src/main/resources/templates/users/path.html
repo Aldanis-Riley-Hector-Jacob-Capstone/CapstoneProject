@@ -20,8 +20,10 @@
             <form th:action="@{/paths/enroll/{id}(id=${path.id})}" method="post">
                 <button type="submit"
                         th:attr="class=${me.followed_paths.contains(path) ? 'btn btn-danger' : 'btn btn-success'}">
-                    <i class="bi bi-plus-square" th:if="${!me.followed_paths.contains(path)}"></i>
-                    <i class="bi bi-trash3-fill" th:if="${me.followed_paths.contains(path)}"></i>
+                    <i class="bi bi-plus-square me-2" th:if="${!me.followed_paths.contains(path)}"></i>
+                    <span th:if="${!me.followed_paths.contains(path)}">Follow Path</span>
+                    <i class="bi bi-trash3-fill me-2" th:if="${me.followed_paths.contains(path)}"></i>
+                    <span th:if="${me.followed_paths.contains(path)}">Drop Path</span>
                 </button>
             </form>
         </div>
@@ -36,12 +38,12 @@
         </div>
     </div>
     <div class="row p-2" th:if="${me.followed_paths.contains(path)}">
-        <div class="row">
-            <div th:text="'Earn up to ' + ${points} + ' by completing this path.'"/>
+        <div class="row mb-2">
+            <div th:text="'Earn up to ' + ${points} + ' health points by completing this path.'"/>
         </div>
         <div th:each="challenge : ${path.challenges}" class="row">
-            <div class="challengeTitle" th:text="${challenge.title}"/>
-            <div th:text="${challenge.description}"/>
+            <div class="challengeTitle m-2" th:text="${'Challenge ' + path.challenges.indexOf(challenge) + 1 + ' - '}${challenge.title}"/>
+            <div class="m-2" th:text="${challenge.description}"/>
             <!--                <ul th:each="item : ${challenge.exercises}">-->
             <!--                    <li>-->
             <!--                        <input type="checkbox" th:checked="${item.completed}" name="exercises[]" class="exerciseBox" th:text="${item.name}" th:exercise="${item.id}"/>-->
@@ -50,7 +52,7 @@
             <ul class="list-group" th:each="item : ${challenge.exercises}">
                 <li class="list-group-item">
                     <input type="checkbox" th:checked="${item.completed}" name="exercises[]" class="exerciseBox"
-                           th:text="${item.name}" th:exercise="${item.id}"/>
+                           th:text="' ' + ${item.name}" th:exercise="${item.id}"/>
                 </li>
             </ul>
         </div>

@@ -1,7 +1,6 @@
 package com.healthpointsfitness.healthpointsfitness.models;
 
-import com.healthpointsfitness.healthpointsfitness.models.Goal;
-import com.healthpointsfitness.healthpointsfitness.models.Path;
+import com.healthpointsfitness.healthpointsfitness.services.PathsService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -106,4 +105,5 @@ public class User {
         isAdmin = copy.isAdmin;
         profileImageDataUrl = copy.profileImageDataUrl;
     }
+
 }

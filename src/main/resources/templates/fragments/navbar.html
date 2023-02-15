@@ -21,12 +21,12 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{profile/{username}(username=${#authentication.principal.username}}">
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/profile/{uname}(uname=${#authentication.name})}">
                             <i class="bi bi-person-fill"></i><button type="button" class="btn w-100">Profile</button>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT') || hasRole('ROLE_ADMIN')" th:href="@{user/friend_requests}">
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT') || hasRole('ROLE_ADMIN')" th:href="@{/user/friend_requests}">
                             <i class="bi bi-people-fill"></i><button type="button" class="btn w-100">Buddies</button>
                         </a>
                     </li>

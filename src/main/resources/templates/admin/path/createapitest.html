@@ -133,12 +133,14 @@
                             Add Exercise
                         </button>
                         <hr/>
-                        <div id="selected_exercises"></div>
+                        <div id="selected_exercises">
+<!--                            <i class="bi bi-info-square me-2"></i>-->
+                        </div>
                         </p>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" id="saveChallengeButton">
-                            <i class="bi bi-exclamation"></i>Save Challenge
+                            <i class="bi bi-exclamation me-2"></i>Save Challenge
                         </button>
                     </div>
                 </div>
@@ -180,7 +182,9 @@
                             Search
                             <input type="search" id="searchExercise" placeholder="Filter Exercise by Name"/>
                         </label>
-                        <div id="list_of_exercises"></div>
+                        <div id="list_of_exercises">
+<!--                            <i class="bi bi-info-square me-2"></i> Select a muscle group from the drop down.-->
+                        </div>
                     </div>
 
                     <div class="modal-footer">
@@ -643,6 +647,12 @@
                 //Add the item to the list of challenges
                 listOfChallenges.appendChild(challengeItem)
             })
+
+            if(Array.isArray(challenges)){
+                if(challenges.length === 0){
+                    listOfChallenges.innerHTML += "<i class='bi bi-info-square me-2'></i>No challenges added to the path."
+                }
+            }
         }
 
         /*

@@ -23,7 +23,7 @@
             <img src="/img/register.webp" class="rounded" style="width: 100%">
         </div>
         <div class="col-6">
-            <form class="d-flex justify-content-center" th:action="@{/register}" th:method="POST" th:object="${user}">
+            <form id="regForm" class="d-flex justify-content-center" th:action="@{/register}" th:method="POST" th:object="${user}">
                 <div class="card" style="width: 100%;">
                     <div class="card-body">
                         <h5 class="card-title mb-0" style="color: #3c5aa6">Register</h5>
@@ -63,7 +63,7 @@
                         </div>
                         <div class="d-flex justify-content-evenly">
                             <a href="/login" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" class="btn btn-primary" id="registerButton">Register</button>
                         </div>
                     </div>
                 </div>
@@ -71,5 +71,30 @@
         </div>
     </div>
 </div>
+<script>
+    //username passowrd email firstname lastname
+    const username = document.getElementById("username")
+    const password = document.getElementById("password")
+    const email = document.getElementById("email")
+    const firstname = document.getElementById("firstName")
+    const lastname = document.getElementById("lastName")
+
+    const userNameValid = ()=> username.value.length > 0
+    const passwordValid = ()=> password.value.length > 0
+    const emailValid =  (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.value))
+    const  firstnameValid = ()=> firstname.value.length > 0
+    const lastnameValid = ()=> lastname.value.length > 0
+
+    document.getElementById("registerButton").onclick = (e)=> {
+        e.preventDefault()
+        if (userNameValid() > 0 && passwordValid() >0 && emailValid > 0 && firstnameValid() > 0 && lastnameValid() > 0) {
+            document.forms["regForm"].submit()
+        }
+        else {
+            alert("Please check your inputs and try again")
+        }
+    }
+
+</script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/html">
+      xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Create Path</title>
@@ -35,7 +35,7 @@
 
             <!-- Img Side -->
             <div class="col col-md-12 col-lg-6 d-flex justify-content-center align-items-center">
-                <img src="/img/path.webp" class="rounded" style="width: 100%;">
+                <img alt="path badge" src="/img/path.webp" class="rounded" style="width: 100%;">
             </div>
 
             <!-- Card Side -->
@@ -111,7 +111,7 @@
                         <p>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
-                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Challenge Title" id="challengeTitle">
+                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Challenge Title" id="challengeTitle"/>
                             </div>
                         </p>
                         <p>
@@ -132,17 +132,20 @@
                                 <i class="bi bi-plus-square me-2"></i>
                                 Add Exercise
                             </button>
+
                             <hr/>
                             <div id="selected_exercises">
                                 <i class="bi bi-exclamation-diamond-fill me-2"></i>No exercises have been added to this challenge.
                             </div>
                         </p>
                     </div>
+
                     <div class="modal-footer">
                         <button class="btn btn-primary" id="saveChallengeButton">
                             <i class="bi bi-save2 me-2"></i>Save Challenge
                         </button>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -401,11 +404,17 @@
                     //Clear the list of exercises
                     listOfExercises.innerHTML = ""
 
-                    //Add the info message letting the user know
-                    listOfExercises.append("<i class='bi bi-exclamation-diamond me-2'>")
-                    listOfExercises.append("<span>No exercises added to this challenge.</span>")
+                    const icon = document.createElement('i')
+                    icon.classList.add('bi','bi-exclamation-diamond','me-2')
+
+                    const s = document.createElement('span')
+                    s.innerText = "You have not selected any exercises for this challenge."
+
+                    listOfExercises.appendChild(icon)
+                    listOfExercises.appendChild(s)
                 }
             }
+
 
             //Wallah!
         }
@@ -489,7 +498,8 @@
                 const s = document.createElement('span')
                 s.innerText = "You have not selected any exercises for this challenge."
 
-                listOfSelectedExercises.append(icon,s)
+                listOfSelectedExercises.appendChild(icon)
+                listOfSelectedExercises.appendChild(s)
             }
         }
 

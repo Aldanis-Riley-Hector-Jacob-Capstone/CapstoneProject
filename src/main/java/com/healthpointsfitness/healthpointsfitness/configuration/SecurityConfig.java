@@ -52,7 +52,10 @@ class SecurityConfig {
                         "/chat",
                         "/",
                         "/user/api/v1/recoveryCodeCheck",
-                        "/changePassword"
+                        "/changePassword",
+                        "/public/favicon.ico",
+                        "/favicon.ico",
+                        "/resources/favicon.ico"
                 )
                 .permitAll()
 
@@ -64,6 +67,7 @@ class SecurityConfig {
                         "/users",
                         "/profile",
                         "/users/api/v1/**",
+                        "/goals/api/v1/**",
                         "/users/api/v1/search_friends",
                         "/admin/api/v1/completeExercise"
                 ).hasAnyAuthority("ROLE_CLIENT","ROLE_ADMIN")

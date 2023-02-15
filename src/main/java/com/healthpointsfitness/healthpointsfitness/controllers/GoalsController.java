@@ -79,18 +79,8 @@ public class GoalsController {
     }
 
     @PostMapping("/users/goals/update")
-    private String updateGoal(@ModelAttribute("goal") Goal goal,@RequestParam(name = "goalCompleted", required = false) boolean[] goalCompleted) {
+    private String updateGoal(@ModelAttribute("goal") Goal goal) {
         try {
-            if(goalCompleted == null){
-                goal.setCompleted(false);
-            }else {
-                for (Boolean val : goalCompleted) {
-                    System.out.println(val);
-                }
-            }
-
-            goal.setCompleted(goalCompleted != null);
-
             User me = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             me = userRepository.findUserById(me.getId());
             goal.setUser(me);

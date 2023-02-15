@@ -87,14 +87,14 @@ class SecurityConfig {
                 //Configure Login
                 .and()
                 .formLogin()
-                .loginPage("login")
+                .loginPage("/login")
                 .permitAll()
                 .defaultSuccessUrl("/")
 
                 //Configure Logout
                 .and()
                 .logout()
-                .logoutSuccessUrl("landing?logout")
+                .logoutSuccessUrl("/landing?logout")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .permitAll()
                 .invalidateHttpSession(true)

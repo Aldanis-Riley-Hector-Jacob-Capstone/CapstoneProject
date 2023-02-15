@@ -29,6 +29,7 @@ public class Exercise implements Serializable {
 
     private ExerciseDifficulty difficulty;
 
+    @Column(columnDefinition = "TEXT")
     private String instructions;
 
 

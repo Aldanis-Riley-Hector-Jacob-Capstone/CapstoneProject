@@ -112,7 +112,7 @@ public class AuthController {
                 .boxed()
                 .collect(Collectors.toList());
         model.addAttribute("pageNumbers",pageNumbers);
-        return "landing";
+        return "admin/landing";
     }
 
     @GetMapping("/")

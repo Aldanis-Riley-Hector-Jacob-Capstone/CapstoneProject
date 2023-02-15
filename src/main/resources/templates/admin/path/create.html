@@ -109,33 +109,33 @@
                     </div>
                     <div class="modal-body">
                         <p>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
-                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Challenge Title" id="challengeTitle">
-                        </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Challenge Title" id="challengeTitle">
+                            </div>
                         </p>
                         <p>
-                        <div class="input-group">
-                            <span class="input-group-text">Description</span>
-                            <textarea class="form-control" placeholder="Challenge Description" id="challengeDescription" aria-label="Challenge Description"></textarea>
-                        </div>
+                            <div class="input-group">
+                                <span class="input-group-text">Description</span>
+                                <textarea class="form-control" placeholder="Challenge Description" id="challengeDescription" aria-label="Challenge Description"></textarea>
+                            </div>
                         </p>
                         <p>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-default1"><span id="challengePointsDisplay"></span>&nbsp;Points</span>
-                            <input type="range" th:default="10" step="5" min="0" max="50" id="challengePoints" class="w-auto ms-2" style="width: 100%;"/>
-                        </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-default1"><span id="challengePointsDisplay"></span>&nbsp;Points</span>
+                                <input type="range" th:default="10" step="5" min="0" max="50" id="challengePoints" class="w-auto ms-2" style="width: 100%;"/>
+                            </div>
                         </p>
                         <p>
-                        <hr/>
-                        <button id="add_exercise_button" class="btn btn-primary">
-                            <i class="bi bi-plus-square me-2"></i>
-                            Add Exercise
-                        </button>
-                        <hr/>
-                        <div id="selected_exercises">
-                            <i class="bi bi-exclamation-diamond-fill me-2"></i>No exercises have been added to this challenge.
-                        </div>
+                            <hr/>
+                            <button id="add_exercise_button" class="btn btn-primary">
+                                <i class="bi bi-plus-square me-2"></i>
+                                Add Exercise
+                            </button>
+                            <hr/>
+                            <div id="selected_exercises">
+                                <i class="bi bi-exclamation-diamond-fill me-2"></i>No exercises have been added to this challenge.
+                            </div>
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -396,7 +396,17 @@
                     //And add the item to the list
                     listOfExercises.appendChild(currentItem)
                 })
+
+                if(exercises.length === 0){
+                    //Clear the list of exercises
+                    listOfExercises.innerHTML = ""
+
+                    //Add the info message letting the user know
+                    listOfExercises.append("<i class='bi bi-exclamation-diamond me-2'>")
+                    listOfExercises.append("<span>No exercises added to this challenge.</span>")
+                }
             }
+
             //Wallah!
         }
 

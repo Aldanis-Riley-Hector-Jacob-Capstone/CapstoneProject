@@ -12,11 +12,10 @@
 <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 <div class="container bg-light rounded my-5 pt-3">
     <div class="row p-2">
-        <div class="col-4">
+        <div class="col-9">
             <h1 th:text="${path.title}"></h1>
         </div>
-        <div class="col-6"></div>
-        <div class="col-2">
+        <div class="col-3 pe-2">
             <form th:action="@{/paths/enroll/{id}(id=${path.id})}" method="post">
                 <button type="submit"
                         th:attr="class=${me.followed_paths.contains(path) ? 'btn btn-danger' : 'btn btn-success'}">
@@ -27,6 +26,8 @@
                 </button>
             </form>
         </div>
+    </div>
+    <div class="row">
         <hr class="thicker_hr"/>
     </div>
     <div class="row p-2">
@@ -41,7 +42,7 @@
         <div class="row mb-2">
             <div th:text="'Earn up to ' + ${points} + ' health points by completing this path.'"/>
         </div>
-        <div th:each="challenge : ${path.challenges}" class="row">
+        <div th:each="challenge : ${path.challenges}" class="row mb-3">
             <div class="challengeTitle m-2" th:text="${'Challenge ' + path.challenges.indexOf(challenge) + 1 + ' - '}${challenge.title}"/>
             <div class="m-2" th:text="${challenge.description}"/>
             <!--                <ul th:each="item : ${challenge.exercises}">-->

@@ -64,7 +64,7 @@ public class AuthController {
             userDao.save(user); //Save the user to the database
             request.login(user.getUsername(),clearPass);
             if(request.isUserInRole("ROLE_ADMIN")){
-                return "redirect:admin/landing";
+                return "redirect:/admin/landing";
             }else if(request.isUserInRole("ROLE_CLIENT")){
                 model = userDetailsLoader.getUserData(model);
                 return "users/landing";
@@ -124,7 +124,7 @@ public class AuthController {
                 var roles = AuthorityUtils.commaSeparatedStringToAuthorityList(user.get().getRoles());
                 principal.getAuthorities().forEach(auth -> System.out.println(auth.getAuthority()));
                 if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-                    return "redirect:admin/landing";
+                    return "redirect:/admin/landing";
                 } else if (roles.contains(new SimpleGrantedAuthority("ROLE_CLIENT"))) {
                     model.addAttribute("user", user);
                     return "redirect:profile/" + user.get().getUsername();

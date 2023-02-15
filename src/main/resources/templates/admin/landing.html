@@ -31,7 +31,7 @@
                         <i class="bi bi-trash3-fill deleteBtn btn btn-danger ms-auto" th:item="${item.id}"></i>
                     </div>
                 </li>
-                <li th:if="page_count == 0" class="list-group-item d-flex justify-content-between align-items-center">
+                <li th:if="${paths.isEmpty}" class="list-group-item d-flex justify-content-between align-items-center">
                     <i class="bi bi-info-square me-3"></i> No paths have been added yet. Please add one.
                 </li>
             </ul>

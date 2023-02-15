@@ -289,7 +289,7 @@
 
 
                 //Send a fetch request to the backend for the list of exercises
-                const request = await fetch('http://localhost:8080/admin/api/v1/findExerciseByMuscle', {
+                const request = await fetch(location.host + '/admin/api/v1/findExerciseByMuscle', {
                     method: "POST",
                     credentials: "include", //Send the SpringSec credentials
                     headers: {
@@ -786,7 +786,7 @@
                     const token = document.getElementsByName("_csrf")[0].getAttribute("content")
 
                     //Generate request to create the new path in the database
-                    const request = await fetch('http://localhost:8080/admin/api/v1/createPath',{
+                    const request = await fetch(location.host + '/admin/api/v1/createPath',{
                         method : "POST",
                         // headers : {
                         //     "Content-Type" : "application/json"

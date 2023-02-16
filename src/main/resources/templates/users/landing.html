@@ -87,7 +87,7 @@
                     <div class="col-8 pt-1 pb-3 px-0 align-items-center">
                         <h6 class="row mb-2 ps-3">Progress:</h6>
                         <div class="progress" role="progressbar" style="height: 20px;" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated m-0" th:text="${item.percentDone} + '%'" th:style="'width:' + ${item.percentDone} + '%'"></div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated m-0" th:text="${#numbers.formatDecimal(item.percentDone,2,2,'POINT')} + '%'" th:style="'width:' + ${item.percentDone} + '%'"></div>
                         </div>
                     </div>
                     <!-- Delete Button -->

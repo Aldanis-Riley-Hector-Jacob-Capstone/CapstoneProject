@@ -89,9 +89,9 @@
   <div class="column" style="border-radius: 10px;">
     <div class="row d-flex justify-content-center bg-light p-3" th:if="${param.error}" th:text="${param.error != null ? 'Oops. There was an error logging in.' : ''}"/>
     <div class="row d-flex justify-content-center bg-light p-3" th:if="${param.logout}" th:text="${param.logout != null ? 'You have logged out.' : ''}"/>
-    <div class="row d-flex justify-content-center bg-light p-3" sec:authorize="isAuthenticated()" th:text="${param.logout == null && param.error == null ? 'You are logged in.' : ''}">
-    </div>
-    <a href="/admin/landing" sec:authorize="isAuthenticated()"><button>Go To Profile</button></a>
+<!--    <div class="row d-flex justify-content-center bg-light p-3" sec:authorize="isAuthenticated()" th:text="${param.logout == null && param.error == null ? 'You are logged in.' : ''}">-->
+<!--    </div>-->
+<!--    <a href="/admin/landing" sec:authorize="isAuthenticated()"><button>Go To Profile</button></a>-->
 
     <div class="row hexBg my-3 p-4">
       <!-- Img Side -->

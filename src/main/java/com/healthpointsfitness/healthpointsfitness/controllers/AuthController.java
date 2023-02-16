@@ -8,6 +8,7 @@ import com.healthpointsfitness.healthpointsfitness.repositories.PathRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
 import com.healthpointsfitness.healthpointsfitness.services.PathsService;
 import com.healthpointsfitness.healthpointsfitness.services.UserDetailsLoader;
+import com.healthpointsfitness.healthpointsfitness.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,11 +48,17 @@ public class AuthController {
     private UserDetailsLoader userDetailsLoader;
     @Autowired
     PathsService pathServ;
+    @Autowired
+    UserService userServ;
 
 
     @GetMapping("/login")
     private String login(){
-        return "login"; //Return the login view
+        if (userServ.userLoggedIn()){
+            return "profile/" + userServ.getUserCurrentlyLoggedIn().getUsername();
+        } else {
+            return "login"; //Return the login view
+        }
     }
 
     @GetMapping("/register")
@@ -119,7 +127,7 @@ public class AuthController {
         }
 
         //Return the index view
-        return "landing";
+        return "users/profile";
     }
 
     @GetMapping("/admin/landing")

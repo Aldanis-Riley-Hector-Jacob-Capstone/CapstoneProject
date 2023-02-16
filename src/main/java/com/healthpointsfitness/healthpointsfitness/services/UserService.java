@@ -4,6 +4,8 @@ import com.healthpointsfitness.healthpointsfitness.models.Path;
 import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,19 @@ public class UserService {
     UserRepository repository;
     @Autowired
     PathsService pathServ;
+
+    public boolean userLoggedIn(){
+        return getUserCurrentlyLoggedIn() != null;
+    }
+
+    public User getUserCurrentlyLoggedIn(){
+        try {
+            return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public User findUserByUsername(String username){
         try{

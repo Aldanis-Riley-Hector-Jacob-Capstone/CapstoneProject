@@ -47,8 +47,7 @@
 
         if(event.key === 'Enter'){ //Enter
             currentCode.every((val,index)=>val === expectedCode[index]) ?
-                win() :
-                alert("You Entered The Wrong Code! Keep trying!.")
+                win() : ()=>{}
 
             currentCode = []
         }else{

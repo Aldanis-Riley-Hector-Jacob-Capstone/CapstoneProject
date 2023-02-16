@@ -40,6 +40,11 @@
                             <i class="bi bi-list-task"></i><button type="button" class="btn w-100">Goals</button>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT')" th:href="@{/aboutUs}">
+                            <i class="bi bi-person-vcard"></i><button type="button" class="btn w-100">About Us</button>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div sec:authorize="isAuthenticated">

@@ -10,17 +10,14 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/goals/api/v1")
+@RequestMapping(path="/goals/api/v1")
 public class GoalsApi {
 
     @Autowired
@@ -45,12 +42,11 @@ public class GoalsApi {
         Boolean error;
         String message;
     }
-    @RequestMapping(
+    @PostMapping(
             name = "updateGoalStatus",
             path = "/updateGoalStatus",
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            method = RequestMethod.POST
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     private GoalsApiResponse updateGoalStatus(@RequestBody GoalStatusUpdate update){
         try {
@@ -69,12 +65,11 @@ public class GoalsApi {
         return new GoalsApiResponse(true,"Error updating goal status.");
     }
 
-    @RequestMapping(
+    @PostMapping(
             name = "addGoal",
             path = "/addGoal",
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            method = RequestMethod.POST
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     private GoalsApiResponse addGoal(@RequestBody Goal goal){
         try {
@@ -88,12 +83,11 @@ public class GoalsApi {
         return new GoalsApiResponse(true,"Error saving goal.");
     }
 
-    @RequestMapping(
+    @PostMapping(
             name = "deleteGoal",
             path = "/deleteGoal",
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            method = RequestMethod.POST
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     private GoalsApiResponse deleteGoal(@RequestBody Long id){
         try {
@@ -111,12 +105,11 @@ public class GoalsApi {
         return new GoalsApiResponse(true,"Error saving goal.");
     }
 
-    @RequestMapping(
+    @PostMapping(
             name = "getGoals",
             path = "/getGoals",
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            method = RequestMethod.POST
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     private List<Goal> getGoals(){
         try {

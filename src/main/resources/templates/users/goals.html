@@ -4,32 +4,85 @@
 <head>
   <meta charset="UTF-8">
   <title>Users Panel</title>
-  <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
+  <th:block th:replace="~{fragments/header.html :: header}"></th:block>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
     <!-- Navbar -->
-    <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
-    <button class="btn btn-light" id="add">
-        <i class="bi bi-plus-square me-2"></i>Add Goals
-    </button>
+    <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 
-    <div id="goals">
+    <div class="container">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary mt-5" id="addBtn" data-toggle="modal" data-target="#addModal">
+            <i class="bi bi-plus-square me-2"></i>Add Goals
+        </button>
 
+        <!-- Add Modal -->
+        <div class="modal fade" id="goalModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Add Goal</h5>
+                        <button type="button" class="close" data-dismiss="modal" id="closeModalHeaderBtn" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="goal_title">Title</label><input type="text" class="form-control" id="goal_title"/>
+                        <label for="goal_content">Goal</label><textarea class="w-100" id="goal_content"></textarea>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="goal_achieved">
+                            <label class="form-check-label" for="goal_achieved">Goal Achieved</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeAddModal">Close</button>
+                        <button type="button" id="save" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="goals">
+
+        </div>
     </div>
 
-    <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
+    <th:block th:replace="~{fragments/footer.html :: footer}"></th:block>
 
     <script>
-        const list = document.getElementById('goals');
-        const addBtn = document.getElementById('add');
+        const list = document.getElementById('goals')
+        let goalContent = document.getElementById('goal_content')
+        let goalAchieved = document.getElementById('goal_achieved')
+        let goalTitle = document.getElementById('goal_title')
+        const goalModal = new bootstrap.Modal('#goalModal', {
+            keyboard: false
+        })
+        const addBtn = document.getElementById('addBtn')
+        const closeGoalModal = document.getElementById('closeAddModal')
+        const closeGoalModalHeaderBtn = document.getElementById('closeModalHeaderBtn')
+        const token = document.getElementsByName("_csrf")[0].getAttribute("content")
+        const modalTitle = document.getElementById('modalTitle')
 
         let goals = []
+        let selected_goal
+        let modal_mode = 'add'
+
+        addBtn.onclick = e => {
+            modal_mode = 'add'
+            goalModal.show()
+        }
+
+        closeGoalModal.onclick = e => {
+            goalModal.hide()
+        }
+
+        closeGoalModalHeaderBtn.onclick = e => {
+            goalModal.hide()
+        }
 
         const getGoals = async e => {
-            const token = document.getElementsByName("_csrf")[0].getAttribute("content");
-
             const request = await fetch("/goals/api/v1/getGoals", {
                 method: "POST",
                 credentials: "include",
@@ -52,13 +105,19 @@
             item.classList.add('list-group-item', 'goal_item')
             item.style.cursor = 'pointer'
 
+            item.onclick = e => {
+                selected_goal = goal
+                modal_mode = 'edit'
+                goalContent = selected_goal['description']
+                goalAchieved = selected_goal['achieved']
+            }
+
             //And the content
             const content = document.createElement('span')
             content.innerText = goal.description;
 
             //Append the content to the item
             item.appendChild(content);
-
 
             //Return the item
             return item;
@@ -69,73 +128,39 @@
             //Clear the list
             list.innerHTML = ""
 
+            list.classList.add('list-group','bg-light')
+
             //Rerender list items
             goals.forEach(goal=>{
                 const item = generateGoalItem(goal)
                 list.appendChild(item);
             })
+
+            if(goals.length === 0) {
+                //Render a default goals list item message
+                const defaultItem = document.createElement('li')
+                defaultItem.classList.add('list-group-item')
+
+                //Create the default icon for an empty goals list message
+                const defaultIcon = document.createElement('i')
+                defaultIcon.classList.add('bi', 'bi-info-square', 'me-2')
+
+                //Create the default text for an empty goals list
+                const defaultText = document.createElement('span')
+                defaultText.innerText = "You have not created any goals yet. Feel free create one."
+
+                //Add the icon to the default item
+                defaultItem.appendChild(defaultIcon)
+
+                //Add the default text to the default item
+                defaultItem.appendChild(defaultText)
+
+                //Add the default item to the list
+                list.appendChild(defaultItem)
+            }
         }
 
-        addBtn.onclick = e => {
-            const modal = document.createElement('div')
-            modal.classList.add('modal')
-
-            const modalDialog = document.createElement('div')
-            modalDialog.classList.add('modal-dialog')
-
-            const modalContent = document.createElement('div')
-            modalContent.classList.add('modal-content')
-
-            const modalHeader = document.createElement('div')
-            modalHeader.classList.add('modal-header')
-
-            const modalTitle = document.createElement('div')
-            modalTitle.classList.add('modal-title')
-
-            // < button
-            // type = "button"
-            // className = "btn-close"
-            // data - bs - dismiss = "modal"
-            // aria - label = "Close" > < /button>
-            const closeBtn = document.createElement('button')
-            closeBtn.classList.add('btn-close')
-            closeBtn.setAttribute('data-bs-dismiss','modal')
-            closeBtn.setAttribute('aria-label',"Close")
-
-            const modalBody = document.createElement('div')
-            modalBody.classList.add('modal-body')
-
-            const modalFooter = document.createElement('div')
-            modalFooter.classList.add('modal-footer')
-
-            const cancelButton = document.createElement('button')
-            cancelButton.classList.add('btn','btn-secondary')
-
-            const saveButton = document.createElement('button')
-            saveButton.classList.add('btn','btn-primary')
-
-            modal.appendChild(modalDialog)
-
-            modalDialog.appendChild(modalContent)
-
-            modalContent.appendChild(modalHeader)
-
-            modalHeader.appendChild(modalTitle)
-
-            modalHeader.appendChild(closeBtn)
-
-            modalContent.appendChild(modalBody)
-
-            modalContent.appendChild(modalFooter)
-
-            modalFooter.appendChild(cancelButton)
-
-            modalFooter.appendChild(saveButton)
-
-            const goalDescription = document.createElement('textarea')
-            goalDescription.
-        }
-
+        //Initially load all the goals
         (async ()=>{
             await getGoals()
             renderGoals()

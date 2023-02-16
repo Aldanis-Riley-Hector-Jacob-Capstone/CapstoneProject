@@ -69,7 +69,9 @@ class SecurityConfig {
                         "/users/api/v1/**",
                         "/goals/api/v1/**",
                         "/users/api/v1/search_friends",
-                        "/admin/api/v1/completeExercise"
+                        "/admin/api/v1/completeExercise",
+                        "/public/**",
+                        "/static/**"
                 ).hasAnyAuthority("ROLE_CLIENT","ROLE_ADMIN")
 
                 //Lock down admin routes

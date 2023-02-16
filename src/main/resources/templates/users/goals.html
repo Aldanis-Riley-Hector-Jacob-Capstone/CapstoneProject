@@ -2,144 +2,210 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Users Panel</title>
-  <th:block th:replace="~{/fragments/header.html :: header}"></th:block>
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta charset="UTF-8">
+    <title>Users Panel</title>
+    <th:block th:replace="~{fragments/header.html :: header}"></th:block>
+    <style>
+        .hexBg {
+            background-image: url("/img/hex.png");
+        }
+
+        .blueToYellow {
+            color: white;
+            background-color: #3c5aa6;
+            transition: .5s;
+        }
+        .blueToYellow:hover {
+            color: #3c5aa6;
+            background-color: #ffcb05;
+        }
+    </style>
+    <!--  <link href="/css/main.css" rel="stylesheet">-->
 </head>
+
 <body>
-    <!-- Navbar -->
-    <th:block th:replace="~{/fragments/navbar.html :: navbar}"></th:block>
-    <button class="btn btn-light" id="add">
-        <i class="bi bi-plus-square me-2"></i>Add Goals
-    </button>
 
-    <div id="goals">
+<!-- Navbar -->
+<th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 
+<div class="container p-4 my-5 rounded bg-light" >
+    <div class="navbar bg-body-tertiary">
+        <span class="h2 me-auto ms-3"><i class="bi bi-person-badge me-3"></i>Manage Goals</span>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#createGoalModal">
+            <i class="bi bi-plus-square"></i>&nbsp;&nbsp;
+            Create Goal
+        </button>
+
+        <!--        <a href="/admin/path/createapitest" class="btn btn-light" style="float: right;">-->
+        <!--          Add Goal-->
+        <!--        </a>-->
     </div>
 
-    <th:block th:replace="~{/fragments/footer.html :: footer}"></th:block>
+    <ul class="list-group mt-3" style="clear: both;">
+        <li class="list-group-item" th:each="item : ${goals}">
+            <div class="row p-3">
+                <span class="col-sm-3 col-xs-12 ps-0"><strong th:text="${item.title}"></strong></span>
+                <span class="col-sm-7 col-xs-12 ps-0 mb-2"><em th:text="${item.description}"></em></span>
+                <div class="col-sm-2 col-xs-12 d-flex justify-content-between align-items-center p-0">
+                    <form th:action="@{/users/goals/delete/{id}(id=${item.id})}" method="post">
+                        <button type="submit" class="btn btn-danger m-1">
+                            <i class="bi bi-trash3-fill deleteBtn" th:item="${item.getId()}"></i>
+                        </button>
+                    </form>
+                    <i class="bi bi-pencil-fill editBtn btn btn-warning m-1" th:title="${item.title}" th:description="${item.description}" th:completed="${item.completed}" th:id="${item.id}" th:item="${item.getId()}"></i>
+                </div>
+            </div>
+            <!--<img style="border-radius: 50%;" width="40px" height="40px" th:src="'data:image/jpeg;base64,'+${item.getImageDataUrl()}"/>-->
+        </li>
+    </ul>
 
-    <script>
-        const list = document.getElementById('goals');
-        const addBtn = document.getElementById('add');
+    <!--  <ul class="pagination mt-2 text-center">-->
+    <!--    <li th:if="${pageNumber != 0}" class="page-item"><a rel=".prev" th:href="@{/admin/index(size=${pageSize}, page=${pageNumber - 1})}" class="page-link" href="#">Previous</a></li>-->
+    <!--    <li class="page-item" th:each="pageNum : ${pageNumbers}">-->
+    <!--      <a th:class="${pageNum==pageNumber + 1 ? 'active page-link' : 'page-link'}" th:href="@{/admin/index(size=${pageSize}, page=${pageNum - 1})}" th:text="${pageNum}"/>-->
+    <!--    </li>-->
+    <!--    <li th:if="${pageNumber != totalPages - 1}" class="page-item"><a rel=".next" th:href="@{/admin/index(size=${pageSize}, page=${pageNumber + 1})}"  class="page-link">Next</a></li>-->
+    <!--  </ul>-->
+</div>
 
-        let goals = []
+<!-- Create Goal Modal -->
+<div class="modal fade" id="createGoalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form th:action="@{/users/goals/add}" method="post" th:object="${goal}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create a Goal</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
 
-        const getGoals = async e => {
-            const token = document.getElementsByName("_csrf")[0].getAttribute("content");
+                    <!--Goal Title-->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="titleLabel">Goal Title</span>
+                        <input th:field="*{title}" type="text" class="form-control" aria-label="Path Title" id="title" placeholder="Goal Title" aria-describedby="titleLabel">
+                    </div>
 
-            const request = await fetch("/goals/api/v1/getGoals", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": token
-                },
-            })
+                    <!--Goal Description-->
+                    <div class="input-group">
+                        <span class="input-group-text">Description</span>
+                        <textarea th:field="*{description}" class="form-control" aria-label="Path description" placeholder="Goal Description" id="createDescription"></textarea>
+                    </div>
 
-            const response = await request.json()
+                    <!-- Is Complete? -->
+                    <!--                        <div class="form-check form-switch">-->
+                    <!--                            <input th:field="*{completed}" class="form-check-input" type="checkbox" role="switch" id="createCompleteSwitch">-->
+                    <!--                            <label class="form-check-label" for="createCompleteSwitch">Mark as complete</label>-->
+                    <!--                        </div>-->
 
-            console.log(response)
+                    <div class="form-check">
+                        <input th:field="*{completed}" class="form-check-input" type="checkbox" id="createCompleteSwitch">
+                        <label class="form-check-label" for="createCompleteSwitch">
+                            Complete
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
-            return response
-        }
+<!-- Edit Goal Modal -->
+<div class="modal fade" id="editGoalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form th:action="@{/users/goals/update}" method="post" th:object="${goal}">
+            <input id="editId" type="hidden" th:value="${goal.id}" th:field="*{id}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editGoalLabel">Create a Goal</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
 
-        const generateGoalItem = (goal) => {
-            //Get the item container
-            const item = document.createElement('div')
-            item.classList.add('list-group-item', 'goal_item')
-            item.style.cursor = 'pointer'
+                    <!--Goal Title-->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="editGoalTitleLabel">Goal Title</span>
+                        <input th:field="*{title}" type="text" class="form-control" aria-label="Goal Title" id="editTitle" placeholder="Goal Title" aria-describedby="titleLabel">
+                    </div>
 
-            //And the content
-            const content = document.createElement('span')
-            content.innerText = goal.description;
+                    <!--Goal Description-->
+                    <div class="input-group">
+                        <span class="input-group-text">Description</span>
+                        <textarea th:field="*{description}" class="form-control" aria-label="Goal description" placeholder="Goal Description" id="editDescription"></textarea>
+                    </div>
 
-            //Append the content to the item
-            item.appendChild(content);
+                    <!-- Is Complete? -->
+                    <!--                        <div class="form-check form-switch">-->
+                    <!--                            <input th:field="*{completed}" class="form-check-input" type="checkbox" role="switch" id="editCompleted">-->
+                    <!--                            <label class="form-check-label" for="editCompleted">Mark as complete</label>-->
+                    <!--                        </div>-->
+
+                    <div class="form-check">
+                        <input th:field="*{completed}" th:value="${goal.completed}" name="goalCompleted" class="form-check-input" type="checkbox" id="editCompleted">
+                        <label class="form-check-label" for="editCompleted">
+                            Complete
+                        </label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" id="submitEdit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 
-            //Return the item
-            return item;
-        }
+<th:block th:replace="~{fragments/footer.html :: footer}"></th:block>
 
-        //Render all the goals to the list of goals
-        const renderGoals = () => {
-            //Clear the list
-            list.innerHTML = ""
+<script>
+    const editBtns = document.getElementsByClassName("editBtn");
+    const editTitle = document.getElementById("editTitle");
+    const editDesc = document.getElementById("editDescription");
+    const editComp = document.getElementById("editCompleted");
+    const editId = document.getElementById("editId");
+    const modal = new bootstrap.Modal(document.getElementById('editGoalModal'), {})
 
-            //Rerender list items
-            goals.forEach(goal=>{
-                const item = generateGoalItem(goal)
-                list.appendChild(item);
-            })
-        }
 
-        addBtn.onclick = e => {
-            const modal = document.createElement('div')
-            modal.classList.add('modal')
+    Array.from(editBtns).forEach(btn => btn.onclick = e => {
+        console.log("test");
+        const newTitle = e.target.getAttribute("title");
+        const newDesc = e.target.getAttribute("description");
+        const newComp = e.target.getAttribute("completed");
+        const newId = e.target.getAttribute("id");
 
-            const modalDialog = document.createElement('div')
-            modalDialog.classList.add('modal-dialog')
+        console.log(newTitle);
+        console.log(newDesc);
+        console.log(newComp);
+        console.log(newId);
 
-            const modalContent = document.createElement('div')
-            modalContent.classList.add('modal-content')
+        console.log(editTitle);
+        console.log(editDesc);
+        console.log(editComp);
+        console.log(editId);
 
-            const modalHeader = document.createElement('div')
-            modalHeader.classList.add('modal-header')
+        modal.show();
 
-            const modalTitle = document.createElement('div')
-            modalTitle.classList.add('modal-title')
+        editComp.value = newComp;
+        editComp.checked = newComp;
+        editId.value = newId;
 
-            // < button
-            // type = "button"
-            // className = "btn-close"
-            // data - bs - dismiss = "modal"
-            // aria - label = "Close" > < /button>
-            const closeBtn = document.createElement('button')
-            closeBtn.classList.add('btn-close')
-            closeBtn.setAttribute('data-bs-dismiss','modal')
-            closeBtn.setAttribute('aria-label',"Close")
+        editTitle.value = newTitle;
+        editDesc.value = newDesc;
 
-            const modalBody = document.createElement('div')
-            modalBody.classList.add('modal-body')
+        editId.value = newId;
+        editComp.checked = newComp;
+        console.log(editComp);
+        console.log(newComp);
 
-            const modalFooter = document.createElement('div')
-            modalFooter.classList.add('modal-footer')
+    })
 
-            const cancelButton = document.createElement('button')
-            cancelButton.classList.add('btn','btn-secondary')
-
-            const saveButton = document.createElement('button')
-            saveButton.classList.add('btn','btn-primary')
-
-            modal.appendChild(modalDialog)
-
-            modalDialog.appendChild(modalContent)
-
-            modalContent.appendChild(modalHeader)
-
-            modalHeader.appendChild(modalTitle)
-
-            modalHeader.appendChild(closeBtn)
-
-            modalContent.appendChild(modalBody)
-
-            modalContent.appendChild(modalFooter)
-
-            modalFooter.appendChild(cancelButton)
-
-            modalFooter.appendChild(saveButton)
-
-            const goalDescription = document.createElement('textarea')
-            goalDescription.
-        }
-
-        (async ()=>{
-            await getGoals()
-            renderGoals()
-        })()
-    </script>
+</script>
 </body>
 </html>

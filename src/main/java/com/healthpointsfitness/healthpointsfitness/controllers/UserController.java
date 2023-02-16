@@ -40,7 +40,14 @@ public class UserController {
     @GetMapping("/profile/{username}")
     public String getProfileView(@PathVariable("username") String username, Model model){
         try {
+
             User user = userRepository.findUserByUsername(username);
+            User me = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            if(username.equals(me.getUsername())){
+                model.addAttribute("iOwn",true);
+            }
+
             if(user != null) {
                 model.addAttribute("userid", user.getId());
 

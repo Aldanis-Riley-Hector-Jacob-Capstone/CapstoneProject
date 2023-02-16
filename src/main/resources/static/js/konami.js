@@ -46,9 +46,8 @@
         console.log("current key " + event.key)
 
         if(event.key === 'Enter'){ //Enter
-            currentCode.every((val,index)=>val === expectedCode[index]) ?
+            currentCode.every((val,index)=>val === expectedCode[index]) && currentCode.length >= 9 ?
                 win() : ()=>{}
-
             currentCode = []
         }else{
             currentCode.push(event.keyCode)
@@ -57,6 +56,7 @@
 
     const weehoo = () => {
         const john = document.createElement('img')
+        john.style.background = 'white';
         john.src="/img/weehoo.png";
         john.style.width = '100%';
         john.style.height = '100%';

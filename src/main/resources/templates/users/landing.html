@@ -100,7 +100,7 @@
                         </div>
                     </div>
                     <!-- Delete Button -->
-                    <div class="col-1 d-flex justify-content-center align-items-center">
+                    <div th:if="${iOwn}" class="col-1 d-flex justify-content-center align-items-center">
                         <form th:action="@{/paths/enroll/{id}(id=${item.id})}" method="post" style="float: right;">
                             <button type="submit" class="deleteBtn btn btn-warning">
                                 <i class="bi bi-trash3-fill ms-auto" th:item="${item.id}"></i>

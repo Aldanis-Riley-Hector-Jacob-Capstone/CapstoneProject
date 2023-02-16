@@ -49,7 +49,14 @@ public class AuthController {
 
 
     @GetMapping("/login")
-    private String login(){
+    private String login() {
+        if(!SecurityContextHolder.getContext().getAuthentication().getPrincipal().getClass().equals(String.class)) {
+
+            if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+                User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                return "redirect:/profile/" + user.getUsername();
+            }
+        }
         return "login"; //Return the login view
     }
 

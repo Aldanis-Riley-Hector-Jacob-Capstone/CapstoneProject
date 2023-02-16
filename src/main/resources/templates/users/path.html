@@ -60,7 +60,7 @@
                         <li class="list-group-item" th:each="item : ${challenge.exercises}">
                             <span th:text="' ' + ${item.name}"></span>
                             <input style="float: right;" type="checkbox" th:checked="${item.completed}" name="exercises[]"
-                                   class="exerciseBox" th:exercise="${item.id}"/>
+                                   class="exerciseBox" th:exercise="${item.id}" />
                         </li>
                     </ul>
                 </div>

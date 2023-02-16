@@ -93,7 +93,7 @@ class SecurityConfig {
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/landing")
 
                 //Configure Logout
                 .and()

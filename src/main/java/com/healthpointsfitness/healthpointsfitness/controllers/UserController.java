@@ -88,6 +88,9 @@ public class UserController {
                     path.setPercentDone(percent * 100);
                 });
 
+
+                userService.updateUserPoints(user, completedPaths);
+
                 model.addAttribute("user", user);
                 model.addAttribute("completed_paths", completedPaths);
 

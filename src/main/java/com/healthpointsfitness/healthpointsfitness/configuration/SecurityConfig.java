@@ -36,7 +36,6 @@ class SecurityConfig {
 //                .csrf().disable()
 
                 //Allow public access to all public routes
-
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/changePass",
@@ -44,6 +43,7 @@ class SecurityConfig {
                         "/register",
                         "/recover",
                         "/landing",
+                        "/aboutUs",
                         "/js/**",
                         "/img/**",
                         "/css/**",

@@ -17,7 +17,7 @@ function setConnected(connected) {
 }
 
 function connect() {
-    ws = new WebSocket("ws://" + location.host + "/freechat")
+    ws = new WebSocket("wss://" + location.host + "/freechat")
 
     ws.onmessage = function(data) {
         incomingMessage(data.data)

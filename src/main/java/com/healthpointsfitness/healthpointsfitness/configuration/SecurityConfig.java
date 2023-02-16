@@ -55,7 +55,8 @@ class SecurityConfig {
                         "/changePassword",
                         "/public/favicon.ico",
                         "/favicon.ico",
-                        "/resources/favicon.ico"
+                        "/resources/favicon.ico",
+                        "/aboutUs"
                 )
                 .permitAll()
 

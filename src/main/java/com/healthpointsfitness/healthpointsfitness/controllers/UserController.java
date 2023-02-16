@@ -168,4 +168,9 @@ public class UserController {
         //Redirect back to the settings page
         return "users/settings";
     }
+
+    @GetMapping("/aboutUs")
+    private String aboutUs(){
+        return "aboutUs";
+    }
 }

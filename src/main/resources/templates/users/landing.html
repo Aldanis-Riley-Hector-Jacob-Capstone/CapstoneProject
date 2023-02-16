@@ -88,10 +88,14 @@
                         <h6 class="row mb-2 ps-3">Progress:</h6>
                         <div class="progress" role="progressbar" style="height: 20px;" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
 <<<<<<< HEAD
+<<<<<<< HEAD
                             <div class="progress-bar progress-bar-striped progress-bar-animated m-0" th:text="${item.percentDone} + '%'" th:style="'width:' + ${item.percentDone} + '%'"></div>
 =======
                             <div class="progress-bar progress-bar-striped progress-bar-animated m-0" th:text="${#numbers.formatDecimal(item.percentDone,2,2,'POINT')} + '%'" th:style="'width:' + ${item.percentDone} + '%'"></div>
 >>>>>>> hectorsmain
+=======
+                            <div class="progress-bar progress-bar-striped progress-bar-animated m-0" th:text="${#numbers.formatDecimal(item.percentDone,2,2,'POINT')} + '%'" th:style="'width:' + ${item.percentDone} + '%'"></div>
+>>>>>>> cc943df65ec5e52156c7cb3ffbdba637a4dbad2e
                         </div>
                     </div>
                     <!-- Delete Button -->

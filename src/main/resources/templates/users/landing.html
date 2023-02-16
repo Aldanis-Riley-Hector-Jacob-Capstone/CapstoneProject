@@ -5,65 +5,93 @@
     <meta charset="UTF-8">
     <title>Users Panel</title>
     <th:block th:replace="~{fragments/header.html :: header}"></th:block>
+    <style>
+        .badges {
+            text-decoration: none;
+            color: black;
+        }
+
+        .grow{
+            transition: 1s ease;
+        }
+
+        .grow:hover{
+            -webkit-transform: scale(1.2);
+            -ms-transform: scale(1.2);
+            transform: scale(1.2);
+            transition: 1s ease;
+        }
+    </style>
 </head>
 <body>
 <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 
 <div class="container p-3 text-black rounded my-5 bg-white">
     <div class="navbar d-flex justify-content-end pe-3">
-        <span class="h2 me-auto ms-3"><i class="bi bi-person-badge me-3"></i>Profile</span>
+        <span class="h2 ps-3 me-auto"><i class="bi bi-person-badge me-3"></i>Profile</span>
         <a href="/profile/settings" class="btn btn-light" style="float: right;">
             <i class="bi bi-gear me-3"></i>Profile Settings
         </a>
     </div>
-    <div class="row" style="padding-top: 50px">
-        <div class="h6 ps-3">
-            <span th:unless="${user.lastName == null or user.firstName == null}" th:text="${user.firstName + ' ' + user.lastName}"/>
-
-            <span th:if="${user.lastName == null or user.firstName == null}">What's your name? <a href="profile/settings">Set Now</a></span>
-
-            <!--If the user hasn't set their first and last name then display their username-->
-            <span th:if="${user.lastName == null or user.firstName == null}" th:text="${user.username}"></span>
-
-            <!-- Points section -->
-            <span th:unless="${user.totalPoints == null}" th:text="' | Total Health Points: ' + ${user.totalPoints}" />
-
-            <br/>
-            <span th:text="' (aka. ' + ${user.username} + ')'"></span>
-        </div>
-
+    <div class="row ps-3">
+        <!-- Name -->
+        <h4 class="mt-1" th:unless="${user.lastName == null or user.firstName == null}" th:text="${user.firstName + ' ' + user.lastName}"></h4>
+        <!-- Username -->
+        <h6><span th:text="' (aka. ' + ${user.username} + ')'"></span></h6>
         <!-- Profile image -->
-        <div class="col-12 col-md-3">
-            <img id="profile_image" th:src="'data:image/jpeg;base64,' + ${user.profileImageDataUrl}" class="img-thumbnail" alt="Profile Image">
+        <div class="col-12 col-md-3 mb-2">
+            <img id="profile_image" th:src="'data:image/jpeg;base64,' + ${user.profileImageDataUrl}" class="img-thumbnail p-0 rounded" alt="Profile Image">
         </div>
 
         <!-- Bio Section -->
-        <div class="col-12 col-md-9 mt-3">
+        <div class="col-12 col-md-8 border rounded border-1 border-light shadow">
             <!-- Set profile bio section -->
-            <div id="profile_description" th:text="${user.bio}"/>
+            <div id="profile_description" class="p-3" th:text="${user.bio}"/>
 
             <!--If their bio is not set yet, -->
             <th:block th:if="${user.bio == null}">
                 You can write your bio in the Profile Settings tab.
             </th:block>
         </div>
+        <!-- Points section -->
+        <h6 class="mt-2" th:unless="${user.totalPoints == null}" th:text="'Total Health Points: ' + ${user.totalPoints}" />
+
+        <div class="h4 ps-3">
+            <span th:if="${user.lastName == null or user.firstName == null}">What's your name? <a href="profile/settings">Set Now</a></span>
+
+            <!--If the user hasn't set their first and last name then display their username-->
+            <span th:if="${user.lastName == null or user.firstName == null}" th:text="${user.username}"></span>
+
+            <br/>
+        </div>
+
     </div>
 
     <div class="container" th:if="${user.followed_paths.size != 0}">
         <h4 class="mt-3" th:if="${!completed_paths.containsAll(user.followed_paths)}">Chosen Paths</h4>
         <ul class="list-group mt-3" style="clear: both;">
             <li class="list-group-item" th:each="item : ${user.followed_paths}" th:if="${!completed_paths.contains(item)}">
-                <div class="row">
-                    <div class="col-3 col-md-2">
-                        <img style="border-radius: 50%;" width="40px" height="40px" th:src="'data:image/jpeg;base64,'+${item.imageDataUrl}"/>
-                        <span class="me-auto"><strong th:text="${item.title}"></strong></span>
-                    </div>
-                    <div class="col-7 col-md-8" >
-                        <div class="progress mt-3" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar" th:style="'width:' + ${item.percentDone} + '%'"></div>
+                <div class="row d-flex justify-content-around">
+                    <!-- Path Pic & Title -->
+                    <div class="col-md-3 col-sm-12">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-center p-0">
+                                <img style="border-radius: 50%;" width="40px" height="40px" th:src="'data:image/jpeg;base64,'+${item.imageDataUrl}"/>
+                            </div>
+                            <div class="col-12 text-center p-0">
+                                <span class=""><strong th:text="${item.title}"></strong></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-2">
+                    <!-- Progress Bar -->
+                    <div class="col-8 pt-1 pb-3 px-0 align-items-center">
+                        <h6 class="row mb-2 ps-3">Progress:</h6>
+                        <div class="progress" role="progressbar" style="height: 20px;" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated m-0" th:text="${item.percentDone} + '%'" th:style="'width:' + ${item.percentDone} + '%'"></div>
+                        </div>
+                    </div>
+                    <!-- Delete Button -->
+                    <div class="col-1 d-flex justify-content-center align-items-center">
                         <form th:action="@{/paths/enroll/{id}(id=${item.id})}" method="post" style="float: right;">
                             <button type="submit" class="deleteBtn btn btn-warning">
                                 <i class="bi bi-trash3-fill ms-auto" th:item="${item.id}"></i>
@@ -93,20 +121,24 @@
 <!--        </th:block>-->
 <!--    </div>-->
 
-    <div class="list-group" th:if="${!completed_paths.isEmpty()}">
+
+    <div th:if="${!completed_paths.isEmpty()}">
         <h4 class="mt-3">Earned Badges</h4>
 
-        <a href="#" class="list-group-item list-group-item-action" aria-current="true" th:each="item : ${completed_paths}">
-            <div class="d-flex justify-content-center">
-                <img class="img img-thumbnail" style="border-radius: 50%;" th:src="'data:image/jpeg;base64,'+${item.imageDataUrl}"/>
-            </div>
-            <div class="d-flex w-100 justify-content-center">
-                <h5 class="mb-1" th:text="${item.title}"></h5>
-<!--                <small th:text="${item.description}"></small>-->
-            </div>
-<!--            <p class="mb-1">Some placeholder content in a paragraph.</p>-->
-<!--            <small>And some small print.</small>-->
-        </a>
+        <div class="d-flex justify-content-center align-items-center row">
+            <a href="#" class="grow col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center badges" aria-current="true" th:each="item : ${completed_paths}">
+                <div class="card p-0 shadow">
+                    <img th:src="'data:image/jpeg;base64,'+${item.imageDataUrl}" class="card-img-top" alt="...">
+                    <div class="card-body p-0">
+                        <h5 class="d-flex justify-content-center bg-warning mb-0 pt-1"><i class="bi bi-trophy-fill"></i></h5>
+                        <h5 class="card-header mb-1 card-title text-center bg-warning" th:text="${item.title}"></h5>
+                        <p class="card-text text-center" th:text="${item.description}"></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+
 <!--        <a href="#" class="list-group-item list-group-item-action">-->
 <!--            <div class="d-flex w-100 justify-content-between">-->
 <!--                <h5 class="mb-1">List group item heading</h5>-->

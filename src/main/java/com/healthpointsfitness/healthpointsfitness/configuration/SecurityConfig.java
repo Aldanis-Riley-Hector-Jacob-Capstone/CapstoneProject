@@ -57,7 +57,8 @@ class SecurityConfig {
                         "/favicon.ico",
                         "/resources/favicon.ico",
                         "/aboutUs",
-                        "/video/gource.webm"
+                        "/video/gource.webm",
+                        "/error"
                 )
                 .permitAll()
 

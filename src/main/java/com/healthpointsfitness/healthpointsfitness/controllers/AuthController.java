@@ -126,6 +126,8 @@ public class AuthController {
             e.printStackTrace();
         }
 
+        List<Path> allPaths = pathRepository.findAll();
+        model.addAttribute("paths",allPaths);
         //Return the index view
         return "landing";
     }

@@ -6,13 +6,16 @@
 </head>
 <body>
   <th:block th:replace="~{fragments/header.html :: header}"/>
-  <div class="container-fluid">
+  <div class="container d-flex flex-column align-items-center justify-content-center" style="height: 100vh;">
     <div class="card">
       <div class="card-header">
           Oooops...
       </div>
-      <div class="card-body">
+      <div class="card-body d-flex flex-column justify-content-center">
         <h5 class="card-title">We seem to have hit a booboo.</h5>
+        <br/>
+        <img src="/img/weehoo.png"/>
+        <br/>
         <p class="card-text"><span>Sorry We've Had a Booboo. Let's get your squared away.</span></p>
         <a href="/landing" class="btn btn-primary">Go Home</a>
       </div>

@@ -193,23 +193,26 @@
     </div>
 
     <!-- Paths -->
-    <h3 class="text-center bg-light rounded-4">Paths</h3>
-    <hr class="p-1 rounded" style="color: black;">
-    <div class="d-flex justify-content-center row">
-        <div th:each="path : ${paths}" class="d-flex justify-content-center col-lg-3 col-md-4 col-sm-6 p-0 my-2">
-            <a th:href="@{/paths/{id} (id=${path.id})}">
-                <div class="card text-center" style="width: 12rem;">
-                    <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" class="card-img-top img img-thumbnail"
-                         alt="Achievement Badge" width="128px" height="128px">
-                    <div class="card-body">
-                        <div th:text="${path.getTitle()}" class="card-title"></div>
+    <div class="bg-light rounded mb-5">
+        <h3 class="text-center bg-light rounded-4 m-0 py-3" style="color: #01295f">Paths</h3>
+        <hr class="rounded mx-5 mt-0" style="color: #01295f;">
+        <div class="d-flex justify-content-center row">
+            <div th:each="path : ${paths}" class="d-flex justify-content-center col-lg-3 col-md-4 col-sm-6 p-0 my-2">
+                <a th:href="@{/paths/{id} (id=${path.id})}">
+                    <div class="card text-center" style="width: 12rem;">
+                        <img th:src="'data:image/jpeg;base64,'+${path.getImageDataUrl()}" class="card-img-top img img-thumbnail"
+                             alt="Achievement Badge" width="128px" height="128px">
+                        <div class="card-body">
+                            <div th:text="${path.getTitle()}" class="card-title"></div>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
         </div>
     </div>
 
-    <h3 class="d-flex justify-content-center bg-light rounded-4">Join the Crew</h3>
+
+    <h3 class="d-flex justify-content-center bg-light rounded-4" style="color: #01295f">Join the Crew</h3>
     <div id="meet" class="m-5"></div>
     <div style="height: 60px;clear: both;"></div>
 

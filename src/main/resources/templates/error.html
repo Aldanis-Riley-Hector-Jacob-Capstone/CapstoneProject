@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sorry We've Had a BooBoo</title>
+</head>
+<body>
+  <th:block th:replace="~{fragments/header.html :: header}"/>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+          Oooops...
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">We seem to have hit a booboo.</h5>
+        <p class="card-text"><span>Sorry We've Had a Booboo. Let's get your squared away.</span></p>
+        <a href="/landing" class="btn btn-primary">Go Home</a>
+      </div>
+    </div>
+  </div>
+  <th:block th:replace="~{fragments/footer.html :: footer}"/>
+</body>
+</html>

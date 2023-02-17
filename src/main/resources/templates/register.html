@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/html">
+      xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,13 +14,82 @@
 
 <body style="background-color: #3c5aa6">
 <!-- Navbar -->
-<th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
+<!--<th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>-->
+<nav class="navbar bg-body-tertiary sticky-top fixed">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/landing">
+            <img height="80px" src="/img/logo.gif">
+        </a>
+        <div class="dropdown ms-auto me-1">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                Menu
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" sec:authorize="hasRole('ROLE_ADMIN') && isAuthenticated()"
+                       th:href="@{/admin/landing}">
+                        <i class="bi bi-diagram-3-fill"></i>
+                        <button type="button" class="btn w-100">Create Paths</button>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT') && isAuthenticated()"
+                       th:href="@{/profile/{uname}(uname=${#authentication.name})}">
+                        <i class="bi bi-person-fill"></i>
+                        <button type="button" class="btn w-100">Profile</button>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item"
+                       sec:authorize="hasRole('ROLE_CLIENT') || hasRole('ROLE_ADMIN') && isAuthenticated()"
+                       th:href="@{/user/friend_requests}">
+                        <i class="bi bi-people-fill"></i>
+                        <button type="button" class="btn w-100">Buddies</button>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT') && isAuthenticated()"
+                       th:href="@{/allPaths}">
+                        <i class="bi bi-diagram-3-fill"></i>
+                        <button type="button" class="btn w-100">Paths</button>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT') && isAuthenticated()"
+                       th:href="@{/user/goals}">
+                        <i class="bi bi-list-task"></i>
+                        <button type="button" class="btn w-100">Goals</button>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item"
+                       sec:authorize="isAnonymous() || isAuthenticated() || isFullyAuthenticated()"
+                       th:href="@{/aboutUs}">
+                        <i class="bi bi-person-vcard"></i>
+                        <button type="button" class="btn w-100">About Us</button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div sec:authorize="isAnonymous()">
+            <a href="/login">
+                <button class="btn btn-primary" type="submit">Login</button>
+            </a>
+        </div>
+        <div sec:authorize="isAuthenticated">
+            <form th:action="@{/logout}" method="post" class="logout-button-form">
+                <button class="btn btn-primary" type="submit"><i class="bi bi-box-arrow-right"></i></button>
+            </form>
+        </div>
+    </div>
+</nav>
 <div class="container mt-5">
-    <div class="row bg-light p-5 rounded my-5 d-flex justify-content-center ">
-        <div class="col-lg-6 d-flex justify-content-center align-items-center">
+    <div class="row bg-light p-md-5 rounded my-md-5 d-flex justify-content-center ">
+        <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
             <img src="/img/register.webp" class="rounded" style="width: 100%">
         </div>
-        <div class="col-6">
+        <div class="col-12 col-md-6">
             <form class="d-flex justify-content-center shadow" th:action="@{/register}" th:method="POST" th:object="${user}">
                 <div class="card" style="width: 100%;">
                     <div class="card-body">
@@ -30,7 +99,7 @@
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control" placeholder="Username" name="username"
-                                       id="username" od="username" th:field="*{username}"/>
+                                       id="username" th:field="*{username}"/>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
@@ -69,8 +138,7 @@
         </div>
     </div>
 </div>
-</body>
-
+<div style="height: 50px; clear:both;"></div>
 <th:block th:replace="~{fragments/footer.html :: footer}"/>
 
 <!--Validation Errors Modal-->
@@ -103,22 +171,83 @@
     //Get the password element
     const password = document.getElementById("password")
 
-    //form validation
-    document.getElementById("registerBtn").onclick = (e)=> {
-        e.preventDefault() //Prevent the form from being submitted
+    //Get the email element
+    const email = document.getElementById('email')
+
+    //Get the first name element
+    const firstName = document.getElementById('firstName')
+
+    //Get the last name element
+    const lastName = document.getElementById('lastName')
+
+      //Get the submit button
+    const submit = document.getElementById("registerBtn")
+
+    //When the submit button is clicked
+    submit.onclick = (e)=> {
+
+        console.log("Register clicked");
+
+        //Prevent the form from being submitted
+        e.preventDefault()
+
+        //Username is valid
+        const usernameValid = checkUsername(username,7,20,errorsBody,errorsModal);
+        console.log("Is username valid? : " + usernameValid)
+
+        //Password is valid
+        const passwordValid = checkPassword(password,{ //Check the password
+            min : 4, //At least 4 characters long
+            max : 20, //Max 20 characters long
+            hasSpecial : 1, //Has at least 1 special character
+            hasNumber : 1 // Has at least 1 number
+        },errorsModal,errorsBody)
+
+        console.log("Is password valid? : " + passwordValid)
+
+        //Email is valid
+        const emailValid = isEmailValid(email,errorsModal,errorsBody)
+
+        console.log("Is email valid? : " + emailValid )
+
+        //Full name is valid
+        const fullNameValid = checkFullName(firstName,lastName,errorsModal,errorsBody)
+
+        console.log("Is full name valid? : " + fullNameValid)
 
         //Do some validation checks on the username and password
-        if (username.value.length > 0 && password.value.length > 0 && checkPassword(password,{
-            min : 4,
-            max : 10,
-            hasSpecial : 1,
-            hasNumber : 1
-        },errorsModal,errorsBody) && checkUsername(username,errorsBody,errorsModal)) {
-
+        if (usernameValid
+            && passwordValid
+            && usernameValid //Check the username
+            && emailValid//Check the email
+            && fullNameValid) { //Check the full name
             //If all validation checks pass submit the form to the backend.
-            document.forms["loginForm"].submit()
+            document.forms[0].submit()
         }
     }
 
+    (()=>{
+        //Grab all url search params
+        const urlparams = new URLSearchParams(window.location.search);
+
+        //Grab the parameters from the urlparams
+        const params = Object.fromEntries(urlparams.entries());
+
+        if(params.exists){ //If exists is present
+            //Clear the error dialog
+            errorsBody.innerText = ""
+
+            //Generate an error message
+            const msg = document.createElement("span")
+            msg.innerText = "There's already a user with that email or username. Please either recover your account using your email or attempt to log back in using your credentials."
+
+            //Append the error message to the dialog
+            errorsBody.appendChild(msg)
+
+            //Show the modal
+            errorsModal.show();
+        }
+    })()
 </script>
+</body>
 </html>

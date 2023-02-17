@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -29,11 +30,16 @@ public class GoalsController {
         try {
             User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             List<Goal> myGoals = service.getGoalsForUser(loggedInUser);
-            myGoals.stream().forEach(goal->goal.setUser(null));
-            System.out.println("myGoals = " + myGoals);
+            myGoals.forEach(goal->{
+                if(goal.isCompleted()){
+                    goal.setStatus("COMPLETE");
+                }else{
+                    goal.setStatus("PENDING");
+                }
+            });
+            myGoals.forEach(goal->goal.setUser(null));
             model.addAttribute("goals",myGoals);
             model.addAttribute("goal", new Goal());
-
             return "users/goals";
         }catch(Exception e){
             e.printStackTrace();
@@ -79,12 +85,22 @@ public class GoalsController {
     }
 
     @PostMapping("/users/goals/update")
-    private String updateGoal(@ModelAttribute("goal") Goal goal) {
+    private String updateGoal(@ModelAttribute("goal") Goal goal, @RequestParam(name = "goalCompleted",required = false) Boolean[] completed) {
         try {
+            System.out.println("Goal Completed?");
+            if(completed != null){
+                goal.setCompleted(true);
+            }else{
+                goal.setCompleted(false);
+            }
             User me = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             me = userRepository.findUserById(me.getId());
             goal.setUser(me);
-            service.saveGoal(goal);
+            goalRepository.save(goal);
+            List<Goal> newGoals = me.getGoals();
+            newGoals.add(goal);
+            me.setGoals(newGoals);
+            userRepository.save(me);
         } catch(Exception e) {
             e.printStackTrace();
         }

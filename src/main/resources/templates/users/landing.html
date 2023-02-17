@@ -33,7 +33,7 @@
             <i class="bi bi-gear me-3"></i>Profile Settings
         </a>
     </div>
-    <div class="row ps-3">
+    <div class="row">
         <!-- Name -->
         <h4 class="mt-1" th:unless="${user.lastName == null or user.firstName == null}"
             th:text="${user.firstName + ' ' + user.lastName}"></h4>

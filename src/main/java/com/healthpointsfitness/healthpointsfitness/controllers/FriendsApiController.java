@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -104,6 +105,10 @@ public class FriendsApiController {
     private static class FriendSearchRequest {
         Integer points;
         String searchTerm;
+
+        Integer limit;
+
+        Integer page;
     }
 
     @AllArgsConstructor
@@ -120,6 +125,8 @@ public class FriendsApiController {
         List<FriendRequest> denied_requests;
 
         List<User> results;
+
+        Integer numberOfResults;
     }
 
     @RequestMapping(
@@ -362,9 +369,27 @@ public class FriendsApiController {
 
 
                 }).toList();
+        List<User> paginatedList = new ArrayList<>();
+        System.out.println("============================= REQUESTING FRIENDS ============================");
+        System.out.println("Page: " + request.page);
+        System.out.println("Limit: " + request.limit);
+        System.out.println("Available Results: " + finalResultsWithoutDuplicates.size());
+
+
+
+        if(finalResultsWithoutDuplicates.size() >= (request.page * request.limit + request.limit)) {
+            //Paginate the friend requests
+             paginatedList = finalResultsWithoutDuplicates.subList(request.page * request.limit, request.limit);
+        }else if((finalResultsWithoutDuplicates.size() >= request.page * request.limit) && (finalResultsWithoutDuplicates.size() <= (request.page * request.limit + request.limit))){
+             //Otherwise return only what we have starting from the page number
+             paginatedList = finalResultsWithoutDuplicates.subList(request.page * request.limit, finalResultsWithoutDuplicates.size());
+        }else{
+            //Otherwise send what we have
+            paginatedList = finalResultsWithoutDuplicates;
+        }
 
         //Return a new friend search response to the client
-        return new FriendSearchResponse(allRequest, friends, pendingSentRequests, pendingReceivedRequests, deniedRequests ,finalResultsWithoutDuplicates);
+        return new FriendSearchResponse(allRequest, friends, pendingSentRequests, pendingReceivedRequests, deniedRequests ,paginatedList,finalResultsWithoutDuplicates.size());
     }
 
 

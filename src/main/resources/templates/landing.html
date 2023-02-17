@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/html">
+      xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <th:block th:replace="~{fragments/header.html :: header}"/>
@@ -164,14 +164,21 @@
 
         <!-- Right Side Banner -->
         <div class="col p-3 bannerDivs m-3 rounded">
-            <h4 style="color: #01295f">Welcome to Health Points Fitness!</h4>
+            <h4 style="color: #01295f" class="d-flex justify-content-center">Welcome to Health Points Fitness!</h4>
             <hr class="mt-0" style="color: #3c5aa6">
             <p>The social media platform that keeps your health and fitness in mind! Sign up today to follow your
                 favorite fitness paths, create and complete your own custom goals, add new friends, and level up your
                 health and fitness!</p>
-            <button id="registerBtn" type="submit" class="btn btn-primary submitBtn" style="width: 100%;">Make Your Profile
-                Today!
-            </button>
+            <div class="d-flex justify-content-center">
+                <button id="registerBtn" sec:authorize="${not isAuthenticated()}" type="submit" class="btn btn-primary submitBtn" style="width: 100%;">
+                    <span >Make Your Profile Today!</span>
+                </button>
+                <a sec:authorize="hasRole('ROLE_CLIENT') && isAuthenticated()" th:href="@{/profile/{uname}(uname=${#authentication.name})}">
+                    <button class="btn btn-primary">
+                        <span >Go to Profile</span>
+                    </button>
+                </a>
+            </div>
         </div>
     </div>
 

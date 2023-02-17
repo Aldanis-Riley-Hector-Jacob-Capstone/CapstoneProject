@@ -151,7 +151,7 @@
     <h3 class="text-center">Paths</h3>
     <hr class="p-1 rounded" style="color: black;">
 
-    <div id="meet"></div>
+<!--    <div id="meet"></div>-->
 <!--    <div class="row d-flex justify-content-evenly align-items-center mb-5 redirect">-->
 <!--        <a th:each="path : ${paths}" href="#/login" class="d-flex col-lg-2 col-md-3 col-sm-6 p-0 m-1 my-2 shadowAnimation">-->
 <!--            <div class="text-center border border-primary border-1 card p-0">-->
@@ -334,22 +334,22 @@
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<script src='https://meet.jit.si/external_api.js' defer></script>
-<!--Setup Jitsi Meet-->
-<script>
-    //Wait for the page to load first
-    setTimeout(()=>{
-        //Jitsi meet for user's room
-        const domain = 'meet.jit.si';
-        const options = {
-            roomName: 'health_points_fitness.us',
-            width: '100%',
-            height: 700,
-            parentNode: document.querySelector('#meet'),
-            displayName : "user1"
-        };
-        const api = new JitsiMeetExternalAPI(domain, options);
-    },200)
-</script>
+<!--<script src='https://meet.jit.si/external_api.js' defer></script>-->
+<!--&lt;!&ndash;Setup Jitsi Meet&ndash;&gt;-->
+<!--<script>-->
+<!--    //Wait for the page to load first-->
+<!--    setTimeout(()=>{-->
+<!--        //Jitsi meet for user's room-->
+<!--        const domain = 'meet.jit.si';-->
+<!--        const options = {-->
+<!--            roomName: 'health_points_fitness.us',-->
+<!--            width: '100%',-->
+<!--            height: 700,-->
+<!--            parentNode: document.querySelector('#meet'),-->
+<!--            displayName : "user1",-->
+<!--        };-->
+<!--        const api = new JitsiMeetExternalAPI(domain, options);-->
+<!--    },200)-->
+<!--</script>-->
 </body>
 </html>

@@ -376,10 +376,10 @@ public class FriendsApiController {
         System.out.println("Available Results: " + finalResultsWithoutDuplicates.size());
 
 
-        if(finalResultsWithoutDuplicates.size() <= (request.page * request.limit)) {
+        if(finalResultsWithoutDuplicates.size() >= (request.page * request.limit)) {
             //Paginate the friend requests
              paginatedList = finalResultsWithoutDuplicates.subList(request.page * request.limit, request.limit);
-        }else{
+        }else {
              paginatedList = finalResultsWithoutDuplicates.subList(request.page * request.limit, finalResultsWithoutDuplicates.size());
         }
 

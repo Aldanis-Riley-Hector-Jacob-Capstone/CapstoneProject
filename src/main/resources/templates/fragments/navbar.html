@@ -9,7 +9,7 @@
             <a class="navbar-brand" href="/landing">
                 <img height="80px" src="/img/logo.gif">
             </a>
-            <div class="dropdown ms-auto me-5">
+            <div class="dropdown ms-auto me-1">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                     Menu
@@ -48,9 +48,9 @@
                 </ul>
             </div>
             <div sec:authorize="isAnonymous()">
-                <form th:action="@{/register}" method="post" class="logout-button-form">
+                <a href="/register">
                     <button class="btn btn-primary" type="submit">Register</button>
-                </form>
+                </a>
             </div>
             <div sec:authorize="isAuthenticated">
                 <form th:action="@{/logout}" method="post" class="logout-button-form">

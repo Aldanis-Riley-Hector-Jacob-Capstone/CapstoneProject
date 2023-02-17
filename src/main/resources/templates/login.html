@@ -1,163 +1,145 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--  <title>Login</title>-->
-<!--  <th:block th:replace="~{fragments/header.html :: header}"></th:block>-->
-<!--</head>-->
-<!--<body>-->
-<!--<th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>-->
-<!--<div class="container mt-5">-->
-<!--    <div class="column" style="border-radius: 10px;">-->
-<!--      <div class="row d-flex justify-content-center" th:text="${param.error != null ? 'There was an error loggin in.' :''}"/>-->
-<!--      <div class="row d-flex justify-content-center" th:text="${param.logout != null ? 'You have logged out.' :''}"/>-->
-<!--      <div class="row d-flex justify-content-center" sec:authorize="isAuthenticated()" th:text="${param.logout == null && param.error == null ? 'You are logged in.' : ''}"/>-->
-<!--      <div>-->
-<!--        <form class="d-flex justify-content-center align-items-center" sec:authorize="!isAuthenticated()" th:action="@{/login}" th:method="post">-->
-<!--          <div class="card" style="width: 18rem;">-->
-<!--            <div class="card-body" style="background: url('/img/logo.gif');">-->
-<!--              <h5 class="card-title">Login</h5>-->
-<!--              <div class="card-text">-->
-<!--                <div class="mb-3">-->
-<!--                  <label for="username" class="form-label">Username</label>-->
-<!--                  <input type="text" name="username" class="form-control" id="username" placeholder="Username">-->
-<!--                </div>-->
-<!--                <div class="mb-3">-->
-<!--                  <label for="password" class="form-label">Password</label>-->
-<!--                  <input type="password" name="password" placeholder="Password" class="form-control" id="password">-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="text-center">-->
-<!--                <button type="submit" class="btn btn-primary">Login</button>-->
-<!--              </div>-->
-<!--              <br>-->
-<!--              <div class="row mt-5">-->
-<!--                <div class="col text-center">-->
-<!--                  <a href="/recover">Recover Account</a>-->
-<!--                </div>-->
-<!--                <div class="col text-center">-->
-<!--                  <a href="/register">Register</a>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </form>-->
-<!--      </div>-->
-<!--  </div>-->
-<!--</div>-->
-<!--<th:block th:replace="~{fragments/footer.html :: footer}"></th:block>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <th:block th:replace="~{fragments/header.html :: header}"></th:block>
+<html lang="en"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"  xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <th:block th:replace="~{fragments/header.html :: header}"></th:block>
 
-  <style>
-    .hexBg {
-      background-image: url("/img/lateral.png");
-      border-radius: 20px;
-    }
-    .submitBtn {
-      color: white;
-      /*border-color: #ffcb05;*/
-      /*border-width: 2px;*/
-      background-color: #2a75bb;
-      transition: .3s;
-    }
-    .submitBtn:hover {
-      background-color: #ffcb05;
-      color: #2a75bb
-    }
+    <style>
+      .hexBg {
+        background-image: url("/img/lateral.png");
+        border-radius: 20px;
+      }
+      .submitBtn {
+        color: white;
+        /*border-color: #ffcb05;*/
+        /*border-width: 2px;*/
+        background-color: #2a75bb;
+        transition: .3s;
+      }
+      .submitBtn:hover {
+        background-color: #ffcb05;
+        color: #2a75bb
+      }
+    </style>
+  </head>
 
-  </style>
+  <body>
 
-</head>
+    <th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
 
-<body style="background-color: #3c5aa6">
-<th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
+    <div class="container my-5">
+      <div class="column" style="border-radius: 10px;">
+        <div class="row d-flex justify-content-center bg-light p-3" th:if="${param.error}" th:text="${param.error != null ? 'Oops. There was an error logging in.' : ''}"/>
+        <div class="row d-flex justify-content-center bg-light p-3" th:if="${param.logout}" th:text="${param.logout != null ? 'You have logged out.' : ''}"/>
+        <div class="row d-flex justify-content-center bg-light p-3" sec:authorize="isAuthenticated()" th:text="${param.logout == null && param.error == null ? 'You are logged in.' : ''}"/>
+        <a href="/admin/landing" sec:authorize="isAuthenticated()">
+          <button>Go To Profile</button>
+        </a>
 
-<div class="container my-5">
-  <div class="column" style="border-radius: 10px;">
-    <div class="row d-flex justify-content-center bg-light p-3" th:if="${param.error}" th:text="${param.error != null ? 'Oops. There was an error logging in.' : ''}"/>
-    <div class="row d-flex justify-content-center bg-light p-3" th:if="${param.logout}" th:text="${param.logout != null ? 'You have logged out.' : ''}"/>
-    <div class="row d-flex justify-content-center bg-light p-3" sec:authorize="isAuthenticated()" th:text="${param.logout == null && param.error == null ? 'You are logged in.' : ''}">
-    </div>
-    <a href="/admin/landing" sec:authorize="isAuthenticated()"><button>Go To Profile</button></a>
-
-    <div class="row hexBg my-3 p-4">
-      <!-- Img Side -->
-      <div class="col col-md-12 col-lg-6 d-flex justify-content-center align-items-center">
-        <img src="/img/login.webp" class="rounded" style="width: 100%">
-      </div>
-
-      <!-- Form Side -->
-      <div class="col-lg-6 m-0 shadow d-flex justify-content-center align-items-center">
-        <form name="loginForm" class="d-flex justify-content-center align-items-center m-0 p-4 rounded" style="width: 100%" sec:authorize="!isAuthenticated()" th:action="@{/login}" th:method="post">
-          <div class="card m-0" style="width: 100%;">
-            <div class="card-body m-0">
-              <div class="card-text">
-                <div class="mb-3">
-                  <label for="username" class="form-label">Username</label>
-                  <input type="text" name="username" class="form-control" id="username" placeholder="Username">
-                </div>
-                <div class="mb-3">
-                  <label for="password" class="form-label">Password</label>
-                  <input type="password" name="password" placeholder="Password" class="form-control" id="password">
-                </div>
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn submitBtn" id="login" style="width: 100%;">Login</button>
-              </div>
-              <div class="text-center mt-2">
-                <a href="/recover"><button type="button" class="btn submitBtn"  style="width: 100%;">Recover Account</button></a>
-              </div>
-              <br>
-              <div class="row mt-5">
-                <div class="col text-center">
-                  <div class="row">
-                    <div class="col pe-0"><hr></div>
-                    <div class="col px-0">or</div>
-                    <div class="col ps-0"><hr></div>
-                  </div>
-                  <button id="regBtn" type="submit" class="btn submitBtn" style="width: 100%;">Register</button>
-                  <!--                                    <a href="/recover">Register</a>-->
-                </div>
-              </div>
-            </div>
+        <div class="row hexBg my-3 p-4">
+          <!-- Img Side -->
+          <div class="col col-md-12 col-lg-6 d-flex justify-content-center align-items-center">
+            <img src="/img/login.webp" class="rounded" style="width: 100%"/>
           </div>
-        </form>
+
+          <!-- Form Side -->
+          <div class="col-lg-6 m-0 shadow d-flex justify-content-center align-items-center">
+            <form name="loginForm" class="d-flex justify-content-center align-items-center m-0 p-4 rounded" style="width: 100%" sec:authorize="!isAuthenticated()" th:action="@{/login}" th:method="post">
+              <div class="card m-0" style="width: 100%;">
+                <div class="card-body m-0">
+                  <div class="card-text">
+                    <div class="mb-3">
+                      <label for="username" class="form-label">Username</label>
+                      <input type="text" name="username" class="form-control" id="username" placeholder="Username">
+                    </div>
+                    <div class="mb-3">
+                      <label for="password" class="form-label">Password</label>
+                      <input type="password" name="password" placeholder="Password" class="form-control" id="password">
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn submitBtn" id="login" style="width: 100%;">Login</button>
+                  </div>
+                  <div class="text-center mt-2">
+                    <a href="/recover"><button type="button" class="btn submitBtn"  style="width: 100%;">Recover Account</button></a>
+                  </div>
+                  <br>
+                  <div class="row mt-5">
+                    <div class="col text-center">
+                      <div class="row">
+                        <div class="col pe-0"><hr></div>
+                        <div class="col px-0">or</div>
+                        <div class="col ps-0"><hr></div>
+                      </div>
+                      <button id="regBtn" type="submit" class="btn submitBtn" style="width: 100%;">Register</button>
+                      <!--                                    <a href="/recover">Register</a>-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<script>
-  const username = document.getElementById("username")
-  const password = document.getElementById("password")
-  //form validation
-  document.getElementById("login").onclick = (e)=> {
-    e.preventDefault()
-    if (username.value.length > 0 && password.value.length> 0) {
-     document.forms["loginForm"].submit()
-    }
-    else {
-      alert("Please check your input, and try again.")
-    }
-  }
-  document.getElementById("regBtn").onclick = (e)=> {
-    e.preventDefault()
-    window.location.href="/register"
-  }
-</script>
+    <!--Validation Errors Modal-->
+    <div class="modal" tabindex="-1" id="errorsModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Please Try Again</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="errors_body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <th:block th:replace="~{fragments/footer.html :: footer}"/>
 
-</body>
+    <script src="/js/vigosvalidator.js"></script>
+    <script defer>
+      //Get the errors modal
+      const errorsModal = new bootstrap.Modal('#errorsModal', {})
+
+      //Get the body section of the errors modal
+      const errorsBody = document.getElementById('errors_body')
+
+      //Get the username element
+      const username = document.getElementById("username")
+
+      //Get the password element
+      const password = document.getElementById("password")
+
+      //form validation
+      document.getElementById("login").onclick = (e)=> {
+        e.preventDefault() //Prevent the form from being submitted
+
+        //Do some validation checks on the username and password
+        if (username.value.length > 0 && password.value.length > 0 && checkPassword(password,{
+          min : 4,
+          max : 10,
+          hasSpecial : 1,
+          hasNumber : 1
+        },errorsModal,errorsBody) && checkUsername(username,errorsBody,errorsModal)) {
+
+          //If all validation checks pass submit the form to the backend.
+         document.forms["loginForm"].submit()
+        }
+      }
+
+      //When the registration button is pressed
+      document.getElementById("regBtn").onclick = (e)=> {
+        e.preventDefault() //Prevent the form from being submitted
+        window.location.href="/register" //Send the user to the registration page
+      }
+    </script>
+  </body>
 </html>

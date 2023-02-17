@@ -63,7 +63,7 @@
                         </div>
                         <div class="d-flex justify-content-evenly">
                             <a href="/login" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button id="registerBtn" type="submit" class="btn btn-primary">Register</button>
                         </div>
                     </div>
                 </div>
@@ -72,4 +72,55 @@
     </div>
 </div>
 </body>
+
+<th:block th:replace="~{fragments/footer.html :: footer}"/>
+
+<!--Validation Errors Modal-->
+<div class="modal" tabindex="-1" id="errorsModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Please Try Again</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="errors_body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/vigosvalidator.js"></script>
+<script defer>
+    //Get the errors modal
+    const errorsModal = new bootstrap.Modal('#errorsModal', {})
+
+    //Get the body section of the errors modal
+    const errorsBody = document.getElementById('errors_body')
+
+    //Get the username element
+    const username = document.getElementById("username")
+
+    //Get the password element
+    const password = document.getElementById("password")
+
+    //form validation
+    document.getElementById("registerBtn").onclick = (e)=> {
+        e.preventDefault() //Prevent the form from being submitted
+
+        //Do some validation checks on the username and password
+        if (username.value.length > 0 && password.value.length > 0 && checkPassword(password,{
+            min : 4,
+            max : 10,
+            hasSpecial : 1,
+            hasNumber : 1
+        },errorsModal,errorsBody) && checkUsername(username,errorsBody,errorsModal)) {
+
+            //If all validation checks pass submit the form to the backend.
+            document.forms["loginForm"].submit()
+        }
+    }
+
+</script>
 </html>

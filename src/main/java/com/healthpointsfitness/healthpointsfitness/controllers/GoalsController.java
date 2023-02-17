@@ -29,11 +29,11 @@ public class GoalsController {
         try {
             User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             List<Goal> myGoals = service.getGoalsForUser(loggedInUser);
-            myGoals.stream().forEach(goal->goal.setUser(null));
+            myGoals.forEach(goal->goal.setUser(null));
+            
             System.out.println("myGoals = " + myGoals);
             model.addAttribute("goals",myGoals);
             model.addAttribute("goal", new Goal());
-
             return "users/goals";
         }catch(Exception e){
             e.printStackTrace();

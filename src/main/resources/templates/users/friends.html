@@ -68,6 +68,8 @@
             <ul id="results" class="list-group mt-3">
 
             </ul>
+
+            <div id="pagination"></div>
         </div>
     </div>
 </div>
@@ -76,6 +78,7 @@
 </footer>
 
 <script>
+    const pagination = document.getElementById('pagination')
     function updateValue() {
         document.getElementById("currentValue").innerHTML = document.getElementById("pointRange").value;
     }
@@ -101,6 +104,8 @@
      * Method sends POST request to Friends Api and returns matching friends based on search term and
      * filters.
      */
+    const limitPerPage = 10
+    let page = 0;
     const search = async term => {
         //Get the Cross Site Request Forgery token
         const token = document.getElementsByName("_csrf")[0].getAttribute("content")
@@ -128,7 +133,9 @@
             },
             body: JSON.stringify({
                 points: points(),
-                searchTerm: document.getElementById("search_term").value
+                searchTerm: document.getElementById("search_term").value,
+                page : page,
+                limit : limitPerPage
             })
         })
 
@@ -143,6 +150,45 @@
 
         //Clear the results
         results.innerHTML = ""
+
+        if('numberOfResults' in response){
+            //clear out the pagination component
+            pagination.innerHTML = ""
+
+            //Add new page buttons
+            const numPages = Math.floor(response.numberOfResults / limitPerPage);
+            console.log("Number of pages received: " + numPages)
+            for(let p = 1; p < numPages;p++){
+                const pageNumberButton = document.createElement('button')
+                pageNumberButton.innetText = p.toString()
+                if(page === p) { //If this is the current page
+                    pageNumberButton.classList.add('btn-primary','btn')
+                }else{
+                    pageNumberButton.classList.add('btn-secondary','btn')
+                }
+
+
+                pageNumberButton.onclick = () => {
+                    page = Number.parseInt(pageNumberButton.innerText) - 1
+                    search(term)
+                }
+
+                pagination.appendChild(pageNumberButton);
+            }
+
+            if(numPages === 0){
+                const pageNumberButton = document.createElement('button')
+                pageNumberButton.innerText = '1'
+                pageNumberButton.classList.add('btn','btn-primary');
+
+                pageNumberButton.onclick = () => {
+                    page = Number.parseInt(pageNumberButton.innerText) - 1
+                    search(term)
+                }
+
+                pagination.appendChild(pageNumberButton)
+            }
+        }
 
         //List of friends
         const friends_list = document.getElementById("friends_list")

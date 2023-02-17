@@ -36,10 +36,6 @@
             <i class="bi bi-plus-square"></i>&nbsp;&nbsp;
             Create Goal
         </button>
-
-        <!--        <a href="/admin/path/createapitest" class="btn btn-light" style="float: right;">-->
-        <!--          Add Goal-->
-        <!--        </a>-->
     </div>
 
     <ul class="list-group mt-3" style="clear: both;">
@@ -56,17 +52,8 @@
                     <i class="bi bi-pencil-fill editBtn btn btn-warning m-1" th:title="${item.title}" th:description="${item.description}" th:completed="${item.completed}" th:id="${item.id}" th:item="${item.getId()}"></i>
                 </div>
             </div>
-            <!--<img style="border-radius: 50%;" width="40px" height="40px" th:src="'data:image/jpeg;base64,'+${item.getImageDataUrl()}"/>-->
         </li>
     </ul>
-
-    <!--  <ul class="pagination mt-2 text-center">-->
-    <!--    <li th:if="${pageNumber != 0}" class="page-item"><a rel=".prev" th:href="@{/admin/index(size=${pageSize}, page=${pageNumber - 1})}" class="page-link" href="#">Previous</a></li>-->
-    <!--    <li class="page-item" th:each="pageNum : ${pageNumbers}">-->
-    <!--      <a th:class="${pageNum==pageNumber + 1 ? 'active page-link' : 'page-link'}" th:href="@{/admin/index(size=${pageSize}, page=${pageNum - 1})}" th:text="${pageNum}"/>-->
-    <!--    </li>-->
-    <!--    <li th:if="${pageNumber != totalPages - 1}" class="page-item"><a rel=".next" th:href="@{/admin/index(size=${pageSize}, page=${pageNumber + 1})}"  class="page-link">Next</a></li>-->
-    <!--  </ul>-->
 </div>
 
 <!-- Create Goal Modal -->

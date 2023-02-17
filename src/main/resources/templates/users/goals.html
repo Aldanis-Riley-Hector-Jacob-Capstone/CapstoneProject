@@ -42,7 +42,8 @@
         <li class="list-group-item" th:each="item : ${goals}">
             <div class="row p-3">
                 <span class="col-sm-3 col-xs-12 ps-0"><strong th:text="${item.title}"></strong></span>
-                <span class="col-sm-7 col-xs-12 ps-0 mb-2"><em th:text="${item.description}"></em></span>
+                <span class="col-sm-5 col-xs-12 ps-0 mb-2"><em th:text="${item.description}"></em></span>
+                <span class="col-sm-2 col-xs-12 ps-0 mb-2 ms-4"><th:block th:text="${item.completed} ? 'COMPLETE' : 'PENDING'"></th:block></span>
                 <div class="col-sm-2 col-xs-12 d-flex justify-content-between align-items-center p-0">
                     <form th:action="@{/users/goals/delete/{id}(id=${item.id})}" method="post">
                         <button type="submit" class="btn btn-danger m-1">
@@ -85,11 +86,15 @@
                     <!--                            <label class="form-check-label" for="createCompleteSwitch">Mark as complete</label>-->
                     <!--                        </div>-->
 
-                    <div class="form-check">
-                        <input th:field="*{completed}" class="form-check-input" type="checkbox" id="createCompleteSwitch">
-                        <label class="form-check-label" for="createCompleteSwitch">
-                            Complete
-                        </label>
+<!--                    <div class="p-4">-->
+<!--                        <input style="display:block;position:relative;left: 10px;" th:checked="${goal.completed}" name="goalCompleted" class="form-check-input" type="checkbox" id="createCompleteSwitch">-->
+<!--                        <span class="ms-5" style="position: relative; left: 20px;">Complete</span>-->
+<!--                    </div>-->
+                    <h4 class="d-flex justify-content-center">Has this goal been met?</h4>
+                    <div class="d-flex justify-content-center mt-3">
+                        <div class="form-check form-switch">
+                            <input th:checked="${goal.completed}"  class="form-check-input" type="checkbox" role="switch" name="goalCompleted" id="crateCompleteSwitch">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -125,19 +130,12 @@
                         <textarea th:field="*{description}" class="form-control" aria-label="Goal description" placeholder="Goal Description" id="editDescription"></textarea>
                     </div>
 
-                    <!-- Is Complete? -->
-                    <!--                        <div class="form-check form-switch">-->
-                    <!--                            <input th:field="*{completed}" class="form-check-input" type="checkbox" role="switch" id="editCompleted">-->
-                    <!--                            <label class="form-check-label" for="editCompleted">Mark as complete</label>-->
-                    <!--                        </div>-->
-
-                    <div class="form-check">
-                        <input th:field="*{completed}" th:value="${goal.completed}" name="goalCompleted" class="form-check-input" type="checkbox" id="editCompleted">
-                        <label class="form-check-label" for="editCompleted">
-                            Complete
-                        </label>
+                    <h4 class="d-flex justify-content-center">Has this goal been met?</h4>
+                    <div class="d-flex justify-content-center mt-3">
+                        <div class="form-check form-switch">
+                                <input th:filed="*{completed}" th:checked="*{completed}" th:value="*{completed}" class="form-check-input" type="checkbox" role="switch" name="goalCompleted" id="editCompleted">
+                        </div>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -187,7 +185,11 @@
         editDesc.value = newDesc;
 
         editId.value = newId;
-        editComp.checked = newComp;
+        if(newComp.toString() === 'true'){
+            editComp.checked = true;
+        }else{
+            editComp.checked = false;
+        }
         console.log(editComp);
         console.log(newComp);
 

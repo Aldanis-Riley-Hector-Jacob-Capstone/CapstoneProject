@@ -106,7 +106,41 @@
      */
     const limitPerPage = 10
     let page = 0;
+
+    const generateLoadingAnim = () => {
+        let s1 = document.createElement('span')
+        s1.classList.add('placeholder','col-7');
+
+        let s2 = document.createElement('span')
+        s2.classList.add('placeholder','col-4')
+
+        let s3 = document.createElement('span')
+        s3.classList.add('placeholder','col-4')
+
+        let s4 = document.createElement('span')
+        s4.classList.add('placeholder','col-6')
+
+        let s5 = document.createElement('span')
+        s5.classList.add('placeholder','col-8')
+
+        let container = document.createElement('div')
+
+        container.append(s1,s2,s3,s4,s5)
+        container.classList.add('placeholder-glow')
+
+        return container;
+    }
+
     const search = async term => {
+        //Grab the list container for the results
+        const results = document.getElementById("results");
+
+        //Clear the results
+        results.innerHTML = ""
+
+        //Show loader animation
+        results.appendChild(generateLoadingAnim())
+
         //Get the Cross Site Request Forgery token
         const token = document.getElementsByName("_csrf")[0].getAttribute("content")
 
@@ -144,12 +178,6 @@
 
         //Show the response in the console
         console.log(response)
-
-        //Grab the list container for the results
-        const results = document.getElementById("results");
-
-        //Clear the results
-        results.innerHTML = ""
 
         if('numberOfResults' in response){
             //clear out the pagination component
@@ -222,6 +250,8 @@
 
         }
 
+        //Clear the results
+        results.innerHTML = "";
 
         //List of friends
         const friends_list = document.getElementById("friends_list")

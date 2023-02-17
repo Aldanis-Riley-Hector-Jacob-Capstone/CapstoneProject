@@ -17,7 +17,7 @@ public class Goal {
     private Long id;
 
     @Column(name = "completed", nullable = false, unique = false)
-    private Boolean completed = false;
+    private boolean completed;
 
     @Column(name = "title", nullable = false, unique = false)
     private String title;
@@ -28,6 +28,9 @@ public class Goal {
     //Relationships
     @ManyToOne
     private User user;
+
+    @Transient
+    String status;
 
     public Goal(Goal copy) {
         id = copy.id; // This line is SUPER important! Many things won't work if it's absent

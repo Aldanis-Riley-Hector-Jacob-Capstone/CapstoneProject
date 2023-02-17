@@ -51,10 +51,33 @@
                   </div>
               </div>
           </div>
+
+          <div class="modal fade" id="codeModal" tabindex="-1" aria-labelledby="codeModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="codeModalLabel">Please Enter Recovery Code</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                          <lable for="code">
+                              Code
+                              <input type="text" class="form-control" id="code">
+                          </lable>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                          <button type="button" class="btn btn-secondary" id="verifyCodeBtn">Verify Code</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
   </div>
   <th:block th:replace="~{fragments/footer.html :: footer}"></th:block>
   <script>
+      const codeModal = new bootstrap.Modal('#codeModal', {})
+
       const urlSearchParams = new URLSearchParams(window.location.search);
       const params = Object.fromEntries(urlSearchParams.entries());
       const checkCode = async (enteredCode,email) => {
@@ -79,17 +102,26 @@
           return response
       }
 
-      (async ()=>{
-          if('sent' in params){
-              const code = prompt("We have sent your a code to your email, please enter it here to continue.")
-              const codeCheck = await checkCode(code,params.email)
-              console.log(codeCheck)
 
-              if('valid' in codeCheck){
-                  if(codeCheck.valid == 'true'){
-                    location.href = "/changePassword?code=" + encodeURI(code) + "&email=" + encodeURI(params.email);
-                  }
+      //Check the code input by the user.
+      const code = document.getElementById('code');
+      const sendCodeBtn = document.getElementById('verifyCodeBtn')
+      let email = ''
+      sendCodeBtn.onclick = async e => { //When the user clicks verify code
+          const codeCheck = await checkCode(code.value,email) // Check the code they put it vs their email
+          if('valid' in codeCheck){ //If there's a valid in the response
+              if(codeCheck.valid === 'true'){ //And the valid is true
+                  codeModal.hide() //Hide the modal
+                  //Send them off to change their password.
+                  location.href = "/changePassword?code=" + encodeURI(code) + "&email=" + encodeURI(params.email);
               }
+          }
+      }
+
+      //When the page loads check for sent in the url
+      (async ()=>{
+          if('sent' in params){ //If there's a sent in the url
+              codeModal.show(); //Show the code modal
           }
       })()
   </script>

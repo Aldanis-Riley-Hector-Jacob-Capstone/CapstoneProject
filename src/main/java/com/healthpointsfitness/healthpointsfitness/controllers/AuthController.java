@@ -127,6 +127,11 @@ public class AuthController {
         }
 
         List<Path> allPaths = pathRepository.findAll();
+        allPaths.forEach(path->{
+            byte[] encodeBase64 = Base64.getEncoder().encode(path.getImageBlob());
+            String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
+            path.setImageDataUrl(base64Encoded);
+        });
         model.addAttribute("paths",allPaths);
         //Return the index view
         return "landing";

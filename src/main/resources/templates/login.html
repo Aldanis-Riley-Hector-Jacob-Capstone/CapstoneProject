@@ -6,23 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <th:block th:replace="~{fragments/header.html :: header}"></th:block>
-
     <style>
-      .hexBg {
-        background-image: url("/img/lateral.png");
-        border-radius: 20px;
-      }
-      .submitBtn {
-        color: white;
-        /*border-color: #ffcb05;*/
-        /*border-width: 2px;*/
-        background-color: #2a75bb;
-        transition: .3s;
-      }
-      .submitBtn:hover {
-        background-color: #ffcb05;
-        color: #2a75bb
-      }
+
     </style>
   </head>
 
@@ -39,7 +24,7 @@
           <button>Go To Profile</button>
         </a>
 
-        <div class="row hexBg my-3 p-4">
+        <div class="row bg-light my-3 p-4">
           <!-- Img Side -->
           <div class="col col-md-12 col-lg-6 d-flex justify-content-center align-items-center">
             <img src="/img/login.webp" class="rounded" style="width: 100%"/>
@@ -61,10 +46,10 @@
                     </div>
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn submitBtn" id="login" style="width: 100%;">Login</button>
+                    <button type="submit" class="btn btn-primary submitBtn" id="login" style="width: 100%;">Login</button>
                   </div>
                   <div class="text-center mt-2">
-                    <a href="/recover"><button type="button" class="btn submitBtn"  style="width: 100%;">Recover Account</button></a>
+                    <a href="/recover"><button type="button" class="btn btn-primary submitBtn"  style="width: 100%;">Recover Account</button></a>
                   </div>
                   <br>
                   <div class="row mt-5">
@@ -74,7 +59,7 @@
                         <div class="col px-0">or</div>
                         <div class="col ps-0"><hr></div>
                       </div>
-                      <button id="regBtn" type="submit" class="btn submitBtn" style="width: 100%;">Register</button>
+                      <button id="regBtn" type="submit" class="btn btn-primary submitBtn" style="width: 100%;">Register</button>
                       <!--                                    <a href="/recover">Register</a>-->
                     </div>
                   </div>

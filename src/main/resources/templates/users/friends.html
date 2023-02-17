@@ -69,7 +69,7 @@
 
             </ul>
 
-            <div id="pagination"></div>
+            <div id="pagination" class="d-flex justify-content-center"></div>
         </div>
     </div>
 </div>
@@ -156,15 +156,32 @@
             pagination.innerHTML = ""
 
             //Add new page buttons
-            const numPages = Math.floor(response.numberOfResults / limitPerPage);
+            const numPages = Math.ceil(response.numberOfResults / limitPerPage);
             console.log("Number of pages received: " + numPages)
-            for(let p = 1; p < numPages;p++){
+
+            //Previous button
+            if(page > 0 && numPages > 0){
+                //Add a prev button
+                const prevButton = document.createElement('button')
+                prevButton.innerText = "Previous"
+                prevButton.classList.add('btn','btn-secondary','mt-3')
+
+                prevButton.onclick = async () =>  {
+                    page--;
+                    await search(term)
+                }
+
+                pagination.appendChild(prevButton)
+            }
+
+            for(let p = 0; p < numPages;p++){
                 const pageNumberButton = document.createElement('button')
-                pageNumberButton.innetText = p.toString()
+                pageNumberButton.innerText = Number(p + 1).toString()
+
                 if(page === p) { //If this is the current page
-                    pageNumberButton.classList.add('btn-primary','btn')
+                    pageNumberButton.classList.add('btn-primary','btn','mt-3')
                 }else{
-                    pageNumberButton.classList.add('btn-secondary','btn')
+                    pageNumberButton.classList.add('btn-secondary','btn','mt-3')
                 }
 
 
@@ -188,7 +205,23 @@
 
                 pagination.appendChild(pageNumberButton)
             }
+
+            if (page < numPages - 1) {
+                //Add a next button
+                const nextButton = document.createElement('button')
+                nextButton.innerText = "Next"
+                nextButton.classList.add('btn', 'btn-secondary','mt-3')
+                nextButton.onclick = async () => {
+                    page++;
+                    await search(term)
+                }
+
+                //Append the next button to the pagination
+                pagination.appendChild(nextButton)
+            }
+
         }
+
 
         //List of friends
         const friends_list = document.getElementById("friends_list")

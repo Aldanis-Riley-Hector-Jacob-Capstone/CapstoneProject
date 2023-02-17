@@ -157,5 +157,28 @@
             document.forms[0].submit()
         }
     }
+
+    (()=>{
+        //Grab all url search params
+        const urlparams = new URLSearchParams(window.location.search);
+
+        //Grab the parameters from the urlparams
+        const params = Object.fromEntries(urlparams.entries());
+
+        if(params.exists){ //If exists is present
+            //Clear the error dialog
+            errorsBody.innerText = ""
+
+            //Generate an error message
+            const msg = document.createElement("span")
+            msg.innerText = "There's already a user with that email or username. Please either recover your account using your email or attempt to log back in using your credentials."
+
+            //Append the error message to the dialog
+            errorsBody.appendChild(msg)
+
+            //Show the modal
+            errorsModal.show();
+        }
+    })()
 </script>
 </html>

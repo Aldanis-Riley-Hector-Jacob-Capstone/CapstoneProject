@@ -403,7 +403,9 @@
         </div>
     </div>
 </div>
-
+<h3 class="d-flex justify-content-center">Join the Crew</h3>
+<div id="meet" class="m-5"></div>
+<div style="height: 60px;clear: both;"></div>
 <th:block th:replace="~{fragments/footer.html}"></th:block>
 
 <script>
@@ -413,22 +415,22 @@
         window.location.href = "/register"
     }
 </script>
-<!--<script src='https://meet.jit.si/external_api.js' defer></script>-->
-<!--&lt;!&ndash;Setup Jitsi Meet&ndash;&gt;-->
-<!--<script>-->
-<!--    //Wait for the page to load first-->
-<!--    setTimeout(()=>{-->
-<!--        //Jitsi meet for user's room-->
-<!--        const domain = 'meet.jit.si';-->
-<!--        const options = {-->
-<!--            roomName: 'health_points_fitness.us',-->
-<!--            width: '100%',-->
-<!--            height: 700,-->
-<!--            parentNode: document.querySelector('#meet'),-->
-<!--            displayName : "user1",-->
-<!--        };-->
-<!--        const api = new JitsiMeetExternalAPI(domain, options);-->
-<!--    },200)-->
-<!--</script>-->
+<script src='https://meet.jit.si/external_api.js' defer></script>
+<!--Setup Jitsi Meet-->
+<script>
+    //Wait for the page to load first
+    setTimeout(()=>{
+        //Jitsi meet for user's room
+        const domain = 'meet.jit.si';
+        const options = {
+            roomName: 'health_points_fitness.us',
+            width: '100%',
+            height: 700,
+            parentNode: document.querySelector('#meet'),
+            displayName : "user1",
+        };
+        const api = new JitsiMeetExternalAPI(domain, options);
+    },200)
+</script>
 </body>
 </html>

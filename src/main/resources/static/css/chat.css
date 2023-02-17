@@ -13,10 +13,10 @@
 
 @keyframes glow {
     from {
-        scale: 1;
+        scale: 2;
     }
     to{
-        scale: 1.3;
+        scale: 2.5;
     }
 }
 

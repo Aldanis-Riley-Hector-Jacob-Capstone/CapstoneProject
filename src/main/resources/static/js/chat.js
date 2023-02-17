@@ -75,6 +75,8 @@ function sendData() {
 
 
     ws.send(data);
+
+    message.value = "";
 }
 
 function incomingMessage(message) {

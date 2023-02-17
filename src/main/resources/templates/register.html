@@ -32,7 +32,7 @@
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control" placeholder="Username" name="username"
-                                       id="username" od="username" th:field="*{username}"/>
+                                       id="username" th:field="*{username}"/>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
@@ -105,22 +105,59 @@
     //Get the password element
     const password = document.getElementById("password")
 
-    //form validation
-    document.getElementById("registerBtn").onclick = (e)=> {
-        e.preventDefault() //Prevent the form from being submitted
+    //Get the email element
+    const email = document.getElementById('email')
+
+    //Get the first name element
+    const firstName = document.getElementById('firstName')
+
+    //Get the last name element
+    const lastName = document.getElementById('lastName')
+
+      //Get the submit button
+    const submit = document.getElementById("registerBtn")
+
+    //When the submit button is clicked
+    submit.onclick = (e)=> {
+
+        console.log("Register clicked");
+
+        //Prevent the form from being submitted
+        e.preventDefault()
+
+        //Username is valid
+        const usernameValid = checkUsername(username,7,20,errorsBody,errorsModal);
+        console.log("Is username valid? : " + usernameValid)
+
+        //Password is valid
+        const passwordValid = checkPassword(password,{ //Check the password
+            min : 4, //At least 4 characters long
+            max : 20, //Max 20 characters long
+            hasSpecial : 1, //Has at least 1 special character
+            hasNumber : 1 // Has at least 1 number
+        },errorsModal,errorsBody)
+
+        console.log("Is password valid? : " + passwordValid)
+
+        //Email is valid
+        const emailValid = isEmailValid(email,errorsModal,errorsBody)
+
+        console.log("Is email valid? : " + emailValid )
+
+        //Full name is valid
+        const fullNameValid = checkFullName(firstName,lastName,errorsModal,errorsBody)
+
+        console.log("Is full name valid? : " + fullNameValid)
 
         //Do some validation checks on the username and password
-        if (username.value.length > 0 && password.value.length > 0 && checkPassword(password,{
-            min : 4,
-            max : 10,
-            hasSpecial : 1,
-            hasNumber : 1
-        },errorsModal,errorsBody) && checkUsername(username,errorsBody,errorsModal)) {
-
+        if (usernameValid
+            && passwordValid
+            && usernameValid //Check the username
+            && emailValid//Check the email
+            && fullNameValid) { //Check the full name
             //If all validation checks pass submit the form to the backend.
-            document.forms["loginForm"].submit()
+            document.forms[0].submit()
         }
     }
-
 </script>
 </html>

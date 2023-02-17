@@ -125,7 +125,7 @@
         //Do some validation checks on the username and password
         if (username.value.length > 0 && password.value.length > 0 && checkPassword(password,{
           min : 4,
-          max : 10,
+          max : 20,
           hasSpecial : 1,
           hasNumber : 1
         },errorsModal,errorsBody) && checkUsername(username,errorsBody,errorsModal)) {

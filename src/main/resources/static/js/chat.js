@@ -17,7 +17,9 @@ function setConnected(connected) {
 }
 
 function connect() {
-    ws = new WebSocket("wss://" + location.host + "/freechat")
+    if (location.protocol === 'https:') { //If we're on a live site with SSL enabled
+        ws = new WebSocket("wss://" + location.host + "/freechat") //Use the WSS protocol
+    }else ws = new WebSocket("ws://" + location.host + "/freechat") //Otherwise use the WS protocol
 
     ws.onmessage = function(data) {
         incomingMessage(data.data)

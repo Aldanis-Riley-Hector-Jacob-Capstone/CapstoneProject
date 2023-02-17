@@ -379,8 +379,12 @@ public class FriendsApiController {
         if(finalResultsWithoutDuplicates.size() >= (request.page * request.limit)) {
             //Paginate the friend requests
              paginatedList = finalResultsWithoutDuplicates.subList(request.page * request.limit, request.limit);
-        }else {
+        }else if((finalResultsWithoutDuplicates.size() > request.page * request.limit) && (finalResultsWithoutDuplicates.size() < (request.page * request.limit + request.limit))){
+             //Otherwise return only what we have starting from the page number
              paginatedList = finalResultsWithoutDuplicates.subList(request.page * request.limit, finalResultsWithoutDuplicates.size());
+        }else{
+            //Otherwise send what we have
+            paginatedList = finalResultsWithoutDuplicates;
         }
 
         //Return a new friend search response to the client

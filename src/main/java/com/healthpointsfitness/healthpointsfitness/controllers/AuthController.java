@@ -49,11 +49,12 @@ public class AuthController {
 
 
     @GetMapping("/login")
-    private String login() {
+    private String login(Model model) {
         if(!SecurityContextHolder.getContext().getAuthentication().getPrincipal().getClass().equals(String.class)) {
 
             if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
                 User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                model.addAttribute("route","/login");
                 return "redirect:/profile/" + user.getUsername();
             }
         }

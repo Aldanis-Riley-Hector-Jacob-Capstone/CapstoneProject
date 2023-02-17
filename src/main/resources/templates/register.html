@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/html">
+      xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,13 +14,82 @@
 
 <body style="background-color: #3c5aa6">
 <!-- Navbar -->
-<th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>
+<!--<th:block th:replace="~{fragments/navbar.html :: navbar}"></th:block>-->
+<nav class="navbar bg-body-tertiary sticky-top fixed">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/landing">
+            <img height="80px" src="/img/logo.gif">
+        </a>
+        <div class="dropdown ms-auto me-1">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                Menu
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" sec:authorize="hasRole('ROLE_ADMIN') && isAuthenticated()"
+                       th:href="@{/admin/landing}">
+                        <i class="bi bi-diagram-3-fill"></i>
+                        <button type="button" class="btn w-100">Create Paths</button>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT') && isAuthenticated()"
+                       th:href="@{/profile/{uname}(uname=${#authentication.name})}">
+                        <i class="bi bi-person-fill"></i>
+                        <button type="button" class="btn w-100">Profile</button>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item"
+                       sec:authorize="hasRole('ROLE_CLIENT') || hasRole('ROLE_ADMIN') && isAuthenticated()"
+                       th:href="@{/user/friend_requests}">
+                        <i class="bi bi-people-fill"></i>
+                        <button type="button" class="btn w-100">Buddies</button>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT') && isAuthenticated()"
+                       th:href="@{/allPaths}">
+                        <i class="bi bi-diagram-3-fill"></i>
+                        <button type="button" class="btn w-100">Paths</button>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" sec:authorize="hasRole('ROLE_CLIENT') && isAuthenticated()"
+                       th:href="@{/user/goals}">
+                        <i class="bi bi-list-task"></i>
+                        <button type="button" class="btn w-100">Goals</button>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item"
+                       sec:authorize="isAnonymous() || isAuthenticated() || isFullyAuthenticated()"
+                       th:href="@{/aboutUs}">
+                        <i class="bi bi-person-vcard"></i>
+                        <button type="button" class="btn w-100">About Us</button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div sec:authorize="isAnonymous()">
+            <a href="/login">
+                <button class="btn btn-primary" type="submit">Login</button>
+            </a>
+        </div>
+        <div sec:authorize="isAuthenticated">
+            <form th:action="@{/logout}" method="post" class="logout-button-form">
+                <button class="btn btn-primary" type="submit"><i class="bi bi-box-arrow-right"></i></button>
+            </form>
+        </div>
+    </div>
+</nav>
 <div class="container mt-5">
-    <div class="row bg-light p-5 rounded my-5 d-flex justify-content-center ">
-        <div class="col-lg-6 d-flex justify-content-center align-items-center">
+    <div class="row bg-light p-md-5 rounded my-md-5 d-flex justify-content-center ">
+        <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
             <img src="/img/register.webp" class="rounded" style="width: 100%">
         </div>
-        <div class="col-6">
+        <div class="col-12 col-md-6">
             <form class="d-flex justify-content-center shadow" th:action="@{/register}" th:method="POST" th:object="${user}">
                 <div class="card" style="width: 100%;">
                     <div class="card-body">
@@ -69,8 +138,7 @@
         </div>
     </div>
 </div>
-</body>
-
+<div style="height: 50px; clear:both;"></div>
 <th:block th:replace="~{fragments/footer.html :: footer}"/>
 
 <!--Validation Errors Modal-->
@@ -181,4 +249,5 @@
         }
     })()
 </script>
+</body>
 </html>

@@ -80,16 +80,7 @@
                         <textarea th:field="*{description}" class="form-control" aria-label="Path description" placeholder="Goal Description" id="createDescription"></textarea>
                     </div>
 
-                    <!-- Is Complete? -->
-                    <!--                        <div class="form-check form-switch">-->
-                    <!--                            <input th:field="*{completed}" class="form-check-input" type="checkbox" role="switch" id="createCompleteSwitch">-->
-                    <!--                            <label class="form-check-label" for="createCompleteSwitch">Mark as complete</label>-->
-                    <!--                        </div>-->
-
-<!--                    <div class="p-4">-->
-<!--                        <input style="display:block;position:relative;left: 10px;" th:checked="${goal.completed}" name="goalCompleted" class="form-check-input" type="checkbox" id="createCompleteSwitch">-->
-<!--                        <span class="ms-5" style="position: relative; left: 20px;">Complete</span>-->
-<!--                    </div>-->
+                    <!--Goal Complete Switch-->
                     <h4 class="d-flex justify-content-center">Has this goal been met?</h4>
                     <div class="d-flex justify-content-center mt-3">
                         <div class="form-check form-switch">
@@ -130,6 +121,7 @@
                         <textarea th:field="*{description}" class="form-control" aria-label="Goal description" placeholder="Goal Description" id="editDescription"></textarea>
                     </div>
 
+                    <!--Goal Complete Switch-->
                     <h4 class="d-flex justify-content-center">Has this goal been met?</h4>
                     <div class="d-flex justify-content-center mt-3">
                         <div class="form-check form-switch">
@@ -185,11 +177,7 @@
         editDesc.value = newDesc;
 
         editId.value = newId;
-        if(newComp.toString() === 'true'){
-            editComp.checked = true;
-        }else{
-            editComp.checked = false;
-        }
+        editComp.checked = newComp.toString() === 'true';
         console.log(editComp);
         console.log(newComp);
 

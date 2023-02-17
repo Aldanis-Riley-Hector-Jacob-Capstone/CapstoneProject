@@ -43,6 +43,10 @@
                 </div>
             </a>
         </div>
+        <div th:if="${me.followed_paths.isEmpty()}" class="d-flex justify-content-center col-lg-3 col-md-4 col-sm-6 p-3">
+            <i class="bi bi-exclamation-diamond me-3"></i>
+            <span>You have not followed any paths yet. Follow some paths, and complete the exercises in order to earn points and badges.</span>
+        </div>
     </div>
 
 

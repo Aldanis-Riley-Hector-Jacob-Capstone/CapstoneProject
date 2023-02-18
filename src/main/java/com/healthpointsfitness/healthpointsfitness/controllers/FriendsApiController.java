@@ -4,13 +4,13 @@ import com.healthpointsfitness.healthpointsfitness.models.FriendRequest;
 import com.healthpointsfitness.healthpointsfitness.models.User;
 import com.healthpointsfitness.healthpointsfitness.repositories.FriendRequestsRepository;
 import com.healthpointsfitness.healthpointsfitness.repositories.UserRepository;
-import jakarta.persistence.Query;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,13 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.StandardCharsets;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
-
-import static org.apache.commons.lang3.StringUtils.isNumeric;
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 @RequestMapping(path = "users/api/v1")
@@ -369,6 +365,7 @@ public class FriendsApiController {
 
 
                 }).toList();
+
         List<User> paginatedList = new ArrayList<>();
         System.out.println("============================= REQUESTING FRIENDS ============================");
         System.out.println("Page: " + request.page);
@@ -377,19 +374,29 @@ public class FriendsApiController {
 
 
 
-        if(finalResultsWithoutDuplicates.size() >= (request.page * request.limit + request.limit)) {
-            //Paginate the friend requests
-             paginatedList = finalResultsWithoutDuplicates.subList(request.page * request.limit, request.limit);
-        }else if((finalResultsWithoutDuplicates.size() >= request.page * request.limit) && (finalResultsWithoutDuplicates.size() <= (request.page * request.limit + request.limit))){
-             //Otherwise return only what we have starting from the page number
-             paginatedList = finalResultsWithoutDuplicates.subList(request.page * request.limit, finalResultsWithoutDuplicates.size());
-        }else{
-            //Otherwise send what we have
-            paginatedList = finalResultsWithoutDuplicates;
+        Integer pageStart = request.page * request.limit;
+        Integer pageEnd = pageStart + request.limit;
+
+        //If we even 1 more result than what we are asking for, return the results normally
+        if(finalResultsWithoutDuplicates.size() >= pageEnd){
+            paginatedList = finalResultsWithoutDuplicates.subList(pageStart,pageEnd);
+        }if(finalResultsWithoutDuplicates.size() <= pageEnd && finalResultsWithoutDuplicates.size() > pageStart){
+            paginatedList = finalResultsWithoutDuplicates.subList(pageStart,finalResultsWithoutDuplicates.size());
         }
+//        if(finalResultsWithoutDuplicates.size() >= (request.page * request.limit + request.limit)) {
+//            //Paginate the friend requests
+//            paginatedList = finalResultsWithoutDuplicates.subList(request.page * request.limit, request.limit);
+//        }else if((finalResultsWithoutDuplicates.size() >= request.page * request.limit) && (finalResultsWithoutDuplicates.size() <= (request.page * request.limit + request.limit))){
+//            //Otherwise return only what we have starting from the page number
+//            paginatedList = finalResultsWithoutDuplicates.subList(request.page * request.limit, finalResultsWithoutDuplicates.size());
+//        }else{
+//            //Otherwise send what we have
+//            paginatedList = finalResultsWithoutDuplicates;
+//        }
 
         //Return a new friend search response to the client
         return new FriendSearchResponse(allRequest, friends, pendingSentRequests, pendingReceivedRequests, deniedRequests ,paginatedList,finalResultsWithoutDuplicates.size());
+
     }
 
 

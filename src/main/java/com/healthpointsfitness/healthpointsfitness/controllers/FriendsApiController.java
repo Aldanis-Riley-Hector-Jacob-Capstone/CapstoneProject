@@ -167,6 +167,10 @@ public class FriendsApiController {
 
         // Grab all the friend requests
         List<FriendRequest> allRequest = repository.findAll().stream().peek(item -> {
+
+            item.setFrom(userRepository.findUserById(item.getFrom().getId()));
+            item.setTo(userRepository.findUserById(item.getTo().getId()));
+
             //Set the profile images
             item.getFrom().setProfileImageDataUrl(getBaseStringForBlob(item.getFrom().getProfileImage()));
             item.getTo().setProfileImageDataUrl(getBaseStringForBlob(item.getTo().getProfileImage()));

@@ -281,11 +281,11 @@
                     if (friend['from'].username === myUsername.value) {
                         itemUsername = friend['to'].username
                         username.innerText = itemUsername
-                        img.src = friend['to'].profileImageDataUrl ?? defaultProfileImage;
+                        img.src = 'data:image/jpeg;base64,' + friend['to'].profileImageDataUrl ?? defaultProfileImage;
                     } else if (friend['to'].username === myUsername.value) {
                         itemUsername = friend['from'].username
                         username.innerText = itemUsername
-                        img.src = friend['from'].profileImageDataUrl ?? defaultProfileImage;
+                        img.src = 'data:image/jpeg;base64,' + friend['from'].profileImageDataUrl ?? defaultProfileImage;
                     }
 
                     listItem.onclick = e => {
@@ -371,11 +371,11 @@
                     if (item['from'].username === myUsername.value) {
                         itemUsername = item['to'].username
                         username.innerText = itemUsername
-                        img.src = item['to'].profileImageDataUrl ?? defaultProfileImage;
+                        img.src = 'data:image/jpeg;base64,' + item['to'].profileImageDataUrl ?? defaultProfileImage;
                     } else if (item['to'].username === myUsername.value) {
                         itemUsername = item['from'].username
                         username.innerText = itemUsername
-                        img.src = item['from'].profileImageDataUrl ?? defaultProfileImage;
+                        img.src = 'data:image/jpeg;base64,' + item['from'].profileImageDataUrl ?? defaultProfileImage;
                     }
 
                     listItem.onclick = e => {
@@ -463,11 +463,11 @@
                     if (item['from'].username === myUsername.value) {
                         itemUsername = item['to'].username
                         username.innerText = itemUsername
-                        img.src = item['to'].profileImageDataUrl ?? defaultProfileImage;
+                        img.src = 'data:image/jpeg;base64,' + item['to'].profileImageDataUrl ?? defaultProfileImage;
                     } else if (item['to'].username === myUsername.value) {
                         itemUsername = item['from'].username
                         username.innerText = itemUsername
-                        img.src = item['from'].profileImageDataUrl ?? defaultProfileImage;
+                        img.src = 'data:image/jpeg;base64,' + item['from'].profileImageDataUrl ?? defaultProfileImage;
                     }
 
                     listItem.onclick = e => {

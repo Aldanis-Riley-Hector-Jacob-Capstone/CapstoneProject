@@ -133,15 +133,22 @@ public class FriendsApiController {
     private String getBaseStringForBlob(byte[] blob){
         try {
 
-            InputStream is = new BufferedInputStream(new ByteArrayInputStream(blob));
-            String mimeType = URLConnection.guessContentTypeFromStream(is);
-            System.out.println("Blob Length: " + blob.length);
-            // Set the profile image data url for the to user
-            byte[] encodeBase64 = Base64.getEncoder().encode(blob);
-            String dataUrl = new String(encodeBase64, StandardCharsets.UTF_8);
-            return "data:" + mimeType + ";base64," + dataUrl;
+//            InputStream is = new BufferedInputStream(new ByteArrayInputStream(blob));
+//            String mimeType = URLConnection.guessContentTypeFromStream(is);
+//            System.out.println("Blob Length: " + blob.length);
+//            // Set the profile image data url for the to user
+//            byte[] encodeBase64 = Base64.getEncoder().encode(blob);
+//            String dataUrl = new String(encodeBase64, StandardCharsets.UTF_8);
+//            return "data:" + mimeType + ";base64," + dataUrl;
+
+            if(blob != null) {
+                byte[] encodeBase64 = Base64.getEncoder().encode(blob);
+                return new String(encodeBase64, StandardCharsets.UTF_8);
+            }else{
+                return defaultProfileImage;
+            }
         }catch(Exception e){
-            return "data:image/jpeg;base64," + defaultProfileImage;
+            return  defaultProfileImage;
         }
     }
 

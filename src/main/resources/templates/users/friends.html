@@ -565,11 +565,11 @@
                 //Create the profile image icon
                 const img = document.createElement('img')
 
-                if(user.profileImageDataUrl.substring(0,"data:image/".length) !== "data:image/") {
-                    img.src = "data:image/png;base64," + user.profileImageDataUrl
-                }else{
-                    img.src = user.profileImageDataUrl
-                }
+                // if(user.profileImageDataUrl.substring(0,"data:image/".length) !== "data:image/") {
+                //     img.src = "data:image/png;base64," + user.profileImageDataUrl
+                // }else{
+                    img.src = 'data:image/jpeg;base64,' + user.profileImageDataUrl
+                // }
 
                 img.setAttribute("style", "border-radius: 50%;margin-right: 4px;")
                 img.alt = "profile user image"

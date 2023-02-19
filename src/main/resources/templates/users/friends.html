@@ -108,24 +108,26 @@
     let page = 0;
 
     const generateLoadingAnim = () => {
-        let s1 = document.createElement('span')
-        s1.classList.add('placeholder','col-7');
+        let s1 = document.createElement('div')
+        s1.classList.add('placeholder','rounded-3','col-7');
 
-        let s2 = document.createElement('span')
-        s2.classList.add('placeholder','col-4')
+        let s2 = document.createElement('div')
+        s2.classList.add('placeholder','rounded-3','col-4')
 
-        let s3 = document.createElement('span')
-        s3.classList.add('placeholder','col-4')
+        let s3 = document.createElement('div')
+        s3.classList.add('placeholder','rounded-3','col-4')
 
-        let s4 = document.createElement('span')
-        s4.classList.add('placeholder','col-6')
+        let s4 = document.createElement('div')
+        s4.classList.add('placeholder','rounded-3','col-6')
 
-        let s5 = document.createElement('span')
-        s5.classList.add('placeholder','col-8')
+        let s5 = document.createElement('div')
+        s5.classList.add('placeholder','rounded-3','col-8')
 
         let container = document.createElement('div')
 
-        container.append(s1,s2,s3,s4,s5)
+        let b = document.createElement('br')
+
+        container.append(s1,b,s2,b,s3,b,s4,b,s5)
         container.classList.add('placeholder-glow')
 
         return container;
@@ -562,7 +564,13 @@
 
                 //Create the profile image icon
                 const img = document.createElement('img')
-                img.src = user.profileImageDataUrl
+
+                if(user.profileImageDataUrl.substring(0,"data:image/jpeg;base64,".length) !== "data:image/jpeg;base64,") {
+                    img.src = "data:image/jpeg;base64," + user.profileImageDataUrl
+                }else{
+                    img.src = user.profileImageDataUrl
+                }
+
                 img.setAttribute("style", "border-radius: 50%;margin-right: 4px;")
                 img.alt = "profile user image"
                 img.width = 40

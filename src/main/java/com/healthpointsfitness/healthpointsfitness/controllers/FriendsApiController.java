@@ -125,6 +125,18 @@ public class FriendsApiController {
         Integer numberOfResults;
     }
 
+    private String getBaseStringForBlob(byte[] blob){
+        try {
+            System.out.println("Blob Length: " + blob.length);
+            // Set the profile image data url for the to user
+            byte[] encodeBase64 = Base64.getEncoder().encode(blob);
+            String dataUrl = new String(encodeBase64, StandardCharsets.UTF_8);
+            return "data:image/jpeg;base64," + dataUrl;
+        }catch(Exception e){
+            return "data:image/jpeg;base64," + defaultProfileImage;
+        }
+    }
+
     @RequestMapping(
             name = "search_friends",
             path = "/search_friends",
@@ -139,7 +151,32 @@ public class FriendsApiController {
         User me = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         // Grab all the friend requests
-        List<FriendRequest> allRequest = repository.findAll();
+        List<FriendRequest> allRequest = repository.findAll().stream().peek(item -> {
+            //Set the profile images
+            item.getFrom().setProfileImageDataUrl(getBaseStringForBlob(item.getFrom().getProfileImage()));
+            item.getTo().setProfileImageDataUrl(getBaseStringForBlob(item.getTo().getProfileImage()));
+
+
+            //Clear sensitive data
+            //Clear all sensitive data
+            item.getTo().setPassword(null);
+            item.getTo().setIsAdmin(null);
+            item.getTo().setEmail(null);
+            item.getTo().setProfileImage(null);
+            item.getTo().setCompletedExercises(null);
+            item.getTo().setCreated_paths(null);
+            item.getTo().setFollowed_paths(null);
+            item.getTo().setGoals(null);
+
+            item.getFrom().setPassword(null);
+            item.getFrom().setIsAdmin(null);
+            item.getFrom().setEmail(null);
+            item.getFrom().setProfileImage(null);
+            item.getFrom().setCompletedExercises(null);
+            item.getFrom().setCreated_paths(null);
+            item.getFrom().setFollowed_paths(null);
+            item.getFrom().setGoals(null);
+        }).toList();
 
         // Friends
         List<FriendRequest> friends = allRequest
@@ -167,32 +204,14 @@ public class FriendsApiController {
 
                     // Any approved requests sent or received by me
                     return fullyApproved && ((Objects.equals(to.getId(), me.getId())) || (Objects.equals(from.getId(), me.getId())));
-                }).toList().stream().peek(item -> {
-                    //Clear all sensitive data
-                    item.getTo().setPassword(null);
-                    item.getTo().setIsAdmin(null);
-                    item.getTo().setEmail(null);
-                    item.getTo().setProfileImage(null);
-                    item.getTo().setCompletedExercises(null);
-                    item.getTo().setCreated_paths(null);
-                    item.getTo().setFollowed_paths(null);
-                    item.getTo().setGoals(null);
-
-                    item.getFrom().setPassword(null);
-                    item.getFrom().setIsAdmin(null);
-                    item.getFrom().setEmail(null);
-                    item.getFrom().setProfileImage(null);
-                    item.getFrom().setCompletedExercises(null);
-                    item.getFrom().setCreated_paths(null);
-                    item.getFrom().setFollowed_paths(null);
-                    item.getFrom().setGoals(null);
-
                 }).toList();
 
         // Pending Sent Requests
         List<FriendRequest> pendingSentRequests = allRequest
                 .stream()
                 .filter(friendRequest -> {
+                    //Set the images for the request
+
                     // Check if the request was approved
                     Boolean approved = friendRequest.getRequestApproved();
 
@@ -204,25 +223,6 @@ public class FriendsApiController {
 
                     // Any denied requests sent by me
                     return !approved && appDenDate == null && (Objects.equals(from.getId(), me.getId()));
-                }).toList().stream().peek(item -> {
-                    //Clear all sensitive data
-                    item.getTo().setPassword(null);
-                    item.getTo().setIsAdmin(null);
-                    item.getTo().setEmail(null);
-                    item.getTo().setProfileImage(null);
-                    item.getTo().setCompletedExercises(null);
-                    item.getTo().setCreated_paths(null);
-                    item.getTo().setFollowed_paths(null);
-                    item.getTo().setGoals(null);
-
-                    item.getFrom().setPassword(null);
-                    item.getFrom().setIsAdmin(null);
-                    item.getFrom().setEmail(null);
-                    item.getFrom().setProfileImage(null);
-                    item.getFrom().setCompletedExercises(null);
-                    item.getFrom().setCreated_paths(null);
-                    item.getFrom().setFollowed_paths(null);
-                    item.getFrom().setGoals(null);
                 }).toList();
 
         // List of denied sent / received requests
@@ -246,32 +246,34 @@ public class FriendsApiController {
         List<FriendRequest> pendingReceivedRequests = allRequest
                 .stream()
                 .filter(friendRequest -> {
+                    //Set the profile images for the request
+
                     //Check if the request was approved
                     Boolean approved = friendRequest.getRequestApproved();
 
                     //Get the user the request was sent to
                     User to = friendRequest.getTo();
 
-                    if (to.getProfileImage() != null) {
-                        // Set the profile image data url for the to user
-                        byte[] encodeBase64 = Base64.getEncoder().encode(to.getProfileImage());
-                        String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
-                        to.setProfileImageDataUrl("data:image/jpeg;base64," + base64Encoded);
-                    } else {
-                        to.setProfileImageDataUrl(defaultProfileImage);
-                    }
+//                    if (to.getProfileImage() != null) {
+//                        // Set the profile image data url for the to user
+//                        byte[] encodeBase64 = Base64.getEncoder().encode(to.getProfileImage());
+//                        String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
+//                        to.setProfileImageDataUrl("data:image/jpeg;base64," + base64Encoded);
+//                    } else {
+//                        to.setProfileImageDataUrl(defaultProfileImage);
+//                    }
 
-                    // Get the user the request was sent by
-                    User from = friendRequest.getFrom();
+//                    // Get the user the request was sent by
+//                    User from = friendRequest.getFrom();
 
-                    if (from.getProfileImage() != null) {
-                        // Set the profile image data url for the to user
-                        byte[] encodeBase64_from = Base64.getEncoder().encode(from.getProfileImage());
-                        String base64Encoded_from = new String(encodeBase64_from, StandardCharsets.UTF_8);
-                        from.setProfileImageDataUrl("data:image/jpeg;base64," + base64Encoded_from);
-                    } else {
-                        from.setProfileImageDataUrl(defaultProfileImage);
-                    }
+//                    if (from.getProfileImage() != null) {
+//                        // Set the profile image data url for the to user
+//                        byte[] encodeBase64_from = Base64.getEncoder().encode(from.getProfileImage());
+//                        String base64Encoded_from = new String(encodeBase64_from, StandardCharsets.UTF_8);
+//                        from.setProfileImageDataUrl("data:image/jpeg;base64," + base64Encoded_from);
+//                    } else {
+//                        from.setProfileImageDataUrl(defaultProfileImage);
+//                    }
 
                     //Check for approve / deny date
 
@@ -280,26 +282,6 @@ public class FriendsApiController {
 
                     //Any requests sent to me pending approval
                     return !approved && appDenDate == null && (Objects.equals(to.getId(), me.getId()));
-                }).toList().stream().peek(item -> {
-                    //Clear all sensitive data
-                    item.getTo().setPassword(null);
-                    item.getTo().setIsAdmin(null);
-                    item.getTo().setEmail(null);
-                    item.getTo().setProfileImage(null);
-                    item.getTo().setCompletedExercises(null);
-                    item.getTo().setCreated_paths(null);
-                    item.getTo().setFollowed_paths(null);
-                    item.getTo().setGoals(null);
-
-                    item.getFrom().setPassword(null);
-                    item.getFrom().setIsAdmin(null);
-                    item.getFrom().setEmail(null);
-                    item.getFrom().setProfileImage(null);
-                    item.getFrom().setCompletedExercises(null);
-                    item.getFrom().setCreated_paths(null);
-                    item.getFrom().setFollowed_paths(null);
-                    item.getFrom().setGoals(null);
-
                 }).toList();
 
         //Get list of users under the points filter
@@ -325,16 +307,18 @@ public class FriendsApiController {
         allResults.forEach(result -> result.setIsAdmin(null));
 
         //Map image pics to data urls
-        allResults.forEach(result -> {
-            byte[] image = result.getProfileImage();
-            if (image != null) {
-                byte[] encodeBase64 = Base64.getEncoder().encode(image);
-                String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
-                result.setProfileImageDataUrl("data:image/jpeg;base64," + base64Encoded);
-            } else {
-                result.setProfileImageDataUrl("data:image/jpeg;base64," + defaultProfileImage);
-            }
-        });
+//        allResults.forEach(result -> {
+//            byte[] image = result.getProfileImage();
+//            if (image != null) {
+//                if(result.getProfileImageDataUrl().length() == 0) {
+//                    byte[] encodeBase64 = Base64.getEncoder().encode(image);
+//                    String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
+//                    result.setProfileImageDataUrl("data:image/jpeg;base64," + base64Encoded);
+//                }
+//            } else {
+//                result.setProfileImageDataUrl("data:image/jpeg;base64," + defaultProfileImage);
+//            }
+//        });
 
         //Generate a result map to remove duplicates
         Map<Long, User> resultMap = new HashMap<>();
@@ -352,7 +336,7 @@ public class FriendsApiController {
                 .toList()
                 .stream()
                 .peek(item -> {
-
+//                    item.setProfileImageDataUrl(getBaseStringForBlob(item.getProfileImage()));
                     //Clear all sensitive data
                     item.setPassword(null);
                     item.setIsAdmin(null);
@@ -366,33 +350,24 @@ public class FriendsApiController {
 
                 }).toList();
 
-        List<User> paginatedList = new ArrayList<>();
         System.out.println("============================= REQUESTING FRIENDS ============================");
         System.out.println("Page: " + request.page);
         System.out.println("Limit: " + request.limit);
         System.out.println("Available Results: " + finalResultsWithoutDuplicates.size());
 
+        //Storage for the paginated list
+        List<User> paginatedList = new ArrayList<>();
 
+        //Get the start and end of the page for pagination logic
+        int pageStart = request.page * request.limit;
+        int pageEnd = pageStart + request.limit;
 
-        Integer pageStart = request.page * request.limit;
-        Integer pageEnd = pageStart + request.limit;
-
-        //If we even 1 more result than what we are asking for, return the results normally
+        //Pagination logic
         if(finalResultsWithoutDuplicates.size() >= pageEnd){
             paginatedList = finalResultsWithoutDuplicates.subList(pageStart,pageEnd);
         }if(finalResultsWithoutDuplicates.size() <= pageEnd && finalResultsWithoutDuplicates.size() > pageStart){
             paginatedList = finalResultsWithoutDuplicates.subList(pageStart,finalResultsWithoutDuplicates.size());
         }
-//        if(finalResultsWithoutDuplicates.size() >= (request.page * request.limit + request.limit)) {
-//            //Paginate the friend requests
-//            paginatedList = finalResultsWithoutDuplicates.subList(request.page * request.limit, request.limit);
-//        }else if((finalResultsWithoutDuplicates.size() >= request.page * request.limit) && (finalResultsWithoutDuplicates.size() <= (request.page * request.limit + request.limit))){
-//            //Otherwise return only what we have starting from the page number
-//            paginatedList = finalResultsWithoutDuplicates.subList(request.page * request.limit, finalResultsWithoutDuplicates.size());
-//        }else{
-//            //Otherwise send what we have
-//            paginatedList = finalResultsWithoutDuplicates;
-//        }
 
         //Return a new friend search response to the client
         return new FriendSearchResponse(allRequest, friends, pendingSentRequests, pendingReceivedRequests, deniedRequests ,paginatedList,finalResultsWithoutDuplicates.size());

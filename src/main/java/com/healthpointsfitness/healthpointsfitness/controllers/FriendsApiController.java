@@ -19,10 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
+import jakarta.activation.MimetypesFileTypeMap;
 
 @RestController
 @RequestMapping(path = "users/api/v1")
@@ -127,11 +132,15 @@ public class FriendsApiController {
 
     private String getBaseStringForBlob(byte[] blob){
         try {
+
+            InputStream is = new BufferedInputStream(new ByteArrayInputStream(blob));
+            String mimeType = URLConnection.guessContentTypeFromStream(is);
+            System.out.println(mimeType);
             System.out.println("Blob Length: " + blob.length);
             // Set the profile image data url for the to user
             byte[] encodeBase64 = Base64.getEncoder().encode(blob);
             String dataUrl = new String(encodeBase64, StandardCharsets.UTF_8);
-            return "data:image/png;base64," + dataUrl;
+            return "data:image/" + mimeType + ";base64," + dataUrl;
         }catch(Exception e){
             return "data:image/png;base64," + defaultProfileImage;
         }

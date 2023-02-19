@@ -135,14 +135,13 @@ public class FriendsApiController {
 
             InputStream is = new BufferedInputStream(new ByteArrayInputStream(blob));
             String mimeType = URLConnection.guessContentTypeFromStream(is);
-            System.out.println(mimeType);
             System.out.println("Blob Length: " + blob.length);
             // Set the profile image data url for the to user
             byte[] encodeBase64 = Base64.getEncoder().encode(blob);
             String dataUrl = new String(encodeBase64, StandardCharsets.UTF_8);
-            return "data:image/" + mimeType + ";base64," + dataUrl;
+            return "data:" + mimeType + ";base64," + dataUrl;
         }catch(Exception e){
-            return "data:image/png;base64," + defaultProfileImage;
+            return "data:image/jpeg;base64," + defaultProfileImage;
         }
     }
 

@@ -565,7 +565,7 @@
                 //Create the profile image icon
                 const img = document.createElement('img')
 
-                if(user.profileImageDataUrl.substring(0,"data:image/png;base64,".length) !== "data:image/png;base64,") {
+                if(user.profileImageDataUrl.substring(0,"data:image/".length) !== "data:image/") {
                     img.src = "data:image/png;base64," + user.profileImageDataUrl
                 }else{
                     img.src = user.profileImageDataUrl

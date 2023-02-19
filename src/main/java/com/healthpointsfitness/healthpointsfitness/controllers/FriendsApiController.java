@@ -133,7 +133,7 @@ public class FriendsApiController {
             String dataUrl = new String(encodeBase64, StandardCharsets.UTF_8);
             return "data:image/png;base64," + dataUrl;
         }catch(Exception e){
-            return "data:image/jpeg;base64," + defaultProfileImage;
+            return "data:image/png;base64," + defaultProfileImage;
         }
     }
 
